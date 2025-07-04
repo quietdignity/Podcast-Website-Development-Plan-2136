@@ -1,11 +1,10 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
-import NewsletterSignup from '../components/NewsletterSignup'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiHeadphones, FiMail } = FiIcons
+const { FiHeadphones } = FiIcons
 
 const Listen = () => {
   const platforms = [
@@ -69,14 +68,16 @@ const Listen = () => {
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-4">About the Show</h2>
           <p className="text-gray-600 text-lg mb-6">
-            The Daily Note offers 90-second reflections on finding the extraordinary in ordinary moments. 
-            James explores the tension between convenience and meaning, the sacred in the mundane, and the 
-            small choices that reveal who we're becoming. Finding the extraordinary in the ordinary. 
-            5 days a week, 90 seconds a day, on-air and online from sea to shining sea.
+            The Daily Note is a daily commentary podcast that finds deeper meaning in everyday moments. Host James A. Brown explores how our world really works through thoughtful observation and authentic storytelling.
+          </p>
+          <p className="text-gray-600 text-lg mb-6">
+            Each short-form episode starts with something specific James noticed while walking downtown, a conversation overheard in a coffee shop, or a small detail that revealed something larger about modern life. These aren't political hot takes or partisan commentary. The Daily Note offers genuine reflection and systems thinking for busy professionals.
+          </p>
+          <p className="text-gray-600 text-lg mb-6">
+            This daily podcast serves listeners who want intelligent analysis without the noise. Perfect for commuters, coffee breaks, and anyone seeking thoughtful perspective on current events, workplace dynamics, and American culture.
           </p>
           <p className="text-gray-600 text-lg">
-            With over 200 episodes and counting, The Daily Note has become a trusted source for daily wisdom 
-            and thoughtful commentary on modern life.
+            The Daily Note delivers smart commentary, personal storytelling, and practical insights in bite-sized episodes that respect your time and intelligence. New episodes Monday through Friday. Commentary for people who want to understand their world better, not feel better about what they already believe.
           </p>
         </motion.div>
 
@@ -109,8 +110,7 @@ const Listen = () => {
           </div>
 
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h3 className="text-xl font-bold text-primary-700 mb-6 flex items-center">
-              <SafeIcon icon={FiMail} className="w-6 h-6 mr-2" />
+            <h3 className="text-xl font-bold text-primary-700 mb-6">
               Get Episodes by Email
             </h3>
             <div className="mb-6">
@@ -123,9 +123,6 @@ const Listen = () => {
                 scrolling="no"
                 title="Subscribe to The Daily Note Newsletter"
               />
-            </div>
-            <div className="text-center">
-              <NewsletterSignup source="listen-page" />
             </div>
           </div>
         </motion.div>

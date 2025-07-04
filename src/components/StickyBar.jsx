@@ -19,10 +19,15 @@ const StickyBar = () => {
           <SafeIcon icon={FiHeadphones} className="w-4 h-4" />
           <span>Listen Now</span>
         </Link>
-        <Link to="/contact" className="flex items-center space-x-2 hover:text-cream-200 transition-colors">
+        <a 
+          href="https://jamesabrown.net" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center space-x-2 hover:text-cream-200 transition-colors"
+        >
           <SafeIcon icon={FiMail} className="w-4 h-4" />
           <span>Subscribe</span>
-        </Link>
+        </a>
       </div>
     </motion.div>
   )

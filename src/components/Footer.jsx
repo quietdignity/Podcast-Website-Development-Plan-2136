@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiMail, FiRss, FiTwitter, FiLinkedin, FiInstagram } = FiIcons
+const { FiRss, FiTwitter, FiLinkedin, FiInstagram } = FiIcons
 
 const Footer = () => {
   return (
@@ -36,14 +36,8 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
+            <h4 className="font-semibold mb-4">Subscribe</h4>
             <ul className="space-y-2 text-sm">
-              <li className="flex items-center space-x-2">
-                <SafeIcon icon={FiMail} className="w-4 h-4" />
-                <Link to="/contact" className="text-cream-200 hover:text-cream-50">
-                  Contact Form
-                </Link>
-              </li>
               <li className="flex items-center space-x-2">
                 <SafeIcon icon={FiRss} className="w-4 h-4" />
                 <a 
@@ -53,10 +47,18 @@ const Footer = () => {
                   RSS Feed
                 </a>
               </li>
-              <li className="text-cream-200 text-xs">
-                support@thedailynote.net
-              </li>
             </ul>
+            <div className="mt-4">
+              <iframe 
+                src="https://jamesbrowntv.substack.com/embed" 
+                width="100%" 
+                height="200" 
+                style={{ border: '1px solid #EEE', background: 'white', borderRadius: '6px' }} 
+                frameBorder="0" 
+                scrolling="no"
+                title="Subscribe to The Daily Note Newsletter"
+              />
+            </div>
           </div>
 
           <div>

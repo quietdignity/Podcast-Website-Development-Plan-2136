@@ -79,24 +79,41 @@ const About = () => {
             transition={{ delay: 0.4 }}
           >
             <p className="text-lg text-gray-600 mb-6">
-              James Brown is an independent-thinking millennial who honors his working-class roots while 
-              questioning modern life's trade-offs. With experience as an award-winning journalist and 
-              government communications professional, he brings both professional insight and personal 
-              authenticity to daily reflections on finding the extraordinary in ordinary moments.
+              James Brown is an independent-thinking millennial who honors his working-class roots while questioning modern life's trade-offs. With experience as an award-winning journalist and government communications professional, he brings both professional insight and personal authenticity to daily reflections on finding the extraordinary in ordinary moments.
             </p>
             <p className="text-lg text-gray-600 mb-6">
-              James finds the extraordinary in the ordinary - dogs, dollar bills, weather, unremarkable 
-              Tuesday afternoons. He's not anti-technology or anti-progress, but he questions what we're 
-              trading away for efficiency. His commentary comes from life lived, not just researched.
+              James finds the extraordinary in the ordinary - dogs, dollar bills, weather, unremarkable Tuesday afternoons. He's not anti-technology or anti-progress, but he questions what we're trading away for efficiency. His commentary comes from life lived, not just researched.
             </p>
           </motion.div>
         </div>
+
+        {/* About The Daily Note */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="bg-white rounded-lg shadow-lg p-8 mb-12"
+        >
+          <h2 className="text-2xl font-bold text-primary-700 mb-6">About The Daily Note</h2>
+          <p className="text-lg text-gray-600 mb-6">
+            The Daily Note is a daily commentary podcast that finds deeper meaning in everyday moments. Host James A. Brown explores how our world really works through thoughtful observation and authentic storytelling.
+          </p>
+          <p className="text-lg text-gray-600 mb-6">
+            Each short-form episode starts with something specific James noticed while walking downtown, a conversation overheard in a coffee shop, or a small detail that revealed something larger about modern life. These aren't political hot takes or partisan commentary. The Daily Note offers genuine reflection and systems thinking for busy professionals.
+          </p>
+          <p className="text-lg text-gray-600 mb-6">
+            This daily podcast serves listeners who want intelligent analysis without the noise. Perfect for commuters, coffee breaks, and anyone seeking thoughtful perspective on current events, workplace dynamics, and American culture.
+          </p>
+          <p className="text-lg text-gray-600">
+            The Daily Note delivers smart commentary, personal storytelling, and practical insights in bite-sized episodes that respect your time and intelligence. New episodes Monday through Friday. Commentary for people who want to understand their world better, not feel better about what they already believe.
+          </p>
+        </motion.div>
 
         {/* What James Explores */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.8 }}
           className="bg-white rounded-lg shadow-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">What James Explores</h2>
@@ -119,45 +136,12 @@ const About = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 1.0 }}
           className="bg-primary-50 rounded-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">His Approach</h2>
           <p className="text-lg text-gray-600 mb-6">
-            James finds the extraordinary in the ordinary - dogs, dollar bills, weather, unremarkable 
-            Tuesday afternoons. He's not anti-technology or anti-progress, but he questions what we're 
-            trading away for efficiency. His commentary comes from life lived, not just researched.
-          </p>
-        </motion.div>
-
-        {/* Why The Daily Note Matters */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0 }}
-          className="bg-white rounded-lg shadow-lg p-8 mb-12"
-        >
-          <h2 className="text-2xl font-bold text-primary-700 mb-6">Why The Daily Note Matters</h2>
-          <p className="text-lg text-gray-600">
-            In a world optimized for productivity and performance, James offers something different: 
-            permission to pause and find meaning in the moments others overlook. Not tips for optimization, 
-            but wisdom for discovering what's already extraordinary about your ordinary life.
-          </p>
-        </motion.div>
-
-        {/* About the Show */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-          className="bg-accent-50 rounded-lg p-8 mb-12"
-        >
-          <h2 className="text-2xl font-bold text-primary-700 mb-6">About the Show</h2>
-          <p className="text-lg text-gray-600 mb-6">
-            The Daily Note offers 90-second reflections on finding the extraordinary in ordinary moments. 
-            James explores the tension between convenience and meaning, the sacred in the mundane, and the 
-            small choices that reveal who we're becoming. Finding the extraordinary in the ordinary. 
-            5 days a week, 90 seconds a day, on-air and online from sea to shining sea.
+            James finds the extraordinary in the ordinary - dogs, dollar bills, weather, unremarkable Tuesday afternoons. He's not anti-technology or anti-progress, but he questions what we're trading away for efficiency. His commentary comes from life lived, not just researched.
           </p>
         </motion.div>
 
@@ -165,7 +149,7 @@ const About = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4 }}
+          transition={{ delay: 1.2 }}
           className="bg-white rounded-lg shadow-lg p-8"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">Recent Themes</h2>
