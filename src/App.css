@@ -1,0 +1,77 @@
+.app-container {
+  min-height: 100vh;
+  background-color: #f4f1e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f1e8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c19a6b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b8905e;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(193, 154, 107, 0.3);
+}
+
+/* Responsive iframe */
+iframe {
+  max-width: 100%;
+}
+
+/* Loading states */
+.loading {
+  background: linear-gradient(90deg, #f4f1e8 25%, #f8f4ea 50%, #f4f1e8 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}

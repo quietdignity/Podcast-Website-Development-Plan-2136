@@ -1,0 +1,74 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import SafeIcon from '../common/SafeIcon';
+import * as FiIcons from 'react-icons/fi';
+
+const { FiMail, FiRss, FiTwitter, FiLinkedin } = FiIcons;
+
+const Footer = () => {
+  return (
+    <footer className="bg-primary-800 text-cream-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <div className="flex items-center space-x-3 mb-4">
+              <img 
+                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751650292381-blob" 
+                alt="The Daily Note Logo" 
+                className="h-8 w-auto"
+              />
+              <h3 className="text-lg font-bold">The Daily Note</h3>
+            </div>
+            <p className="text-cream-200 text-sm">
+              90-second insights for busy professionals who want to understand how systems really work.
+            </p>
+          </div>
+          
+          <div>
+            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2 text-sm">
+              <li><Link to="/listen" className="text-cream-200 hover:text-cream-50">Listen</Link></li>
+              <li><Link to="/about" className="text-cream-200 hover:text-cream-50">About</Link></li>
+              <li><Link to="/know-your-power" className="text-cream-200 hover:text-cream-50">Know Your Power</Link></li>
+              <li><Link to="/speaking" className="text-cream-200 hover:text-cream-50">Speaking</Link></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="font-semibold mb-4">Contact</h4>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center space-x-2">
+                <SafeIcon icon={FiMail} className="w-4 h-4" />
+                <Link to="/contact" className="text-cream-200 hover:text-cream-50">
+                  Contact Form
+                </Link>
+              </li>
+              <li className="flex items-center space-x-2">
+                <SafeIcon icon={FiRss} className="w-4 h-4" />
+                <a href="https://feeds.captivate.fm/the-james-brown-commentary/" className="text-cream-200 hover:text-cream-50">RSS Feed</a>
+              </li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="font-semibold mb-4">Follow</h4>
+            <div className="flex space-x-4">
+              <a href="#" className="text-cream-200 hover:text-cream-50">
+                <SafeIcon icon={FiTwitter} className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-cream-200 hover:text-cream-50">
+                <SafeIcon icon={FiLinkedin} className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div className="border-t border-primary-700 mt-8 pt-8 text-center text-sm text-cream-300">
+          <p>&copy; 2024 The Daily Note with James Brown. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
