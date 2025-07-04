@@ -22,7 +22,7 @@ const Navigation = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="fixed top-10 left-0 right-0 z-40 bg-cream-500 shadow-lg">
+    <nav className="fixed top-10 left-0 right-0 z-40 bg-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3">
@@ -69,7 +69,7 @@ const Navigation = () => {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="md:hidden bg-cream-500 border-t border-cream-600"
+            className="md:hidden bg-white border-t border-gray-200"
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
@@ -79,8 +79,8 @@ const Navigation = () => {
                   onClick={() => setIsOpen(false)}
                   className={`block px-3 py-2 text-base font-medium transition-colors duration-200 ${
                     isActive(item.path)
-                      ? 'text-bronze-500 bg-cream-600'
-                      : 'text-charcoal-800 hover:text-bronze-500 hover:bg-cream-600'
+                      ? 'text-bronze-500 bg-cream-100'
+                      : 'text-charcoal-800 hover:text-bronze-500 hover:bg-cream-100'
                   }`}
                 >
                   {item.name}

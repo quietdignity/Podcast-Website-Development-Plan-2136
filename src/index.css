@@ -12,9 +12,46 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
 #root {
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
+}
+
+/* Ensure proper rendering */
+.min-h-screen {
+  min-height: 100vh;
+}
+
+/* Loading states */
+.loading {
+  background: linear-gradient(90deg, #f4f1e8 25%, #f8f4ea 50%, #f4f1e8 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(193, 154, 107, 0.3);
+}
+
+/* Responsive iframe */
+iframe {
+  max-width: 100%;
 }

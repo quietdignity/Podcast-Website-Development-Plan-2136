@@ -1,7 +1,7 @@
-import React from 'react';
-import StickyBar from './StickyBar';
-import Navigation from './Navigation';
-import Footer from './Footer';
+import React from 'react'
+import StickyBar from './StickyBar'
+import Navigation from './Navigation'
+import Footer from './Footer'
 
 const Layout = ({ children }) => {
   return (
@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
       </main>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

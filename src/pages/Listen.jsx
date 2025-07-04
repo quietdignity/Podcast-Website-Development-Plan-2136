@@ -1,29 +1,31 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { motion } from 'framer-motion';
-import SafeIcon from '../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
+import React from 'react'
+import { Helmet } from 'react-helmet-async'
+import { motion } from 'framer-motion'
+import EpisodePlayer from '../components/EpisodePlayer'
+import NewsletterSignup from '../components/NewsletterSignup'
+import SafeIcon from '../common/SafeIcon'
+import * as FiIcons from 'react-icons/fi'
 
-const { FiHeadphones, FiMail } = FiIcons;
+const { FiHeadphones, FiMail } = FiIcons
 
 const Listen = () => {
   const platforms = [
-    { 
-      name: 'Spotify', 
-      url: 'https://open.spotify.com/show/6Syvs3L8YwsYEFAYb2bntF', 
-      icon: '🎵' 
+    {
+      name: 'Spotify',
+      url: 'https://open.spotify.com/show/6Syvs3L8YwsYEFAYb2bntF',
+      icon: '🎵'
     },
-    { 
-      name: 'Apple Podcasts', 
-      url: 'https://podcasts.apple.com/us/podcast/the-james-brown-commentary/id1688955029', 
-      icon: '🎵' 
+    {
+      name: 'Apple Podcasts',
+      url: 'https://podcasts.apple.com/us/podcast/the-james-brown-commentary/id1688955029',
+      icon: '🎵'
     },
-    { 
-      name: 'RSS Feed', 
-      url: 'https://feeds.captivate.fm/the-james-brown-commentary/', 
-      icon: '📡' 
-    },
-  ];
+    {
+      name: 'RSS Feed',
+      url: 'https://feeds.captivate.fm/the-james-brown-commentary/',
+      icon: '📡'
+    }
+  ]
 
   return (
     <>
@@ -54,16 +56,8 @@ const Listen = () => {
           className="mb-12"
         >
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div style={{ width: '100%', height: '600px', marginBottom: '20px', borderRadius: '6px', overflow: 'hidden' }}>
-              <iframe 
-                style={{ width: '100%', height: '600px' }} 
-                frameBorder="no" 
-                scrolling="no" 
-                allow="clipboard-write" 
-                seamless 
-                src="https://player.captivate.fm/show/b56182bf-22f2-42e4-b14d-6eb32f52dd81"
-                title="The Daily Note - All Episodes"
-              />
+            <div className="p-8">
+              <EpisodePlayer episodeTitle="The Daily Note - All Episodes" />
             </div>
           </div>
         </motion.div>
@@ -77,8 +71,8 @@ const Listen = () => {
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-4">About the Show</h2>
           <p className="text-gray-600 text-lg mb-6">
-            The Daily Note offers 90-second reflections on finding the extraordinary in ordinary moments. James explores the tension between 
-            convenience and meaning, the sacred in the mundane, and the small choices that reveal who we're becoming. 
+            The Daily Note offers 90-second reflections on finding the extraordinary in ordinary moments.
+            James explores the tension between convenience and meaning, the sacred in the mundane, and the small choices that reveal who we're becoming.
             New episodes Monday through Friday.
           </p>
         </motion.div>
@@ -116,20 +110,12 @@ const Listen = () => {
               <SafeIcon icon={FiMail} className="w-6 h-6 mr-2" />
               Get Episodes by Email
             </h3>
-            <iframe 
-              src="https://jamesbrowntv.substack.com/embed" 
-              width="100%" 
-              height="320" 
-              style={{ border: '1px solid #EEE', background: 'white', borderRadius: '8px' }} 
-              frameBorder="0" 
-              scrolling="no"
-              title="Email Subscription"
-            />
+            <NewsletterSignup source="listen-page" />
           </div>
         </motion.div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Listen;
+export default Listen

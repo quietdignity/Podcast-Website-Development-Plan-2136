@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { motion } from 'framer-motion';
-import SafeIcon from '../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
+import React, { useState } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { motion } from 'framer-motion'
+import { submitContactForm } from '../services/api'
+import { useFormSubmission } from '../hooks/useSupabase'
+import NewsletterSignup from '../components/NewsletterSignup'
+import SafeIcon from '../common/SafeIcon'
+import * as FiIcons from 'react-icons/fi'
 
-const { FiMail, FiMessageCircle, FiDollarSign, FiRss, FiTwitter, FiLinkedin } = FiIcons;
+const { FiMail, FiMessageCircle, FiDollarSign, FiRss, FiTwitter, FiLinkedin, FiCheck, FiAlertCircle } = FiIcons
 
 const Contact = () => {
   const [generalForm, setGeneralForm] = useState({
@@ -12,43 +15,60 @@ const Contact = () => {
     email: '',
     subject: '',
     message: ''
-  });
-
+  })
+  
   const [advertisingForm, setAdvertisingForm] = useState({
     name: '',
     email: '',
     company: '',
     budget: '',
     message: ''
-  });
+  })
 
-  const handleGeneralSubmit = (e) => {
-    e.preventDefault();
-    console.log('General form submitted:', generalForm);
-    alert('Thank you for your message! We will get back to you soon.');
-    setGeneralForm({ name: '', email: '', subject: '', message: '' });
-  };
+  const { loading: generalLoading, error: generalError, success: generalSuccess, submitForm: submitGeneralForm, resetForm: resetGeneralForm } = useFormSubmission()
+  const { loading: adLoading, error: adError, success: adSuccess, submitForm: submitAdForm, resetForm: resetAdForm } = useFormSubmission()
 
-  const handleAdvertisingSubmit = (e) => {
-    e.preventDefault();
-    console.log('Advertising form submitted:', advertisingForm);
-    alert('Thank you for your advertising inquiry! We will get back to you soon.');
-    setAdvertisingForm({ name: '', email: '', company: '', budget: '', message: '' });
-  };
+  const handleGeneralSubmit = async (e) => {
+    e.preventDefault()
+    
+    const result = await submitGeneralForm(
+      () => submitContactForm({ ...generalForm, formType: 'general' }),
+      generalForm
+    )
+
+    if (result.success) {
+      setGeneralForm({ name: '', email: '', subject: '', message: '' })
+      setTimeout(() => resetGeneralForm(), 3000)
+    }
+  }
+
+  const handleAdvertisingSubmit = async (e) => {
+    e.preventDefault()
+    
+    const result = await submitAdForm(
+      () => submitContactForm({ 
+        name: advertisingForm.name,
+        email: advertisingForm.email,
+        subject: `Advertising Inquiry - ${advertisingForm.company}`,
+        message: `Company: ${advertisingForm.company}\nBudget: ${advertisingForm.budget}\n\nMessage: ${advertisingForm.message}`,
+        formType: 'advertising'
+      }),
+      advertisingForm
+    )
+
+    if (result.success) {
+      setAdvertisingForm({ name: '', email: '', company: '', budget: '', message: '' })
+      setTimeout(() => resetAdForm(), 3000)
+    }
+  }
 
   const handleGeneralChange = (e) => {
-    setGeneralForm({
-      ...generalForm,
-      [e.target.name]: e.target.value
-    });
-  };
+    setGeneralForm({ ...generalForm, [e.target.name]: e.target.value })
+  }
 
   const handleAdvertisingChange = (e) => {
-    setAdvertisingForm({
-      ...advertisingForm,
-      [e.target.name]: e.target.value
-    });
-  };
+    setAdvertisingForm({ ...advertisingForm, [e.target.name]: e.target.value })
+  }
 
   return (
     <>
@@ -129,7 +149,10 @@ const Contact = () => {
                   </div>
                   <div>
                     <strong className="text-gray-700">RSS Feed:</strong>
-                    <a href="https://feeds.captivate.fm/the-james-brown-commentary/" className="text-accent-600 hover:text-accent-700 text-sm ml-2">
+                    <a
+                      href="https://feeds.captivate.fm/the-james-brown-commentary/"
+                      className="text-accent-600 hover:text-accent-700 text-sm ml-2"
+                    >
                       Subscribe via RSS
                     </a>
                   </div>
@@ -161,84 +184,101 @@ const Contact = () => {
             {/* General Contact Form */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold text-primary-700 mb-4">Send a Message</h2>
-              <form onSubmit={handleGeneralSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="general-name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="general-name"
-                    name="name"
-                    value={generalForm.name}
-                    onChange={handleGeneralChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                  />
+              
+              {generalSuccess ? (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                  <SafeIcon icon={FiCheck} className="w-8 h-8 text-green-500 mx-auto mb-2" />
+                  <p className="text-green-800 font-medium">Message sent successfully!</p>
+                  <p className="text-green-600 text-sm">We'll get back to you soon.</p>
                 </div>
-                <div>
-                  <label htmlFor="general-email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="general-email"
-                    name="email"
-                    value={generalForm.email}
-                    onChange={handleGeneralChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="general-subject" className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="general-subject"
-                    name="subject"
-                    value={generalForm.subject}
-                    onChange={handleGeneralChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="general-message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    id="general-message"
-                    name="message"
-                    value={generalForm.message}
-                    onChange={handleGeneralChange}
-                    required
-                    rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                    placeholder="Share your thoughts, feedback, or questions..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="bg-accent-500 hover:bg-accent-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                >
-                  Send Message
-                </button>
-              </form>
+              ) : (
+                <form onSubmit={handleGeneralSubmit} className="space-y-4">
+                  <div>
+                    <label htmlFor="general-name" className="block text-sm font-medium text-gray-700 mb-2">
+                      Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="general-name"
+                      name="name"
+                      value={generalForm.name}
+                      onChange={handleGeneralChange}
+                      required
+                      disabled={generalLoading}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="general-email" className="block text-sm font-medium text-gray-700 mb-2">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="general-email"
+                      name="email"
+                      value={generalForm.email}
+                      onChange={handleGeneralChange}
+                      required
+                      disabled={generalLoading}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="general-subject" className="block text-sm font-medium text-gray-700 mb-2">
+                      Subject
+                    </label>
+                    <input
+                      type="text"
+                      id="general-subject"
+                      name="subject"
+                      value={generalForm.subject}
+                      onChange={handleGeneralChange}
+                      disabled={generalLoading}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="general-message" className="block text-sm font-medium text-gray-700 mb-2">
+                      Message *
+                    </label>
+                    <textarea
+                      id="general-message"
+                      name="message"
+                      value={generalForm.message}
+                      onChange={handleGeneralChange}
+                      required
+                      disabled={generalLoading}
+                      rows={4}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                      placeholder="Share your thoughts, feedback, or questions..."
+                    />
+                  </div>
+
+                  {generalError && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center space-x-2">
+                      <SafeIcon icon={FiAlertCircle} className="w-5 h-5 text-red-500" />
+                      <p className="text-red-800 text-sm">{generalError}</p>
+                    </div>
+                  )}
+                  
+                  <button
+                    type="submit"
+                    disabled={generalLoading}
+                    className="bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                  >
+                    {generalLoading ? 'Sending...' : 'Send Message'}
+                  </button>
+                </form>
+              )}
             </div>
 
             {/* Newsletter Signup */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold text-primary-700 mb-4">Newsletter Signup</h2>
-              <iframe 
-                src="https://jamesbrowntv.substack.com/embed" 
-                width="100%" 
-                height="320" 
-                style={{ border: '1px solid #EEE', background: 'white', borderRadius: '8px' }} 
-                frameBorder="0" 
-                scrolling="no"
-                title="Newsletter Signup"
-              />
+              <NewsletterSignup source="contact-page" />
             </div>
 
             {/* Advertising/Sponsorship Form */}
@@ -247,93 +287,120 @@ const Contact = () => {
                 <SafeIcon icon={FiDollarSign} className="w-6 h-6 mr-2" />
                 Advertising & Sponsorship
               </h2>
-              <form onSubmit={handleAdvertisingSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="ad-name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="ad-name"
-                    name="name"
-                    value={advertisingForm.name}
-                    onChange={handleAdvertisingChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                  />
+              
+              {adSuccess ? (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                  <SafeIcon icon={FiCheck} className="w-8 h-8 text-green-500 mx-auto mb-2" />
+                  <p className="text-green-800 font-medium">Inquiry sent successfully!</p>
+                  <p className="text-green-600 text-sm">We'll review your proposal and get back to you soon.</p>
                 </div>
-                <div>
-                  <label htmlFor="ad-email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="ad-email"
-                    name="email"
-                    value={advertisingForm.email}
-                    onChange={handleAdvertisingChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="ad-company" className="block text-sm font-medium text-gray-700 mb-2">
-                    Company
-                  </label>
-                  <input
-                    type="text"
-                    id="ad-company"
-                    name="company"
-                    value={advertisingForm.company}
-                    onChange={handleAdvertisingChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="ad-budget" className="block text-sm font-medium text-gray-700 mb-2">
-                    Budget Range
-                  </label>
-                  <select
-                    id="ad-budget"
-                    name="budget"
-                    value={advertisingForm.budget}
-                    onChange={handleAdvertisingChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+              ) : (
+                <form onSubmit={handleAdvertisingSubmit} className="space-y-4">
+                  <div>
+                    <label htmlFor="ad-name" className="block text-sm font-medium text-gray-700 mb-2">
+                      Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="ad-name"
+                      name="name"
+                      value={advertisingForm.name}
+                      onChange={handleAdvertisingChange}
+                      required
+                      disabled={adLoading}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="ad-email" className="block text-sm font-medium text-gray-700 mb-2">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="ad-email"
+                      name="email"
+                      value={advertisingForm.email}
+                      onChange={handleAdvertisingChange}
+                      required
+                      disabled={adLoading}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="ad-company" className="block text-sm font-medium text-gray-700 mb-2">
+                      Company
+                    </label>
+                    <input
+                      type="text"
+                      id="ad-company"
+                      name="company"
+                      value={advertisingForm.company}
+                      onChange={handleAdvertisingChange}
+                      disabled={adLoading}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="ad-budget" className="block text-sm font-medium text-gray-700 mb-2">
+                      Budget Range
+                    </label>
+                    <select
+                      id="ad-budget"
+                      name="budget"
+                      value={advertisingForm.budget}
+                      onChange={handleAdvertisingChange}
+                      disabled={adLoading}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                    >
+                      <option value="">Select budget range</option>
+                      <option value="under-1k">Under $1,000</option>
+                      <option value="1k-5k">$1,000 - $5,000</option>
+                      <option value="5k-10k">$5,000 - $10,000</option>
+                      <option value="10k-plus">$10,000+</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="ad-message" className="block text-sm font-medium text-gray-700 mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      id="ad-message"
+                      name="message"
+                      value={advertisingForm.message}
+                      onChange={handleAdvertisingChange}
+                      disabled={adLoading}
+                      rows={4}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                      placeholder="Tell us about your advertising goals and target audience..."
+                    />
+                  </div>
+
+                  {adError && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center space-x-2">
+                      <SafeIcon icon={FiAlertCircle} className="w-5 h-5 text-red-500" />
+                      <p className="text-red-800 text-sm">{adError}</p>
+                    </div>
+                  )}
+                  
+                  <button
+                    type="submit"
+                    disabled={adLoading}
+                    className="bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
                   >
-                    <option value="">Select budget range</option>
-                    <option value="under-1k">Under $1,000</option>
-                    <option value="1k-5k">$1,000 - $5,000</option>
-                    <option value="5k-10k">$5,000 - $10,000</option>
-                    <option value="10k-plus">$10,000+</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="ad-message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    id="ad-message"
-                    name="message"
-                    value={advertisingForm.message}
-                    onChange={handleAdvertisingChange}
-                    rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                    placeholder="Tell us about your advertising goals and target audience..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="bg-accent-500 hover:bg-accent-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                >
-                  Send Inquiry
-                </button>
-              </form>
+                    {adLoading ? 'Sending...' : 'Send Inquiry'}
+                  </button>
+                </form>
+              )}
             </div>
           </motion.div>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Contact;
+export default Contact

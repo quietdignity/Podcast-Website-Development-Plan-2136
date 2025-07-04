@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { motion } from 'framer-motion';
-import SafeIcon from '../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
+import React, { useState } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { motion } from 'framer-motion'
+import { submitSpeakingInquiry } from '../services/api'
+import { useFormSubmission } from '../hooks/useSupabase'
+import SafeIcon from '../common/SafeIcon'
+import * as FiIcons from 'react-icons/fi'
 
-const { FiMic, FiUsers, FiTrendingUp, FiSend } = FiIcons;
+const { FiMic, FiUsers, FiTrendingUp, FiSend, FiCheck, FiAlertCircle } = FiIcons
 
 const Speaking = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +15,9 @@ const Speaking = () => {
     organization: '',
     eventType: '',
     message: ''
-  });
+  })
+
+  const { loading, error, success, submitForm, resetForm } = useFormSubmission()
 
   const speakingTopics = [
     {
@@ -43,29 +47,38 @@ const Speaking = () => {
         "Independent thinking in connected organizations"
       ]
     }
-  ];
+  ]
 
   const trainingFormats = [
     "Keynote presentations",
     "Half-day workshops",
     "Executive coaching sessions",
     "Team communication training"
-  ];
+  ]
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Here you would integrate with your contact form system
-    console.log('Form submitted:', formData);
-    alert('Thank you for your inquiry! We will get back to you soon.');
-    setFormData({ name: '', email: '', organization: '', eventType: '', message: '' });
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    const result = await submitForm(
+      () => submitSpeakingInquiry(formData),
+      formData
+    )
+
+    if (result.success) {
+      setFormData({
+        name: '',
+        email: '',
+        organization: '',
+        eventType: '',
+        message: ''
+      })
+      setTimeout(() => resetForm(), 3000)
+    }
+  }
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
   return (
     <>
@@ -99,21 +112,21 @@ const Speaking = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-lg text-gray-600 mb-4">
-                James has been a featured speaker at Advanced Learning Institute's premier employee communications conferences, 
+                James has been a featured speaker at Advanced Learning Institute's premier employee communications conferences,
                 sharing insights on the future of workforce communication and distributed team management.
               </p>
               <div className="space-y-2">
-                <a 
-                  href="https://www.aliconferences.com/events/the-future-of-employee-communications/" 
-                  target="_blank" 
+                <a
+                  href="https://www.aliconferences.com/events/the-future-of-employee-communications/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="block text-accent-600 hover:text-accent-700 underline"
                 >
                   The Future of Employee Communications
                 </a>
-                <a 
-                  href="https://www.aliconferences.com/events/3rd-annual-internal-communications-for-a-deskless-frontline-hybrid-workforce/" 
-                  target="_blank" 
+                <a
+                  href="https://www.aliconferences.com/events/3rd-annual-internal-communications-for-a-deskless-frontline-hybrid-workforce/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="block text-accent-600 hover:text-accent-700 underline"
                 >
@@ -122,9 +135,9 @@ const Speaking = () => {
               </div>
             </div>
             <div>
-              <img 
-                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648125615-james%20brown%20speaking%20at%20a%20conference.jpg" 
-                alt="James Brown speaking at a conference" 
+              <img
+                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648125615-james%20brown%20speaking%20at%20a%20conference.jpg"
+                alt="James Brown speaking at a conference"
                 className="w-full h-64 object-cover rounded-lg shadow-lg"
               />
             </div>
@@ -185,9 +198,9 @@ const Speaking = () => {
           transition={{ delay: 0.5 }}
           className="text-center mb-12"
         >
-          <img 
-            src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648162599-james%20brown%20speaking%20at%20a%20conference.jpg" 
-            alt="James Brown presenting" 
+          <img
+            src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648162599-james%20brown%20speaking%20at%20a%20conference.jpg"
+            alt="James Brown presenting"
             className="w-full max-w-3xl mx-auto h-64 object-cover rounded-lg shadow-lg"
           />
         </motion.div>
@@ -203,97 +216,124 @@ const Speaking = () => {
             <SafeIcon icon={FiSend} className="w-6 h-6 mr-2" />
             Request Speaking Information
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          {success ? (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+              <SafeIcon icon={FiCheck} className="w-8 h-8 text-green-500 mx-auto mb-2" />
+              <p className="text-green-800 font-medium">Speaking inquiry sent successfully!</p>
+              <p className="text-green-600 text-sm">We'll review your request and get back to you soon with availability and pricing.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                  />
+                </div>
+              </div>
+              
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                  Full Name *
+                <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
+                  Organization
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
+                  id="organization"
+                  name="organization"
+                  value={formData.organization}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+                  disabled={loading}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
                 />
               </div>
+              
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address *
+                <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-2">
+                  Event Type
                 </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
+                <select
+                  id="eventType"
+                  name="eventType"
+                  value={formData.eventType}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+                  disabled={loading}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                >
+                  <option value="">Select event type</option>
+                  <option value="keynote">Keynote Presentation</option>
+                  <option value="workshop">Workshop</option>
+                  <option value="coaching">Executive Coaching</option>
+                  <option value="training">Team Training</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  disabled={loading}
+                  rows={4}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                  placeholder="Tell us about your event, audience size, date preferences, and any specific topics you'd like covered..."
                 />
               </div>
-            </div>
-            <div>
-              <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
-                Organization
-              </label>
-              <input
-                type="text"
-                id="organization"
-                name="organization"
-                value={formData.organization}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-              />
-            </div>
-            <div>
-              <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-2">
-                Event Type
-              </label>
-              <select
-                id="eventType"
-                name="eventType"
-                value={formData.eventType}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center space-x-2">
+                  <SafeIcon icon={FiAlertCircle} className="w-5 h-5 text-red-500" />
+                  <p className="text-red-800 text-sm">{error}</p>
+                </div>
+              )}
+              
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
               >
-                <option value="">Select event type</option>
-                <option value="keynote">Keynote Presentation</option>
-                <option value="workshop">Workshop</option>
-                <option value="coaching">Executive Coaching</option>
-                <option value="training">Team Training</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                placeholder="Tell us about your event, audience size, date preferences, and any specific topics you'd like covered..."
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-accent-500 hover:bg-accent-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              Send Inquiry
-            </button>
-          </form>
+                {loading ? 'Sending...' : 'Send Inquiry'}
+              </button>
+            </form>
+          )}
+          
           <div className="mt-6 text-center text-gray-600">
             <p>Investment: Contact for speaking fees and availability</p>
           </div>
         </motion.div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Speaking;
+export default Speaking
