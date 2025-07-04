@@ -15,6 +15,10 @@ export const submitContactForm = async (formData) => {
       .select()
 
     if (error) throw error
+
+    // Also send to support email endpoint if available
+    // This would typically be handled by a serverless function
+    
     return { success: true, data }
   } catch (error) {
     console.error('Error submitting contact form:', error)
@@ -30,6 +34,7 @@ export const submitSpeakingInquiry = async (formData) => {
       .insert([{
         name: formData.name,
         email: formData.email,
+        phone: formData.phone,
         organization: formData.organization,
         event_type: formData.eventType,
         message: formData.message
@@ -37,6 +42,7 @@ export const submitSpeakingInquiry = async (formData) => {
       .select()
 
     if (error) throw error
+
     return { success: true, data }
   } catch (error) {
     console.error('Error submitting speaking inquiry:', error)
@@ -49,13 +55,11 @@ export const submitNewsletterSignup = async (email, source = 'website') => {
   try {
     const { data, error } = await supabase
       .from('newsletter_signups_dn2024')
-      .insert([{
-        email,
-        source
-      }])
+      .insert([{ email, source }])
       .select()
 
     if (error) throw error
+
     return { success: true, data }
   } catch (error) {
     console.error('Error submitting newsletter signup:', error)
@@ -77,6 +81,7 @@ export const trackEpisodeEvent = async (eventData) => {
       }])
 
     if (error) throw error
+
     return { success: true, data }
   } catch (error) {
     console.error('Error tracking episode event:', error)
@@ -98,6 +103,7 @@ export const submitUserFeedback = async (feedbackData) => {
       .select()
 
     if (error) throw error
+
     return { success: true, data }
   } catch (error) {
     console.error('Error submitting feedback:', error)
@@ -115,6 +121,7 @@ export const getRecentContacts = async (limit = 10) => {
       .limit(limit)
 
     if (error) throw error
+
     return { success: true, data }
   } catch (error) {
     console.error('Error fetching contacts:', error)
@@ -132,6 +139,7 @@ export const getAnalytics = async (days = 30) => {
       .order('timestamp', { ascending: false })
 
     if (error) throw error
+
     return { success: true, data }
   } catch (error) {
     console.error('Error fetching analytics:', error)

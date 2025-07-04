@@ -1,10 +1,10 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { motion } from 'framer-motion';
-import SafeIcon from '../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
+import React from 'react'
+import { Helmet } from 'react-helmet-async'
+import { motion } from 'framer-motion'
+import SafeIcon from '../common/SafeIcon'
+import * as FiIcons from 'react-icons/fi'
 
-const { FiClock, FiHeart, FiSearch, FiCompass } = FiIcons;
+const { FiClock, FiHeart, FiSearch, FiCompass } = FiIcons
 
 const About = () => {
   const explorations = [
@@ -28,7 +28,7 @@ const About = () => {
       title: "How small moments reveal universal truths",
       description: "Finding philosophy in dogs, weather, and unremarkable Tuesday afternoons"
     }
-  ];
+  ]
 
   const recentThemes = [
     "The courage to be ordinary and find peace in routine",
@@ -36,7 +36,7 @@ const About = () => {
     "What we lose when families stop having dinner table debates",
     "How to handle your own problems in an outsourced world",
     "Discovering philosophy in everyday moments that others overlook"
-  ];
+  ]
 
   return (
     <>
@@ -46,7 +46,7 @@ const About = () => {
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
@@ -59,8 +59,8 @@ const About = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-          <motion.div
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
+          <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
@@ -68,30 +68,32 @@ const About = () => {
             <img 
               src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648064783-JamesBrown.jpg" 
               alt="James Brown" 
-              className="w-full h-96 rounded-lg object-cover shadow-lg"
+              className="w-full h-auto rounded-lg object-cover shadow-lg"
+              style={{ aspectRatio: '4/5', objectPosition: 'center top' }}
             />
           </motion.div>
 
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
             <p className="text-lg text-gray-600 mb-6">
-              James Brown is an independent-thinking millennial who honors his working-class roots while questioning modern life's trade-offs. 
-              With experience as an award-winning journalist and government communications professional, he brings both professional insight 
-              and personal authenticity to daily reflections on finding the extraordinary in ordinary moments.
+              James Brown is an independent-thinking millennial who honors his working-class roots while 
+              questioning modern life's trade-offs. With experience as an award-winning journalist and 
+              government communications professional, he brings both professional insight and personal 
+              authenticity to daily reflections on finding the extraordinary in ordinary moments.
             </p>
             <p className="text-lg text-gray-600 mb-6">
-              James finds the extraordinary in the ordinary - dogs, dollar bills, weather, unremarkable Tuesday afternoons. 
-              He's not anti-technology or anti-progress, but he questions what we're trading away for efficiency. 
-              His commentary comes from life lived, not just researched.
+              James finds the extraordinary in the ordinary - dogs, dollar bills, weather, unremarkable 
+              Tuesday afternoons. He's not anti-technology or anti-progress, but he questions what we're 
+              trading away for efficiency. His commentary comes from life lived, not just researched.
             </p>
           </motion.div>
         </div>
 
         {/* What James Explores */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
@@ -114,7 +116,7 @@ const About = () => {
         </motion.div>
 
         {/* His Approach */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
@@ -122,14 +124,14 @@ const About = () => {
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">His Approach</h2>
           <p className="text-lg text-gray-600 mb-6">
-            James finds the extraordinary in the ordinary - dogs, dollar bills, weather, unremarkable Tuesday afternoons. 
-            He's not anti-technology or anti-progress, but he questions what we're trading away for efficiency. 
-            His commentary comes from life lived, not just researched.
+            James finds the extraordinary in the ordinary - dogs, dollar bills, weather, unremarkable 
+            Tuesday afternoons. He's not anti-technology or anti-progress, but he questions what we're 
+            trading away for efficiency. His commentary comes from life lived, not just researched.
           </p>
         </motion.div>
 
         {/* Why The Daily Note Matters */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0 }}
@@ -137,13 +139,14 @@ const About = () => {
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">Why The Daily Note Matters</h2>
           <p className="text-lg text-gray-600">
-            In a world optimized for productivity and performance, James offers something different: permission to pause and find meaning 
-            in the moments others overlook. Not tips for optimization, but wisdom for discovering what's already extraordinary about your ordinary life.
+            In a world optimized for productivity and performance, James offers something different: 
+            permission to pause and find meaning in the moments others overlook. Not tips for optimization, 
+            but wisdom for discovering what's already extraordinary about your ordinary life.
           </p>
         </motion.div>
 
         {/* About the Show */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
@@ -151,14 +154,15 @@ const About = () => {
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">About the Show</h2>
           <p className="text-lg text-gray-600 mb-6">
-            The Daily Note offers 90-second reflections on finding the extraordinary in ordinary moments. James explores the tension between 
-            convenience and meaning, the sacred in the mundane, and the small choices that reveal who we're becoming. 
-            New episodes Monday through Friday.
+            The Daily Note offers 90-second reflections on finding the extraordinary in ordinary moments. 
+            James explores the tension between convenience and meaning, the sacred in the mundane, and the 
+            small choices that reveal who we're becoming. Finding the extraordinary in the ordinary. 
+            5 days a week, 90 seconds a day, on-air and online from sea to shining sea.
           </p>
         </motion.div>
 
         {/* Recent Themes */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.4 }}
@@ -176,7 +180,7 @@ const About = () => {
         </motion.div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default About;
+export default About

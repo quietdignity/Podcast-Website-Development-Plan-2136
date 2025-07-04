@@ -6,36 +6,57 @@ import NewsletterSignup from '../components/NewsletterSignup'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiHeadphones, FiMail } = FiIcons
+const { FiHeadphones, FiMail, FiPlay, FiClock } = FiIcons
 
 const Listen = () => {
-  const platforms = [
+  const recentEpisodes = [
     {
-      name: 'Spotify',
-      url: 'https://open.spotify.com/show/6Syvs3L8YwsYEFAYb2bntF',
-      icon: '🎵'
+      title: "The Power of Showing Up Imperfectly",
+      description: "Why authentic connection means being present in messy, unpolished moments",
+      date: "December 18, 2024",
+      duration: "1:32"
     },
     {
-      name: 'Apple Podcasts',
-      url: 'https://podcasts.apple.com/us/podcast/the-james-brown-commentary/id1688955029',
-      icon: '🎵'
+      title: "What We Lose When Convenience Replaces Connection",
+      description: "The hidden costs of optimizing away human interaction and effort",
+      date: "December 17, 2024",
+      duration: "1:28"
     },
     {
-      name: 'RSS Feed',
-      url: 'https://feeds.captivate.fm/the-james-brown-commentary/',
-      icon: '📡'
+      title: "Time as Your Most Valuable Currency",
+      description: "Not money - understanding what truly matters in how we spend our hours",
+      date: "December 16, 2024",
+      duration: "1:35"
+    },
+    {
+      title: "The Courage to Be Ordinary",
+      description: "Finding peace in routine and discovering philosophy in everyday moments",
+      date: "December 15, 2024",
+      duration: "1:41"
+    },
+    {
+      title: "How Small Moments Reveal Universal Truths",
+      description: "Finding philosophy in dogs, weather, and unremarkable Tuesday afternoons",
+      date: "December 14, 2024",
+      duration: "1:29"
     }
+  ]
+
+  const platforms = [
+    { name: 'Spotify', url: 'https://open.spotify.com/show/6Syvs3L8YwsYEFAYb2bntF', icon: '🎵' },
+    { name: 'Apple Podcasts', url: 'https://podcasts.apple.com/us/podcast/the-james-brown-commentary/id1688955029', icon: '🎵' },
+    { name: 'RSS Feed', url: 'https://feeds.captivate.fm/the-james-brown-commentary/', icon: '📡' }
   ]
 
   return (
     <>
       <Helmet>
         <title>Listen to The Daily Note - All Episodes</title>
-        <meta name="description" content="Listen to all episodes of The Daily Note with James Brown. 90-second reflections on finding the extraordinary in ordinary moments, Monday through Friday." />
+        <meta name="description" content="Listen to all episodes of The Daily Note with James Brown. Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day, on-air and online from sea to shining sea." />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
@@ -44,12 +65,12 @@ const Listen = () => {
             Listen to The Daily Note
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            All episodes in one place
+            Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day, on-air and online from sea to shining sea.
           </p>
         </motion.div>
 
-        {/* Podcast Player */}
-        <motion.div
+        {/* Main Podcast Player */}
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -57,31 +78,65 @@ const Listen = () => {
         >
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="p-8">
+              <h2 className="text-2xl font-bold text-primary-700 mb-4">Latest Episodes</h2>
               <EpisodePlayer episodeTitle="The Daily Note - All Episodes" />
             </div>
           </div>
         </motion.div>
 
-        {/* About the Show */}
-        <motion.div
+        {/* Recent Episodes List */}
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
+          className="mb-12"
+        >
+          <h2 className="text-3xl font-bold text-primary-700 mb-8">Recent Episodes</h2>
+          <div className="space-y-6">
+            {recentEpisodes.map((episode, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                <div className="flex items-start space-x-4">
+                  <div className="bg-bronze-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                    <SafeIcon icon={FiPlay} className="w-6 h-6 text-bronze-600" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-primary-700 mb-2">{episode.title}</h3>
+                    <p className="text-gray-600 mb-3">{episode.description}</p>
+                    <div className="flex items-center space-x-4 text-sm text-gray-500">
+                      <span>{episode.date}</span>
+                      <div className="flex items-center space-x-1">
+                        <SafeIcon icon={FiClock} className="w-4 h-4" />
+                        <span>{episode.duration}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* About the Show */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
           className="bg-white rounded-lg shadow-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-4">About the Show</h2>
           <p className="text-gray-600 text-lg mb-6">
-            The Daily Note offers 90-second reflections on finding the extraordinary in ordinary moments.
-            James explores the tension between convenience and meaning, the sacred in the mundane, and the small choices that reveal who we're becoming.
-            New episodes Monday through Friday.
+            The Daily Note offers 90-second reflections on finding the extraordinary in ordinary moments. 
+            James explores the tension between convenience and meaning, the sacred in the mundane, and the 
+            small choices that reveal who we're becoming. Finding the extraordinary in the ordinary. 
+            5 days a week, 90 seconds a day, on-air and online from sea to shining sea.
           </p>
         </motion.div>
 
         {/* Subscribe Section */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.8 }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-8"
         >
           <div className="bg-white rounded-lg shadow-lg p-8">

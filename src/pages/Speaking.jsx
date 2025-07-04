@@ -12,6 +12,7 @@ const Speaking = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     organization: '',
     eventType: '',
     message: ''
@@ -59,6 +60,10 @@ const Speaking = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     
+    if (!formData.message.trim()) {
+      return
+    }
+
     const result = await submitForm(
       () => submitSpeakingInquiry(formData),
       formData
@@ -68,6 +73,7 @@ const Speaking = () => {
       setFormData({
         name: '',
         email: '',
+        phone: '',
         organization: '',
         eventType: '',
         message: ''
@@ -88,7 +94,7 @@ const Speaking = () => {
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
@@ -102,7 +108,7 @@ const Speaking = () => {
         </motion.div>
 
         {/* Featured Speaking */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -112,21 +118,22 @@ const Speaking = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-lg text-gray-600 mb-4">
-                James has been a featured speaker at Advanced Learning Institute's premier employee communications conferences,
-                sharing insights on the future of workforce communication and distributed team management.
+                James has been a featured speaker at Advanced Learning Institute's premier employee 
+                communications conferences, sharing insights on the future of workforce communication 
+                and distributed team management.
               </p>
               <div className="space-y-2">
-                <a
-                  href="https://www.aliconferences.com/events/the-future-of-employee-communications/"
-                  target="_blank"
+                <a 
+                  href="https://www.aliconferences.com/events/the-future-of-employee-communications/" 
+                  target="_blank" 
                   rel="noopener noreferrer"
                   className="block text-accent-600 hover:text-accent-700 underline"
                 >
                   The Future of Employee Communications
                 </a>
-                <a
-                  href="https://www.aliconferences.com/events/3rd-annual-internal-communications-for-a-deskless-frontline-hybrid-workforce/"
-                  target="_blank"
+                <a 
+                  href="https://www.aliconferences.com/events/3rd-annual-internal-communications-for-a-deskless-frontline-hybrid-workforce/" 
+                  target="_blank" 
                   rel="noopener noreferrer"
                   className="block text-accent-600 hover:text-accent-700 underline"
                 >
@@ -135,9 +142,9 @@ const Speaking = () => {
               </div>
             </div>
             <div>
-              <img
-                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648125615-james%20brown%20speaking%20at%20a%20conference.jpg"
-                alt="James Brown speaking at a conference"
+              <img 
+                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648125615-james%20brown%20speaking%20at%20a%20conference.jpg" 
+                alt="James Brown speaking at a conference" 
                 className="w-full h-64 object-cover rounded-lg shadow-lg"
               />
             </div>
@@ -145,7 +152,7 @@ const Speaking = () => {
         </motion.div>
 
         {/* Speaking Topics */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -174,7 +181,7 @@ const Speaking = () => {
         </motion.div>
 
         {/* Training Formats */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -192,21 +199,21 @@ const Speaking = () => {
         </motion.div>
 
         {/* Additional Speaking Image */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
           className="text-center mb-12"
         >
-          <img
-            src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648162599-james%20brown%20speaking%20at%20a%20conference.jpg"
-            alt="James Brown presenting"
+          <img 
+            src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648162599-james%20brown%20speaking%20at%20a%20conference.jpg" 
+            alt="James Brown presenting" 
             className="w-full max-w-3xl mx-auto h-64 object-cover rounded-lg shadow-lg"
           />
         </motion.div>
 
         {/* Request Speaking Information Form */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
@@ -216,7 +223,7 @@ const Speaking = () => {
             <SafeIcon icon={FiSend} className="w-6 h-6 mr-2" />
             Request Speaking Information
           </h2>
-          
+
           {success ? (
             <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
               <SafeIcon icon={FiCheck} className="w-8 h-8 text-green-500 mx-auto mb-2" />
@@ -241,6 +248,7 @@ const Speaking = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
                   />
                 </div>
+
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                     Email Address *
@@ -257,22 +265,40 @@ const Speaking = () => {
                   />
                 </div>
               </div>
-              
-              <div>
-                <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
-                  Organization
-                </label>
-                <input
-                  type="text"
-                  id="organization"
-                  name="organization"
-                  value={formData.organization}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
-                />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
+                    Organization
+                  </label>
+                  <input
+                    type="text"
+                    id="organization"
+                    name="organization"
+                    value={formData.organization}
+                    onChange={handleChange}
+                    disabled={loading}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
+                  />
+                </div>
               </div>
-              
+
               <div>
                 <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-2">
                   Event Type
@@ -293,16 +319,17 @@ const Speaking = () => {
                   <option value="other">Other</option>
                 </select>
               </div>
-              
+
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
+                  Message *
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
+                  required
                   disabled={loading}
                   rows={4}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
@@ -316,19 +343,20 @@ const Speaking = () => {
                   <p className="text-red-800 text-sm">{error}</p>
                 </div>
               )}
-              
+
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !formData.message.trim()}
                 className="bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
               >
                 {loading ? 'Sending...' : 'Send Inquiry'}
               </button>
             </form>
           )}
-          
+
           <div className="mt-6 text-center text-gray-600">
             <p>Investment: Contact for speaking fees and availability</p>
+            <p className="text-sm mt-2">All inquiries go to support@thedailynote.net</p>
           </div>
         </motion.div>
       </div>

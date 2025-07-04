@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import SafeIcon from '../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
+import React, { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import SafeIcon from '../common/SafeIcon'
+import * as FiIcons from 'react-icons/fi'
 
-const { FiMenu, FiX } = FiIcons;
+const { FiMenu, FiX } = FiIcons
 
 const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false)
+  const location = useLocation()
 
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Listen', path: '/listen' },
     { name: 'About', path: '/about' },
-    { name: 'Know Your Power', path: '/know-your-power' },
+    { name: 'Education', path: '/education' },
     { name: 'Speaking & Training', path: '/speaking' },
-    { name: 'Contact', path: '/contact' },
-  ];
+    { name: 'Contact', path: '/contact' }
+  ]
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => location.pathname === path
 
   return (
     <nav className="fixed top-10 left-0 right-0 z-40 bg-white shadow-lg">
@@ -91,7 +91,7 @@ const Navigation = () => {
         )}
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navigation;
+export default Navigation

@@ -5,7 +5,7 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import Listen from './pages/Listen'
 import About from './pages/About'
-import Course from './pages/Course'
+import Education from './pages/Education'
 import Speaking from './pages/Speaking'
 import Contact from './pages/Contact'
 import './App.css'
@@ -19,7 +19,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/listen" element={<Listen />} />
             <Route path="/about" element={<About />} />
-            <Route path="/know-your-power" element={<Course />} />
+            <Route path="/education" element={<Education />} />
             <Route path="/speaking" element={<Speaking />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
