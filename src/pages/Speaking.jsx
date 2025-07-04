@@ -198,11 +198,26 @@ const Speaking = () => {
           </div>
         </motion.div>
 
-        {/* Additional Speaking Image */}
+        {/* Panel Discussion Photo */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
+          className="text-center mb-12"
+        >
+          <img 
+            src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751655293423-James%20brown%20on%20a%20panel%20at%20a%20conference.jpg" 
+            alt="James Brown on a panel at a conference" 
+            className="w-full max-w-4xl mx-auto h-80 object-cover rounded-lg shadow-lg"
+          />
+          <p className="text-gray-600 text-sm mt-4">James Brown participating in a panel discussion at a conference</p>
+        </motion.div>
+
+        {/* Additional Speaking Image */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
           className="text-center mb-12"
         >
           <img 
@@ -216,7 +231,7 @@ const Speaking = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.7 }}
           className="bg-white rounded-lg shadow-lg p-8"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6 flex items-center">

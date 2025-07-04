@@ -37,8 +37,8 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>The Daily Note with James Brown - Finding the extraordinary in ordinary moments</title>
-        <meta name="description" content="Daily wisdom about the small moments, hard choices, and quiet truths that shape who we become. James Brown finds meaning in ordinary life." />
+        <title>The Daily Note with James Brown - Finding the extraordinary in the ordinary</title>
+        <meta name="description" content="Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day, on-air and online from sea to shining sea. Daily wisdom from James Brown." />
       </Helmet>
 
       {/* Hero Section */}
@@ -58,7 +58,7 @@ const Home = () => {
               transition={{ delay: 0.2 }}
               className="text-xl md:text-2xl mb-8 text-cream-200"
             >
-              Finding the extraordinary in ordinary moments
+              Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day, on-air and online from sea to shining sea.
             </motion.p>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -100,7 +100,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {valueProps.map((prop, index) => (
-              <motion.div
+              <motion.div 
                 key={prop.title}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

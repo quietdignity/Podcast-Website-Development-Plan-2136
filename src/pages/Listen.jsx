@@ -1,47 +1,13 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
-import EpisodePlayer from '../components/EpisodePlayer'
 import NewsletterSignup from '../components/NewsletterSignup'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiHeadphones, FiMail, FiPlay, FiClock } = FiIcons
+const { FiHeadphones, FiMail } = FiIcons
 
 const Listen = () => {
-  const recentEpisodes = [
-    {
-      title: "The Power of Showing Up Imperfectly",
-      description: "Why authentic connection means being present in messy, unpolished moments",
-      date: "December 18, 2024",
-      duration: "1:32"
-    },
-    {
-      title: "What We Lose When Convenience Replaces Connection",
-      description: "The hidden costs of optimizing away human interaction and effort",
-      date: "December 17, 2024",
-      duration: "1:28"
-    },
-    {
-      title: "Time as Your Most Valuable Currency",
-      description: "Not money - understanding what truly matters in how we spend our hours",
-      date: "December 16, 2024",
-      duration: "1:35"
-    },
-    {
-      title: "The Courage to Be Ordinary",
-      description: "Finding peace in routine and discovering philosophy in everyday moments",
-      date: "December 15, 2024",
-      duration: "1:41"
-    },
-    {
-      title: "How Small Moments Reveal Universal Truths",
-      description: "Finding philosophy in dogs, weather, and unremarkable Tuesday afternoons",
-      date: "December 14, 2024",
-      duration: "1:29"
-    }
-  ]
-
   const platforms = [
     { name: 'Spotify', url: 'https://open.spotify.com/show/6Syvs3L8YwsYEFAYb2bntF', icon: '🎵' },
     { name: 'Apple Podcasts', url: 'https://podcasts.apple.com/us/podcast/the-james-brown-commentary/id1688955029', icon: '🎵' },
@@ -78,41 +44,19 @@ const Listen = () => {
         >
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="p-8">
-              <h2 className="text-2xl font-bold text-primary-700 mb-4">Latest Episodes</h2>
-              <EpisodePlayer episodeTitle="The Daily Note - All Episodes" />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Recent Episodes List */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mb-12"
-        >
-          <h2 className="text-3xl font-bold text-primary-700 mb-8">Recent Episodes</h2>
-          <div className="space-y-6">
-            {recentEpisodes.map((episode, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-                <div className="flex items-start space-x-4">
-                  <div className="bg-bronze-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                    <SafeIcon icon={FiPlay} className="w-6 h-6 text-bronze-600" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-primary-700 mb-2">{episode.title}</h3>
-                    <p className="text-gray-600 mb-3">{episode.description}</p>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <span>{episode.date}</span>
-                      <div className="flex items-center space-x-1">
-                        <SafeIcon icon={FiClock} className="w-4 h-4" />
-                        <span>{episode.duration}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <h2 className="text-2xl font-bold text-primary-700 mb-6 text-center">All Episodes - 200+ and counting</h2>
+              <div style={{ width: '100%', height: '600px', marginBottom: '20px', borderRadius: '6px', overflow: 'hidden' }}>
+                <iframe 
+                  style={{ width: '100%', height: '600px' }} 
+                  frameBorder="no" 
+                  scrolling="no" 
+                  allow="clipboard-write" 
+                  seamless 
+                  src="https://player.captivate.fm/show/b56182bf-22f2-42e4-b14d-6eb32f52dd81"
+                  title="The Daily Note - All Episodes"
+                />
               </div>
-            ))}
+            </div>
           </div>
         </motion.div>
 
@@ -120,7 +64,7 @@ const Listen = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.4 }}
           className="bg-white rounded-lg shadow-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-4">About the Show</h2>
@@ -130,13 +74,17 @@ const Listen = () => {
             small choices that reveal who we're becoming. Finding the extraordinary in the ordinary. 
             5 days a week, 90 seconds a day, on-air and online from sea to shining sea.
           </p>
+          <p className="text-gray-600 text-lg">
+            With over 200 episodes and counting, The Daily Note has become a trusted source for daily wisdom 
+            and thoughtful commentary on modern life.
+          </p>
         </motion.div>
 
         {/* Subscribe Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.6 }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-8"
         >
           <div className="bg-white rounded-lg shadow-lg p-8">
@@ -165,7 +113,20 @@ const Listen = () => {
               <SafeIcon icon={FiMail} className="w-6 h-6 mr-2" />
               Get Episodes by Email
             </h3>
-            <NewsletterSignup source="listen-page" />
+            <div className="mb-6">
+              <iframe 
+                src="https://jamesbrowntv.substack.com/embed" 
+                width="100%" 
+                height="320" 
+                style={{ border: '1px solid #EEE', background: 'white', borderRadius: '6px' }} 
+                frameBorder="0" 
+                scrolling="no"
+                title="Subscribe to The Daily Note Newsletter"
+              />
+            </div>
+            <div className="text-center">
+              <NewsletterSignup source="listen-page" />
+            </div>
           </div>
         </motion.div>
       </div>
