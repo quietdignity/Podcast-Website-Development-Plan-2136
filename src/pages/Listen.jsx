@@ -5,12 +5,12 @@ const Listen = () => {
   const platforms = [
     {
       name: 'Spotify',
-      url: 'https://open.spotify.com/show/6Syvs3L8YwsYEFAYb2bntF',
+      url: 'https://open.spotify.com/show/4EygeQPe0pyQHQs3i2Lf7j',
       icon: '🎵'
     },
     {
       name: 'Apple Podcasts',
-      url: 'https://podcasts.apple.com/us/podcast/the-james-brown-commentary/id1688955029',
+      url: 'https://podcasts.apple.com/us/podcast/the-daily-note-with-james-brown/id1760569557',
       icon: '🎵'
     },
     {

@@ -158,7 +158,7 @@ const Footer = () => (
             <li className="flex items-center space-x-2">
               <span>🎵</span>
               <a 
-                href="https://open.spotify.com/show/6Syvs3L8YwsYEFAYb2bntF" 
+                href="https://open.spotify.com/show/4EygeQPe0pyQHQs3i2Lf7j" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-cream-200 hover:text-cream-50 transition-colors"
@@ -169,7 +169,7 @@ const Footer = () => (
             <li className="flex items-center space-x-2">
               <span>🎵</span>
               <a 
-                href="https://podcasts.apple.com/us/podcast/the-james-brown-commentary/id1688955029" 
+                href="https://podcasts.apple.com/us/podcast/the-daily-note-with-james-brown/id1760569557" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-cream-200 hover:text-cream-50 transition-colors"
@@ -236,7 +236,7 @@ const Layout = ({ children }) => (
   <div className="min-h-screen bg-cream-50">
     <StickyBar />
     <Navigation />
-    <main className="pt-26">
+    <main className="pt-32">
       {children}
     </main>
     <Footer />
