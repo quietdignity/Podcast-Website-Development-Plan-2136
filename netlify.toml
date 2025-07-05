@@ -2,22 +2,29 @@
   publish = "dist"
   command = "npm run build"
 
-# SPA fallback (must be last)
+# SPA fallback for React Router (must be last)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Form success pages
+# Remove old hash-based redirects if any
+[[redirects]]
+  from = "/#/*"
+  to = "/:splat"
+  status = 301
+  force = true
+
+# Form success redirects
 [[redirects]]
   from = "/contact-success"
-  to = "/contact-success.html"
-  status = 200
+  to = "/?success=contact"
+  status = 302
 
 [[redirects]]
   from = "/speaking-success"
-  to = "/speaking-success.html"
-  status = 200
+  to = "/?success=speaking"
+  status = 302
 
 # Form settings
 [build.environment]

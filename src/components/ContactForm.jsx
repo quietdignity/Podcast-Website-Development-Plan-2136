@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { submitContactForm } from '../services/api'
 import { useFormSubmission } from '../hooks/useSupabase'
 import SafeIcon from '../common/SafeIcon'
@@ -15,18 +16,35 @@ const ContactForm = () => {
     message: '',
     inquiryType: 'general'
   })
-
+  
   const { loading, error, success, submitForm, resetForm } = useFormSubmission()
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  // Check if we're coming back from a successful submission
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search)
+    if (urlParams.get('success') === 'contact') {
+      // Show success state briefly, then redirect to home
+      setTimeout(() => {
+        navigate('/', { replace: true })
+      }, 3000)
+    }
+  }, [location, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     
+    console.log('📧 Contact form submitting:', formData)
+    
+    // Submit to Supabase and send emails
     const result = await submitForm(
       () => submitContactForm(formData),
       formData
     )
 
     if (result.success) {
+      console.log('✅ Contact form submission successful')
       // Reset form after successful submission
       setFormData({
         name: '',
@@ -36,18 +54,17 @@ const ContactForm = () => {
         inquiryType: 'general'
       })
       
-      // Reset success message after 5 seconds
+      // Redirect to home with success parameter
       setTimeout(() => {
-        resetForm()
-      }, 5000)
+        navigate('/?success=contact', { replace: true })
+      }, 2000)
+    } else {
+      console.error('❌ Contact form submission failed:', result.error)
     }
   }
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   if (success) {
@@ -62,12 +79,7 @@ const ContactForm = () => {
         <p className="text-green-700 mb-4">
           Thanks for reaching out! We'll get back to you within 24-48 hours.
         </p>
-        <button
-          onClick={() => resetForm()}
-          className="text-green-600 hover:text-green-700 underline"
-        >
-          Send another message
-        </button>
+        <p className="text-green-600 text-sm">Email sent to support@thedailynote.net</p>
       </motion.div>
     )
   }
@@ -193,7 +205,7 @@ const ContactForm = () => {
           {loading ? (
             <>
               <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-              <span>Sending...</span>
+              <span>Sending to support@thedailynote.net...</span>
             </>
           ) : (
             <>
@@ -204,7 +216,7 @@ const ContactForm = () => {
         </button>
 
         <p className="text-xs text-gray-500 text-center">
-          We typically respond within 24-48 hours
+          Messages sent directly to support@thedailynote.net • Response within 24-48 hours
         </p>
       </form>
     </div>

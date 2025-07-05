@@ -33,13 +33,22 @@ body {
 }
 
 @keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Scroll margin for anchor links */
+.scroll-mt-20 {
+  scroll-margin-top: 5rem;
 }
 
 /* Focus styles */
@@ -54,4 +63,11 @@ select:focus {
 /* Responsive iframe */
 iframe {
   max-width: 100%;
+}
+
+/* Anchor link smooth scrolling enhancement */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }

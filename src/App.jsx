@@ -1,6 +1,6 @@
 import React from 'react'
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
-import { HelmetProvider } from 'react-helmet-async'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import {HelmetProvider} from 'react-helmet-async'
 import './App.css'
 
 // Components
@@ -26,6 +26,8 @@ function App() {
             <Route path="/education" element={<Education />} />
             <Route path="/speaking" element={<Speaking />} />
             <Route path="/contact" element={<Contact />} />
+            {/* Catch all route - redirect to home */}
+            <Route path="*" element={<Home />} />
           </Routes>
         </Layout>
       </Router>

@@ -7,6 +7,14 @@ import * as FiIcons from 'react-icons/fi'
 const { FiMail, FiMic, FiBookOpen, FiClock } = FiIcons
 
 const Contact = () => {
+  const handleAnchorClick = (e, targetId) => {
+    e.preventDefault()
+    const element = document.getElementById(targetId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   const quickContactMethods = [
     {
       icon: FiMail,
@@ -21,7 +29,7 @@ const Contact = () => {
       title: 'Speaking Inquiries',
       description: 'Priority response for events',
       action: 'Use speaking form below',
-      href: '#speaking-form',
+      href: '/speaking',
       color: 'text-bronze-600'
     },
     {
@@ -45,7 +53,7 @@ const Contact = () => {
     <>
       <Helmet>
         <title>Contact - The Daily Note</title>
-        <meta name="description" content="Get in touch with James Brown and The Daily Note. Contact forms for general inquiries, speaking engagements, and course support." />
+        <meta name="description" content="Get in touch with James A. Brown and The Daily Note. Contact forms for general inquiries, speaking engagements, and course support." />
         <link rel="canonical" href="https://thedailynote.net/contact" />
       </Helmet>
 
@@ -78,7 +86,9 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <ContactForm />
+          <div id="contact-form" className="scroll-mt-20">
+            <ContactForm />
+          </div>
 
           {/* Additional Info */}
           <div className="space-y-8">

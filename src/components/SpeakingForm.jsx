@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { submitSpeakingInquiry } from '../services/api'
 import { useFormSubmission } from '../hooks/useSupabase'
 import SafeIcon from '../common/SafeIcon'
@@ -16,11 +17,25 @@ const SpeakingForm = () => {
     eventType: 'keynote',
     eventDetails: ''
   })
-
+  
   const { loading, error, success, submitForm, resetForm } = useFormSubmission()
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  // Check if we're coming back from a successful submission
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search)
+    if (urlParams.get('success') === 'speaking') {
+      setTimeout(() => {
+        navigate('/', { replace: true })
+      }, 3000)
+    }
+  }, [location, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    console.log('🎤 Speaking form submitting:', formData)
     
     const result = await submitForm(
       () => submitSpeakingInquiry(formData),
@@ -28,6 +43,7 @@ const SpeakingForm = () => {
     )
 
     if (result.success) {
+      console.log('✅ Speaking form successful, resetting form')
       // Reset form after successful submission
       setFormData({
         name: '',
@@ -38,18 +54,17 @@ const SpeakingForm = () => {
         eventDetails: ''
       })
       
-      // Reset success message after 5 seconds
+      // Redirect to home with success parameter
       setTimeout(() => {
-        resetForm()
-      }, 5000)
+        navigate('/?success=speaking', { replace: true })
+      }, 2000)
+    } else {
+      console.error('❌ Speaking form failed:', result.error)
     }
   }
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   if (success) {
@@ -62,14 +77,9 @@ const SpeakingForm = () => {
         <SafeIcon icon={FiCheck} className="w-12 h-12 text-green-600 mx-auto mb-4" />
         <h3 className="text-xl font-bold text-green-800 mb-2">Speaking Inquiry Received!</h3>
         <p className="text-green-700 mb-4">
-          Thanks for your interest! We'll respond with availability and pricing within 24 hours.
+          Priority email sent to support@thedailynote.net
         </p>
-        <button
-          onClick={() => resetForm()}
-          className="text-green-600 hover:text-green-700 underline"
-        >
-          Submit another inquiry
-        </button>
+        <p className="text-green-600 text-sm">We'll respond with availability and pricing within 24 hours.</p>
       </motion.div>
     )
   }
@@ -220,7 +230,7 @@ const SpeakingForm = () => {
           {loading ? (
             <>
               <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-              <span>Submitting...</span>
+              <span>Sending priority email...</span>
             </>
           ) : (
             <>
@@ -231,7 +241,7 @@ const SpeakingForm = () => {
         </button>
 
         <p className="text-xs text-gray-500 text-center">
-          Priority response within 24 hours for speaking inquiries
+          Priority email sent to support@thedailynote.net • Response within 24 hours
         </p>
       </form>
     </div>

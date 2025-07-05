@@ -1,10 +1,10 @@
 // Email service for sending emails via Hostinger SMTP
+
 export const sendEmail = async (emailData) => {
   try {
-    // Since we're in a browser environment, we'll use a serverless function approach
-    // For now, we'll use the existing Supabase backend to handle email sending
-    
-    const response = await fetch('/api/send-email', {
+    console.log('📧 Sending email:', emailData.type);
+
+    const response = await fetch('/.netlify/functions/send-email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -20,12 +20,15 @@ export const sendEmail = async (emailData) => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to send email');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    return await response.json();
+    const result = await response.json();
+    console.log('✅ Email sent successfully:', result);
+    return result;
+
   } catch (error) {
-    console.error('Email sending error:', error);
+    console.error('❌ Email sending error:', error);
     throw error;
   }
 };
@@ -33,18 +36,15 @@ export const sendEmail = async (emailData) => {
 // Email templates
 export const emailTemplates = {
   contactForm: (data) => ({
-    subject: `Contact Form: ${data.subject || 'New Message'}`,
+    subject: `📧 Contact Form: ${data.subject || 'New Message'}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #1a2238;">New Contact Form Submission</h2>
+        <h2 style="color: #1a2238;">📧 New Contact Form Submission</h2>
         
         <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <p><strong>Name:</strong> ${data.name}</p>
           <p><strong>Email:</strong> ${data.email}</p>
-          ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ''}
-          ${data.organization ? `<p><strong>Organization:</strong> ${data.organization}</p>` : ''}
           ${data.inquiryType ? `<p><strong>Inquiry Type:</strong> ${data.inquiryType}</p>` : ''}
-          ${data.eventType ? `<p><strong>Event Type:</strong> ${data.eventType}</p>` : ''}
           ${data.subject ? `<p><strong>Subject:</strong> ${data.subject}</p>` : ''}
         </div>
         
@@ -57,18 +57,16 @@ export const emailTemplates = {
           <p style="margin: 0; font-size: 14px; color: #666;">
             Submitted from: The Daily Note website<br>
             Time: ${new Date().toLocaleString()}<br>
-            IP: ${data.ip || 'Unknown'}
+            Reply directly to: ${data.email}
           </p>
         </div>
       </div>
     `,
     text: `
-New Contact Form Submission
+📧 New Contact Form Submission
 
 Name: ${data.name}
 Email: ${data.email}
-${data.phone ? `Phone: ${data.phone}` : ''}
-${data.organization ? `Organization: ${data.organization}` : ''}
 ${data.inquiryType ? `Inquiry Type: ${data.inquiryType}` : ''}
 ${data.subject ? `Subject: ${data.subject}` : ''}
 
@@ -76,14 +74,21 @@ Message:
 ${data.message}
 
 Submitted: ${new Date().toLocaleString()}
+Reply to: ${data.email}
     `
   }),
 
   speakingInquiry: (data) => ({
-    subject: `Speaking Inquiry: ${data.organization || data.name}`,
+    subject: `🎤 PRIORITY: Speaking Inquiry from ${data.organization || data.name}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #1a2238;">New Speaking Inquiry</h2>
+        <h2 style="color: #1a2238;">🎤 PRIORITY Speaking Inquiry</h2>
+        
+        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
+          <p style="margin: 0; font-weight: bold; color: #856404;">
+            ⚡ PRIORITY RESPONSE REQUIRED - Speaking Opportunity
+          </p>
+        </div>
         
         <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
           <p><strong>Name:</strong> ${data.name}</p>
@@ -95,19 +100,24 @@ Submitted: ${new Date().toLocaleString()}
         
         <div style="background: white; padding: 20px; border: 1px solid #e9ecef; border-radius: 8px;">
           <h3>Event Details:</h3>
-          <p style="white-space: pre-wrap;">${data.message}</p>
+          <p style="white-space: pre-wrap;">${data.eventDetails}</p>
         </div>
         
-        <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px;">
-          <p style="margin: 0; font-weight: bold; color: #856404;">
-            🎤 Speaking Opportunity - Priority Response Required
+        <div style="margin-top: 20px; padding: 15px; background: #d4edda; border-radius: 8px;">
+          <p style="margin: 0; font-size: 14px; color: #155724;">
+            <strong>⏰ Expected Response Time: Within 24 hours</strong><br>
+            Submitted: ${new Date().toLocaleString()}<br>
+            Reply directly to: ${data.email}
           </p>
         </div>
       </div>
     `,
     text: `
-New Speaking Inquiry
+🎤 PRIORITY SPEAKING INQUIRY
 
+⚡ PRIORITY RESPONSE REQUIRED - Speaking Opportunity
+
+Contact Details:
 Name: ${data.name}
 Email: ${data.email}
 Phone: ${data.phone}
@@ -115,9 +125,11 @@ ${data.organization ? `Organization: ${data.organization}` : ''}
 ${data.eventType ? `Event Type: ${data.eventType}` : ''}
 
 Event Details:
-${data.message}
+${data.eventDetails}
 
+⏰ Expected Response: Within 24 hours
 Submitted: ${new Date().toLocaleString()}
+Reply to: ${data.email}
     `
   }),
 
@@ -127,7 +139,7 @@ Submitted: ${new Date().toLocaleString()}
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="text-align: center; padding: 20px; background: #1a2238; color: white;">
           <h1>The Daily Note</h1>
-          <p>with James Brown</p>
+          <p>with James A. Brown</p>
         </div>
         
         <div style="padding: 30px;">

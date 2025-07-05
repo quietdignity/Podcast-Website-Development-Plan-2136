@@ -1,6 +1,6 @@
 import React from 'react'
-import { Helmet } from 'react-helmet-async'
-import { Link } from 'react-router-dom'
+import {Helmet} from 'react-helmet-async'
+import {Link} from 'react-router-dom'
 
 const Education = () => {
   const courseModules = [
@@ -33,7 +33,7 @@ const Education = () => {
     <>
       <Helmet>
         <title>Education - Know Your Power Course - The Daily Note</title>
-        <meta name="description" content="Learn the insider's guide to effective advocacy with James Brown's Know Your Power course. Get what you want from government with proven strategies." />
+        <meta name="description" content="Learn the insider's guide to effective advocacy with James A. Brown's Know Your Power course. Get what you want from government with proven strategies." />
         <link rel="canonical" href="https://thedailynote.net/education" />
       </Helmet>
 
@@ -54,9 +54,9 @@ const Education = () => {
         <div className="bg-white rounded-lg shadow-lg p-8 mb-12 text-center">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
-              <img 
-                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648259329-knowyourpower.jpg" 
-                alt="Know Your Power Course" 
+              <img
+                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648259329-knowyourpower.jpg"
+                alt="Know Your Power Course"
                 className="w-full max-w-md mx-auto h-auto rounded-lg shadow-lg"
               />
             </div>

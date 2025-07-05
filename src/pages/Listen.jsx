@@ -1,5 +1,5 @@
 import React from 'react'
-import { Helmet } from 'react-helmet-async'
+import {Helmet} from 'react-helmet-async'
 
 const Listen = () => {
   const platforms = [
@@ -24,7 +24,7 @@ const Listen = () => {
     <>
       <Helmet>
         <title>Listen to The Daily Note - All Episodes</title>
-        <meta name="description" content="Listen to all episodes of The Daily Note with James Brown. Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day, on-air and online from sea to shining sea." />
+        <meta name="description" content="Listen to all episodes of The Daily Note with James A. Brown. Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day, on-air and online from sea to shining sea." />
         <link rel="canonical" href="https://thedailynote.net/listen" />
       </Helmet>
 
@@ -44,12 +44,12 @@ const Listen = () => {
             <div className="p-8">
               <h2 className="text-2xl font-bold text-primary-700 mb-6 text-center">All Episodes - 200+ and counting</h2>
               <div style={{width: '100%', height: '600px', marginBottom: '20px', borderRadius: '6px', overflow: 'hidden'}}>
-                <iframe 
-                  style={{width: '100%', height: '600px'}} 
-                  frameBorder="no" 
-                  scrolling="no" 
-                  allow="clipboard-write" 
-                  seamless 
+                <iframe
+                  style={{width: '100%', height: '600px'}}
+                  frameBorder="no"
+                  scrolling="no"
+                  allow="clipboard-write"
+                  seamless
                   src="https://player.captivate.fm/show/b56182bf-22f2-42e4-b14d-6eb32f52dd81"
                   title="The Daily Note - All Episodes"
                 />
@@ -100,13 +100,13 @@ const Listen = () => {
               Get Episodes by Email
             </h3>
             <div className="bg-gray-50 rounded-lg overflow-hidden">
-              <iframe 
-                src="https://jamesbrowntv.substack.com/embed" 
-                width="100%" 
-                height="280" 
-                style={{border: 'none', background: 'white'}} 
-                frameBorder="0" 
-                scrolling="no" 
+              <iframe
+                src="https://jamesbrowntv.substack.com/embed"
+                width="100%"
+                height="280"
+                style={{border: 'none', background: 'white'}}
+                frameBorder="0"
+                scrolling="no"
                 title="Subscribe to The Daily Note Newsletter"
               />
             </div>

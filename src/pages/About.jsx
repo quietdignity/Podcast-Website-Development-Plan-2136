@@ -1,5 +1,5 @@
 import React from 'react'
-import { Helmet } from 'react-helmet-async'
+import {Helmet} from 'react-helmet-async'
 
 const About = () => {
   const explorations = [
@@ -36,15 +36,15 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>About James Brown - The Daily Note</title>
-        <meta name="description" content="James Brown is an independent-thinking millennial who finds wisdom in the everyday, questioning modern life's trade-offs while honoring working-class roots." />
+        <title>About James A. Brown - The Daily Note</title>
+        <meta name="description" content="James A. Brown is an independent-thinking millennial who finds wisdom in the everyday, questioning modern life's trade-offs while honoring working-class roots." />
         <link rel="canonical" href="https://thedailynote.net/about" />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-primary-700 mb-6">
-            About James Brown
+            About James A. Brown
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Finding wisdom in the everyday
@@ -53,9 +53,9 @@ const About = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
           <div className="text-center">
-            <img 
-              src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648064783-JamesBrown.jpg" 
-              alt="James Brown" 
+            <img
+              src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648064783-JamesBrown.jpg"
+              alt="James A. Brown"
               className="w-full max-w-sm mx-auto h-auto rounded-lg object-cover shadow-lg mb-4"
             />
             <p className="text-gray-600 text-sm italic">James A. Brown in his hometown Rochester, NY</p>
@@ -63,7 +63,7 @@ const About = () => {
 
           <div>
             <p className="text-lg text-gray-600 mb-6">
-              James Brown is an independent-thinking millennial who honors his working-class roots while questioning modern life's trade-offs. With experience as an award-winning journalist and government communications professional, he brings both professional insight and personal authenticity to daily reflections on finding the extraordinary in ordinary moments.
+              James A. Brown is an independent-thinking millennial who honors his working-class roots while questioning modern life's trade-offs. With experience as an award-winning journalist and government communications professional, he brings both professional insight and personal authenticity to daily reflections on finding the extraordinary in ordinary moments.
             </p>
             <p className="text-lg text-gray-600 mb-6">
               James finds the extraordinary in the ordinary - dogs, dollar bills, weather, unremarkable Tuesday afternoons. He's not anti-technology or anti-progress, but he questions what we're trading away for efficiency. His commentary comes from life lived, not just researched.
