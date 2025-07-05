@@ -1,55 +1,51 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet-async'
-import { submitContactForm } from '../services/api'
-import { useFormSubmission } from '../hooks/useSupabase'
+import ContactForm from '../components/ContactForm'
+import SafeIcon from '../common/SafeIcon'
+import * as FiIcons from 'react-icons/fi'
+
+const { FiMail, FiMic, FiBookOpen, FiClock } = FiIcons
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    inquiryType: '',
-    subject: '',
-    message: ''
-  })
-  
-  const { loading, error, success, submitForm, resetForm } = useFormSubmission()
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    
-    const result = await submitForm(
-      () => submitContactForm(formData),
-      formData
-    )
-    
-    if (result.success) {
-      setFormData({
-        name: '',
-        email: '',
-        inquiryType: '',
-        subject: '',
-        message: ''
-      })
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        resetForm()
-      }, 5000)
+  const quickContactMethods = [
+    {
+      icon: FiMail,
+      title: 'Direct Email',
+      description: 'For immediate contact',
+      action: 'support@thedailynote.net',
+      href: 'mailto:support@thedailynote.net',
+      color: 'text-primary-700'
+    },
+    {
+      icon: FiMic,
+      title: 'Speaking Inquiries',
+      description: 'Priority response for events',
+      action: 'Use speaking form below',
+      href: '#speaking-form',
+      color: 'text-bronze-600'
+    },
+    {
+      icon: FiBookOpen,
+      title: 'Course Support',
+      description: 'Know Your Power help',
+      action: 'Email with "Course Support"',
+      href: 'mailto:support@thedailynote.net?subject=Course Support',
+      color: 'text-green-600'
     }
-  }
+  ]
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+  const responseTimeData = [
+    { type: 'General Inquiries', time: '24-48 hours' },
+    { type: 'Speaking Requests', time: 'Same day' },
+    { type: 'Course Support', time: '24 hours' },
+    { type: 'Media Requests', time: 'Same day' }
+  ]
 
   return (
     <>
       <Helmet>
         <title>Contact - The Daily Note</title>
-        <meta name="description" content="Get in touch with James Brown and The Daily Note. Contact for feedback, business inquiries, course support, and advertising opportunities." />
+        <meta name="description" content="Get in touch with James Brown and The Daily Note. Contact forms for general inquiries, speaking engagements, and course support." />
         <link rel="canonical" href="https://thedailynote.net/contact" />
       </Helmet>
 
@@ -59,202 +55,104 @@ const Contact = () => {
             Get In Touch
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Connect with James
+            We'd love to hear from you. Choose the best way to connect below.
           </p>
+        </div>
+
+        {/* Quick Contact Methods */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          {quickContactMethods.map((method, index) => (
+            <div key={method.title} className="bg-white rounded-lg shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
+              <SafeIcon icon={method.icon} className="w-12 h-12 mx-auto mb-4 text-primary-600" />
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{method.title}</h3>
+              <p className="text-gray-600 mb-4 text-sm">{method.description}</p>
+              <a
+                href={method.href}
+                className={`${method.color} hover:underline font-medium`}
+              >
+                {method.action}
+              </a>
+            </div>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <div>
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-primary-700 mb-6 flex items-center">
-                <span className="mr-2">💬</span>
-                Send a Message
-              </h2>
+          <ContactForm />
 
-              {success ? (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-                  <span className="text-4xl block mb-4">✅</span>
-                  <p className="text-green-800 font-medium text-lg mb-2">Message sent successfully!</p>
-                  <p className="text-green-600">We'll get back to you within 24-48 hours.</p>
-                  <p className="text-green-600 text-sm mt-2">You should also receive a confirmation email shortly.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      disabled={loading}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      disabled={loading}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="inquiryType" className="block text-sm font-medium text-gray-700 mb-2">
-                      Type of Inquiry
-                    </label>
-                    <select
-                      id="inquiryType"
-                      name="inquiryType"
-                      value={formData.inquiryType}
-                      onChange={handleChange}
-                      disabled={loading}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                    >
-                      <option value="">Select inquiry type</option>
-                      <option value="course-support">Course Support: Questions about the Know Your Power course</option>
-                      <option value="speaking-training">Speaking/Training: Book James for your next event</option>
-                      <option value="advertising-sponsorship">Advertising/Sponsorship: Partner with The Daily Note</option>
-                      <option value="general">Email James about the show</option>
-                      <option value="add-to-station">Add The Daily Note to your station</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                      Subject
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      disabled={loading}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      disabled={loading}
-                      rows={4}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                      placeholder="Share your thoughts, feedback, or questions..."
-                    />
-                  </div>
-
-                  {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center space-x-2">
-                      <span className="text-red-500">⚠️</span>
-                      <p className="text-red-800 text-sm">{error}</p>
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-primary-800 hover:bg-primary-900 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
-                  >
-                    {loading ? (
-                      <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                        <span>Sending Message...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>📧</span>
-                        <span>Send Message</span>
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-
-          {/* Contact Information & Newsletter */}
+          {/* Additional Info */}
           <div className="space-y-8">
             {/* Newsletter Signup */}
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-primary-700 mb-6">Stay Connected</h2>
-              <p className="text-gray-600 mb-6">Get episodes delivered to your inbox</p>
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-bold text-primary-700 mb-4">Stay Connected</h2>
+              <p className="text-gray-600 mb-4">Get episodes delivered to your inbox daily at 6 AM</p>
               <div className="bg-gray-50 rounded-lg overflow-hidden">
-                <iframe 
-                  src="https://jamesbrowntv.substack.com/embed" 
-                  width="100%" 
-                  height="280" 
-                  style={{border: 'none', background: 'white'}} 
-                  frameBorder="0" 
-                  scrolling="no" 
+                <iframe
+                  src="https://jamesbrowntv.substack.com/embed"
+                  width="100%"
+                  height="240"
+                  style={{ border: 'none', background: 'white' }}
+                  frameBorder="0"
+                  scrolling="no"
                   title="Subscribe to The Daily Note Newsletter"
                 />
               </div>
             </div>
 
-            {/* Social Media */}
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-primary-700 mb-6">Follow The Daily Note</h2>
-              <div className="flex space-x-6">
-                <a 
-                  href="https://x.com/dailynoteshow" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-gray-600 hover:text-bronze-600 transition-colors text-3xl" 
-                  aria-label="Follow on X (Twitter)"
-                >
-                  🐦
-                </a>
-                <a 
-                  href="https://www.linkedin.com/company/the-daily-note-with-james-a-brown/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-gray-600 hover:text-bronze-600 transition-colors text-3xl" 
-                  aria-label="Follow on LinkedIn"
-                >
-                  💼
-                </a>
-                <a 
-                  href="https://instagram.com/dailynoteshow" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-gray-600 hover:text-bronze-600 transition-colors text-3xl" 
-                  aria-label="Follow on Instagram"
-                >
-                  📷
-                </a>
+            {/* Response Times */}
+            <div className="bg-primary-50 rounded-lg p-6">
+              <div className="flex items-center space-x-2 mb-4">
+                <SafeIcon icon={FiClock} className="w-5 h-5 text-primary-700" />
+                <h3 className="text-lg font-bold text-primary-700">Response Times</h3>
+              </div>
+              <div className="space-y-3 text-sm">
+                {responseTimeData.map((item, index) => (
+                  <div key={index} className="flex items-center justify-between">
+                    <span className="text-gray-600">{item.type}:</span>
+                    <span className="font-medium text-primary-700">{item.time}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Response Time Info */}
-            <div className="bg-primary-50 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-primary-700 mb-3">📧 Email Response</h3>
-              <p className="text-primary-600 text-sm">
-                We typically respond to all inquiries within 24-48 hours. For urgent speaking requests, 
-                please include your event date in the subject line.
-              </p>
+            {/* Social Media */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-2xl font-bold text-primary-700 mb-4">Follow The Daily Note</h2>
+              <div className="flex space-x-6">
+                <a
+                  href="https://x.com/dailynoteshow"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-bronze-600 transition-colors"
+                  aria-label="Follow on X (Twitter)"
+                >
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/the-daily-note-with-james-a-brown/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-bronze-600 transition-colors"
+                  aria-label="Follow on LinkedIn"
+                >
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                </a>
+                <a
+                  href="https://instagram.com/dailynoteshow"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-bronze-600 transition-colors"
+                  aria-label="Follow on Instagram"
+                >
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.004 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.33-1.297L3.182 14.754c-.49-.49-.49-1.297 0-1.787s1.297-.49 1.787 0l1.937 1.937c.49.49 1.297.49 1.787 0l7.744-7.744c.49-.49 1.297-.49 1.787 0s.49 1.297 0 1.787L9.48 16.691c-.49.49-1.297.49-1.787 0-.245-.245-.367-.613-.245-.98z"/>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>

@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
 
 export const useFormSubmission = () => {
   const [loading, setLoading] = useState(false)
@@ -12,20 +11,19 @@ export const useFormSubmission = () => {
     setSuccess(false)
 
     try {
-      console.log('📝 Submitting form with data:', formData)
+      // Simulate async operation
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
       const result = await submitFunction(formData)
       
       if (result.success) {
-        console.log('✅ Form submitted successfully:', result.data)
         setSuccess(true)
         return result
       } else {
-        console.error('❌ Form submission failed:', result.error)
         setError(result.error || 'Submission failed')
         return result
       }
     } catch (err) {
-      console.error('❌ Form submission error:', err)
       setError(err.message || 'An error occurred')
       return { success: false, error: err.message }
     } finally {
@@ -40,17 +38,4 @@ export const useFormSubmission = () => {
   }
 
   return { loading, error, success, submitForm, resetForm }
-}
-
-export const usePageTracking = () => {
-  const location = useLocation()
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('config', 'GA_MEASUREMENT_ID', {
-        page_path: location.pathname,
-        page_location: window.location.href
-      })
-    }
-  }, [location])
 }

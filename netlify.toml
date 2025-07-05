@@ -2,15 +2,23 @@
   publish = "dist"
   command = "npm run build"
 
-[functions]
-  directory = "netlify/functions"
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
+# SPA fallback (must be last)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Form success pages
+[[redirects]]
+  from = "/contact-success"
+  to = "/contact-success.html"
+  status = 200
+
+[[redirects]]
+  from = "/speaking-success"
+  to = "/speaking-success.html"
+  status = 200
+
+# Form settings
+[build.environment]
+  # Netlify will automatically detect forms with data-netlify="true"

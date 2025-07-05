@@ -1,20 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet-async'
-import { submitSpeakingInquiry } from '../services/api'
-import { useFormSubmission } from '../hooks/useSupabase'
+import SpeakingForm from '../components/SpeakingForm'
 
 const Speaking = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    organization: '',
-    eventType: '',
-    message: ''
-  })
-
-  const { loading, error, success, submitForm, resetForm } = useFormSubmission()
-
   const speakingTopics = [
     {
       title: "The Future of Employee Communications",
@@ -52,38 +40,6 @@ const Speaking = () => {
     "Team communication training"
   ]
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    
-    const result = await submitForm(
-      () => submitSpeakingInquiry(formData),
-      formData
-    )
-    
-    if (result.success) {
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        organization: '',
-        eventType: '',
-        message: ''
-      })
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        resetForm()
-      }, 5000)
-    }
-  }
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
   return (
     <>
       <Helmet>
@@ -102,27 +58,46 @@ const Speaking = () => {
           </p>
         </div>
 
+        {/* Quick Contact CTA */}
+        <div className="bg-primary-700 text-white rounded-lg p-8 mb-12 text-center">
+          <h2 className="text-2xl font-bold mb-4">Ready to Book James?</h2>
+          <p className="text-lg mb-6 text-primary-100">
+            Get availability and pricing for your next event
+          </p>
+          <a
+            href="#speaking-form"
+            className="bg-white text-primary-700 hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg transition-colors inline-flex items-center space-x-2"
+          >
+            <span>📧</span>
+            <span>Submit Speaking Inquiry</span>
+          </a>
+          <p className="text-primary-200 text-sm mt-4">
+            Response within 24 hours • Include event date for priority response
+          </p>
+        </div>
+
         {/* Featured Speaking */}
         <div className="bg-bronze-50 rounded-lg p-8 mb-12">
           <h2 className="text-2xl font-bold text-primary-700 mb-6">Featured Speaker</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-lg text-gray-600 mb-4">
-                James has been a featured speaker at Advanced Learning Institute's premier employee communications conferences, sharing insights on the future of workforce communication and distributed team management.
+                James has been a featured speaker at Advanced Learning Institute's premier employee communications conferences,
+                sharing insights on the future of workforce communication and distributed team management.
               </p>
               <div className="space-y-2">
-                <a 
-                  href="https://www.aliconferences.com/events/the-future-of-employee-communications/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://www.aliconferences.com/events/the-future-of-employee-communications/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="block text-bronze-600 hover:text-bronze-700 underline"
                 >
                   The Future of Employee Communications
                 </a>
-                <a 
-                  href="https://www.aliconferences.com/events/3rd-annual-internal-communications-for-a-deskless-frontline-hybrid-workforce/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://www.aliconferences.com/events/3rd-annual-internal-communications-for-a-deskless-frontline-hybrid-workforce/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="block text-bronze-600 hover:text-bronze-700 underline"
                 >
                   Internal Communications for a Deskless, Frontline, Hybrid Workforce
@@ -130,9 +105,9 @@ const Speaking = () => {
               </div>
             </div>
             <div>
-              <img 
-                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648125615-james%20brown%20speaking%20at%20a%20conference.jpg" 
-                alt="James Brown speaking at a conference" 
+              <img
+                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648125615-james%20brown%20speaking%20at%20a%20conference.jpg"
+                alt="James Brown speaking at a conference"
                 className="w-full h-64 object-cover rounded-lg shadow-lg"
               />
             </div>
@@ -176,162 +151,72 @@ const Speaking = () => {
 
         {/* Panel Discussion Photo */}
         <div className="text-center mb-12">
-          <img 
-            src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751655293423-James%20brown%20on%20a%20panel%20at%20a%20conference.jpg" 
-            alt="James Brown on a panel at a conference" 
+          <img
+            src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751655293423-James%20brown%20on%20a%20panel%20at%20a%20conference.jpg"
+            alt="James Brown on a panel at a conference"
             className="w-full max-w-4xl mx-auto h-80 object-cover rounded-lg shadow-lg"
           />
           <p className="text-gray-600 text-sm mt-4">James Brown (center right) speaking on panel</p>
         </div>
 
-        {/* Request Speaking Information Form */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-primary-700 mb-6 flex items-center">
-            <span className="mr-2">📧</span>
-            Request Speaking Information
-          </h2>
+        {/* Speaking Form */}
+        <div id="speaking-form" className="mb-12">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-primary-700 mb-4">Submit Speaking Inquiry</h2>
+            <p className="text-gray-600">
+              Tell us about your event and we'll get back to you within 24 hours with availability and pricing.
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <SpeakingForm />
+          </div>
+        </div>
 
-          {success ? (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-              <span className="text-4xl block mb-4">✅</span>
-              <p className="text-green-800 font-medium text-lg mb-2">Speaking inquiry sent successfully!</p>
-              <p className="text-green-600">We'll get back to you within 24 hours with availability and pricing.</p>
-              <p className="text-green-600 text-sm mt-2">You should also receive a confirmation email shortly.</p>
+        {/* Additional Info */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+            <h3 className="text-lg font-bold text-green-700 mb-3">✅ What's Included</h3>
+            <ul className="text-green-600 text-sm space-y-1">
+              <li>• Professional presentation materials</li>
+              <li>• Custom content for your audience</li>
+              <li>• Q&A session</li>
+              <li>• Follow-up resources</li>
+              <li>• Professional headshots and bio</li>
+            </ul>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+            <h3 className="text-lg font-bold text-blue-700 mb-3">⏰ Response Times</h3>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-blue-600">Initial Response:</span>
+                <span className="font-medium text-blue-700">Same day</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-blue-600">Detailed Proposal:</span>
+                <span className="font-medium text-blue-700">24-48 hours</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-blue-600">Contract & Materials:</span>
+                <span className="font-medium text-blue-700">1 week</span>
+              </div>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    disabled={loading}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    disabled={loading}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                  />
-                </div>
-              </div>
+          </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number *
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    disabled={loading}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
-                    Organization
-                  </label>
-                  <input
-                    type="text"
-                    id="organization"
-                    name="organization"
-                    value={formData.organization}
-                    onChange={handleChange}
-                    disabled={loading}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-2">
-                  Event Type
-                </label>
-                <select
-                  id="eventType"
-                  name="eventType"
-                  value={formData.eventType}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                >
-                  <option value="">Select event type</option>
-                  <option value="keynote">Keynote Presentation</option>
-                  <option value="workshop">Workshop</option>
-                  <option value="coaching">Executive Coaching</option>
-                  <option value="training">Team Training</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Event Details *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  disabled={loading}
-                  rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
-                  placeholder="Tell us about your event, audience size, date preferences, and any specific topics you'd like covered..."
-                />
-              </div>
-
-              {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center space-x-2">
-                  <span className="text-red-500">⚠️</span>
-                  <p className="text-red-800 text-sm">{error}</p>
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading || !formData.message.trim()}
-                className="w-full bg-primary-800 hover:bg-primary-900 disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
-              >
-                {loading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-                    <span>Sending Inquiry...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>📧</span>
-                    <span>Send Inquiry</span>
-                  </>
-                )}
-              </button>
-            </form>
-          )}
-
-          <div className="mt-6 text-center text-gray-600">
-            <p>Investment: Contact for speaking fees and availability</p>
+          <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
+            <h3 className="text-lg font-bold text-purple-700 mb-3">💰 Investment</h3>
+            <p className="text-purple-600 text-sm mb-2">
+              Speaking fees vary based on:
+            </p>
+            <ul className="text-purple-600 text-sm space-y-1">
+              <li>• Event type and duration</li>
+              <li>• Audience size</li>
+              <li>• Travel requirements</li>
+              <li>• Custom content development</li>
+            </ul>
+            <p className="text-purple-700 font-medium text-sm mt-3">
+              Contact for detailed pricing
+            </p>
           </div>
         </div>
       </div>

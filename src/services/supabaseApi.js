@@ -1,12 +1,12 @@
 import supabase from '../lib/supabase'
+import { sendEmail, emailTemplates } from './emailService'
 
 // Contact form submissions
 export const submitContactForm = async (formData) => {
   try {
-    console.log('Submitting contact form:', formData)
-    
+    // Insert into Supabase
     const { data, error } = await supabase
-      .from('contact_submissions_daily_note_2024')
+      .from('contact_submissions_dn2024')
       .insert([
         {
           name: formData.name,
@@ -23,11 +23,34 @@ export const submitContactForm = async (formData) => {
       throw error
     }
 
-    console.log('✅ Contact form submitted successfully:', data)
-    return { success: true, data }
+    // Send email notification
+    try {
+      const emailData = emailTemplates.contactForm(formData)
+      await sendEmail({
+        from: formData.email,
+        subject: emailData.subject,
+        html: emailData.html,
+        text: emailData.text,
+        type: 'contact'
+      })
 
+      // Send auto-reply
+      const autoReply = emailTemplates.autoReply(formData)
+      await sendEmail({
+        to: formData.email,
+        subject: autoReply.subject,
+        html: autoReply.html,
+        text: autoReply.text,
+        type: 'auto-reply'
+      })
+    } catch (emailError) {
+      console.warn('Email sending failed:', emailError)
+      // Don't fail the whole submission if email fails
+    }
+
+    return { success: true, data }
   } catch (error) {
-    console.error('❌ Contact form submission error:', error)
+    console.error('Contact form submission error:', error)
     return { success: false, error: error.message }
   }
 }
@@ -35,10 +58,9 @@ export const submitContactForm = async (formData) => {
 // Speaking inquiries
 export const submitSpeakingInquiry = async (formData) => {
   try {
-    console.log('Submitting speaking inquiry:', formData)
-    
+    // Insert into Supabase
     const { data, error } = await supabase
-      .from('speaking_inquiries_daily_note_2024')
+      .from('speaking_inquiries_dn2024')
       .insert([
         {
           name: formData.name,
@@ -46,7 +68,7 @@ export const submitSpeakingInquiry = async (formData) => {
           phone: formData.phone,
           organization: formData.organization || '',
           event_type: formData.eventType || '',
-          event_details: formData.eventDetails,
+          message: formData.message,
           priority: 'high'
         }
       ])
@@ -57,11 +79,33 @@ export const submitSpeakingInquiry = async (formData) => {
       throw error
     }
 
-    console.log('✅ Speaking inquiry submitted successfully:', data)
-    return { success: true, data }
+    // Send email notification
+    try {
+      const emailData = emailTemplates.speakingInquiry(formData)
+      await sendEmail({
+        from: formData.email,
+        subject: emailData.subject,
+        html: emailData.html,
+        text: emailData.text,
+        type: 'speaking'
+      })
 
+      // Send auto-reply
+      const autoReply = emailTemplates.autoReply(formData)
+      await sendEmail({
+        to: formData.email,
+        subject: autoReply.subject,
+        html: autoReply.html,
+        text: autoReply.text,
+        type: 'auto-reply'
+      })
+    } catch (emailError) {
+      console.warn('Email sending failed:', emailError)
+    }
+
+    return { success: true, data }
   } catch (error) {
-    console.error('❌ Speaking inquiry submission error:', error)
+    console.error('Speaking inquiry submission error:', error)
     return { success: false, error: error.message }
   }
 }
@@ -69,10 +113,8 @@ export const submitSpeakingInquiry = async (formData) => {
 // Newsletter signups
 export const submitNewsletterSignup = async (email, source = 'website') => {
   try {
-    console.log('Submitting newsletter signup:', { email, source })
-    
     const { data, error } = await supabase
-      .from('newsletter_signups_daily_note_2024')
+      .from('newsletter_signups_dn2024')
       .insert([
         {
           email: email,
@@ -82,15 +124,13 @@ export const submitNewsletterSignup = async (email, source = 'website') => {
       .select()
 
     if (error) {
-      console.error('Supabase error:', error)
+      console.error('Newsletter signup error:', error)
       throw error
     }
 
-    console.log('✅ Newsletter signup submitted successfully:', data)
     return { success: true, data }
-
   } catch (error) {
-    console.error('❌ Newsletter signup error:', error)
+    console.error('Newsletter signup error:', error)
     return { success: false, error: error.message }
   }
 }
@@ -98,10 +138,8 @@ export const submitNewsletterSignup = async (email, source = 'website') => {
 // User feedback
 export const submitUserFeedback = async (feedbackData) => {
   try {
-    console.log('Submitting user feedback:', feedbackData)
-    
     const { data, error } = await supabase
-      .from('user_feedback_daily_note_2024')
+      .from('user_feedback_dn2024')
       .insert([
         {
           rating: feedbackData.rating,
@@ -113,15 +151,13 @@ export const submitUserFeedback = async (feedbackData) => {
       .select()
 
     if (error) {
-      console.error('Supabase error:', error)
+      console.error('Feedback submission error:', error)
       throw error
     }
 
-    console.log('✅ User feedback submitted successfully:', data)
     return { success: true, data }
-
   } catch (error) {
-    console.error('❌ User feedback submission error:', error)
+    console.error('Feedback submission error:', error)
     return { success: false, error: error.message }
   }
 }
