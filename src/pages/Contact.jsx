@@ -1,31 +1,29 @@
-import React, { useState } from 'react'
-import { Helmet } from 'react-helmet-async'
-import { motion } from 'framer-motion'
-import { submitContactForm } from '../services/api'
-import { useFormSubmission } from '../hooks/useSupabase'
+import React,{useState} from 'react'
+import {Helmet} from 'react-helmet-async'
+import {motion} from 'framer-motion'
+import {submitContactForm} from '../services/api'
+import {useFormSubmission} from '../hooks/useSupabase'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiMessageCircle, FiCheck, FiAlertCircle, FiTwitter, FiLinkedin, FiInstagram } = FiIcons
+const {FiMessageCircle,FiCheck,FiAlertCircle,FiTwitter,FiLinkedin,FiInstagram,FiSend}=FiIcons
 
-const Contact = () => {
-  const [formData, setFormData] = useState({
+const Contact=()=> {
+  const [formData,setFormData]=useState({
     name: '',
     email: '',
     inquiryType: '',
     subject: '',
     message: ''
   })
+  const {loading,error,success,submitForm,resetForm}=useFormSubmission()
 
-  const { loading, error, success, submitForm, resetForm } = useFormSubmission()
-
-  const handleSubmit = async (e) => {
+  const handleSubmit=async (e)=> {
     e.preventDefault()
-    const result = await submitForm(
-      () => submitContactForm({ ...formData, formType: 'general' }),
+    const result=await submitForm(
+      ()=> submitContactForm({...formData,formType: 'general'}),
       formData
     )
-    
     if (result.success) {
       setFormData({
         name: '',
@@ -34,29 +32,26 @@ const Contact = () => {
         subject: '',
         message: ''
       })
-      setTimeout(() => resetForm(), 3000)
+      setTimeout(()=> resetForm(),3000)
     }
   }
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+  const handleChange=(e)=> {
+    setFormData({...formData,[e.target.name]: e.target.value})
   }
 
   return (
     <>
       <Helmet>
         <title>Contact - The Daily Note</title>
-        <meta name="description" content="Get in touch with James Brown and The Daily Note. Contact for feedback, business inquiries, course support, and advertising opportunities." />
+        <meta name="description" content="Get in touch with James Brown and The Daily Note. Contact for feedback,business inquiries,course support,and advertising opportunities." />
         <link rel="canonical" href="https://thedailynote.net/contact" />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+        <motion.div
+          initial={{opacity: 0,y: 20}}
+          animate={{opacity: 1,y: 0}}
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-primary-700 mb-6">
@@ -69,10 +64,10 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
+          <motion.div
+            initial={{opacity: 0,x: -20}}
+            animate={{opacity: 1,x: 0}}
+            transition={{delay: 0.2}}
           >
             <div className="bg-white rounded-lg shadow-lg p-8">
               <h2 className="text-2xl font-bold text-primary-700 mb-6 flex items-center">
@@ -169,7 +164,7 @@ const Contact = () => {
                       disabled={loading}
                       rows={4}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
-                      placeholder="Share your thoughts, feedback, or questions..."
+                      placeholder="Share your thoughts,feedback,or questions..."
                     />
                   </div>
 
@@ -183,9 +178,19 @@ const Contact = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                    className="w-full bg-primary-800 hover:bg-primary-900 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
                   >
-                    {loading ? 'Sending...' : 'Send Message'}
+                    {loading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                        <span>Sending Message...</span>
+                      </>
+                    ) : (
+                      <>
+                        <SafeIcon icon={FiSend} className="w-5 h-5" />
+                        <span>Send Message</span>
+                      </>
+                    )}
                   </button>
                 </form>
               )}
@@ -193,10 +198,10 @@ const Contact = () => {
           </motion.div>
 
           {/* Contact Information & Newsletter */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
+          <motion.div
+            initial={{opacity: 0,x: 20}}
+            animate={{opacity: 1,x: 0}}
+            transition={{delay: 0.4}}
             className="space-y-8"
           >
             {/* Newsletter Signup */}
@@ -204,12 +209,12 @@ const Contact = () => {
               <h2 className="text-2xl font-bold text-primary-700 mb-6">Stay Connected</h2>
               <p className="text-gray-600 mb-6">Get episodes delivered to your inbox</p>
               <div className="bg-gray-50 rounded-lg overflow-hidden">
-                <iframe 
-                  src="https://jamesbrowntv.substack.com/embed" 
-                  width="100%" 
-                  height="280" 
-                  style={{ border: 'none', background: 'white' }} 
-                  frameBorder="0" 
+                <iframe
+                  src="https://jamesbrowntv.substack.com/embed"
+                  width="100%"
+                  height="280"
+                  style={{border: 'none',background: 'white'}}
+                  frameBorder="0"
                   scrolling="no"
                   title="Subscribe to The Daily Note Newsletter"
                 />
@@ -220,27 +225,27 @@ const Contact = () => {
             <div className="bg-white rounded-lg shadow-lg p-8">
               <h2 className="text-2xl font-bold text-primary-700 mb-6">Follow The Daily Note</h2>
               <div className="flex space-x-6">
-                <a 
-                  href="https://x.com/dailynoteshow" 
-                  target="_blank" 
+                <a
+                  href="https://x.com/dailynoteshow"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-accent-600 transition-colors"
                   aria-label="Follow on X (Twitter)"
                 >
                   <SafeIcon icon={FiTwitter} className="w-8 h-8" />
                 </a>
-                <a 
-                  href="https://www.linkedin.com/company/the-daily-note-with-james-a-brown/" 
-                  target="_blank" 
+                <a
+                  href="https://www.linkedin.com/company/the-daily-note-with-james-a-brown/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-accent-600 transition-colors"
                   aria-label="Follow on LinkedIn"
                 >
                   <SafeIcon icon={FiLinkedin} className="w-8 h-8" />
                 </a>
-                <a 
-                  href="https://instagram.com/dailynoteshow" 
-                  target="_blank" 
+                <a
+                  href="https://instagram.com/dailynoteshow"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-accent-600 transition-colors"
                   aria-label="Follow on Instagram"

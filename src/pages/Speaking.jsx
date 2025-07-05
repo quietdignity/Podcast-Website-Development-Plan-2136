@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { Helmet } from 'react-helmet-async'
-import { motion } from 'framer-motion'
-import { submitSpeakingInquiry } from '../services/api'
-import { useFormSubmission } from '../hooks/useSupabase'
+import React,{useState} from 'react'
+import {Helmet} from 'react-helmet-async'
+import {motion} from 'framer-motion'
+import {submitSpeakingInquiry} from '../services/api'
+import {useFormSubmission} from '../hooks/useSupabase'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiMic, FiUsers, FiSend, FiCheck, FiAlertCircle } = FiIcons
+const {FiMic,FiUsers,FiSend,FiCheck,FiAlertCircle}=FiIcons
 
-const Speaking = () => {
-  const [formData, setFormData] = useState({
+const Speaking=()=> {
+  const [formData,setFormData]=useState({
     name: '',
     email: '',
     phone: '',
@@ -17,10 +17,9 @@ const Speaking = () => {
     eventType: '',
     message: ''
   })
+  const {loading,error,success,submitForm,resetForm}=useFormSubmission()
 
-  const { loading, error, success, submitForm, resetForm } = useFormSubmission()
-
-  const speakingTopics = [
+  const speakingTopics=[
     {
       title: "The Future of Employee Communications",
       description: "Insights on workforce communication and distributed team management",
@@ -50,24 +49,22 @@ const Speaking = () => {
     }
   ]
 
-  const trainingFormats = [
+  const trainingFormats=[
     "Keynote presentations",
     "Half-day workshops",
     "Executive coaching sessions",
     "Team communication training"
   ]
 
-  const handleSubmit = async (e) => {
+  const handleSubmit=async (e)=> {
     e.preventDefault()
     if (!formData.message.trim()) {
       return
     }
-
-    const result = await submitForm(
-      () => submitSpeakingInquiry(formData),
+    const result=await submitForm(
+      ()=> submitSpeakingInquiry(formData),
       formData
     )
-    
     if (result.success) {
       setFormData({
         name: '',
@@ -77,15 +74,12 @@ const Speaking = () => {
         eventType: '',
         message: ''
       })
-      setTimeout(() => resetForm(), 3000)
+      setTimeout(()=> resetForm(),3000)
     }
   }
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+  const handleChange=(e)=> {
+    setFormData({...formData,[e.target.name]: e.target.value})
   }
 
   return (
@@ -97,9 +91,9 @@ const Speaking = () => {
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+        <motion.div
+          initial={{opacity: 0,y: 20}}
+          animate={{opacity: 1,y: 0}}
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-primary-700 mb-6">
@@ -111,10 +105,10 @@ const Speaking = () => {
         </motion.div>
 
         {/* Featured Speaking */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+        <motion.div
+          initial={{opacity: 0,y: 20}}
+          animate={{opacity: 1,y: 0}}
+          transition={{delay: 0.1}}
           id="featured-speaking"
           className="bg-accent-50 rounded-lg p-8 mb-12"
         >
@@ -122,31 +116,30 @@ const Speaking = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-lg text-gray-600 mb-4">
-                James has been a featured speaker at Advanced Learning Institute's premier employee communications conferences, 
-                sharing insights on the future of workforce communication and distributed team management.
+                James has been a featured speaker at Advanced Learning Institute's premier employee communications conferences,sharing insights on the future of workforce communication and distributed team management.
               </p>
               <div className="space-y-2">
-                <a 
-                  href="https://www.aliconferences.com/events/the-future-of-employee-communications/" 
-                  target="_blank" 
+                <a
+                  href="https://www.aliconferences.com/events/the-future-of-employee-communications/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="block text-accent-600 hover:text-accent-700 underline"
                 >
                   The Future of Employee Communications
                 </a>
-                <a 
-                  href="https://www.aliconferences.com/events/3rd-annual-internal-communications-for-a-deskless-frontline-hybrid-workforce/" 
-                  target="_blank" 
+                <a
+                  href="https://www.aliconferences.com/events/3rd-annual-internal-communications-for-a-deskless-frontline-hybrid-workforce/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="block text-accent-600 hover:text-accent-700 underline"
                 >
-                  Internal Communications for a Deskless, Frontline, Hybrid Workforce
+                  Internal Communications for a Deskless,Frontline,Hybrid Workforce
                 </a>
               </div>
             </div>
             <div>
-              <img 
-                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648125615-james%20brown%20speaking%20at%20a%20conference.jpg" 
+              <img
+                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648125615-james%20brown%20speaking%20at%20a%20conference.jpg"
                 alt="James Brown speaking at a conference"
                 className="w-full h-64 object-cover rounded-lg shadow-lg"
               />
@@ -155,16 +148,16 @@ const Speaking = () => {
         </motion.div>
 
         {/* Speaking Topics */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+        <motion.div
+          initial={{opacity: 0,y: 20}}
+          animate={{opacity: 1,y: 0}}
+          transition={{delay: 0.2}}
           id="speaking-topics"
           className="mb-12"
         >
           <h2 className="text-3xl font-bold text-primary-700 mb-8 text-center">Speaking Topics</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {speakingTopics.map((topic, index) => (
+            {speakingTopics.map((topic,index)=> (
               <div key={topic.title} className="bg-white rounded-lg shadow-lg p-6">
                 <div className="bg-accent-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <SafeIcon icon={FiMic} className="w-6 h-6 text-accent-600" />
@@ -172,7 +165,7 @@ const Speaking = () => {
                 <h3 className="text-xl font-bold text-primary-700 mb-3">{topic.title}</h3>
                 <p className="text-gray-600 mb-4">{topic.description}</p>
                 <ul className="space-y-2">
-                  {topic.details.map((detail, i) => (
+                  {topic.details.map((detail,i)=> (
                     <li key={i} className="text-sm text-gray-500 flex items-start">
                       <span className="text-accent-500 mr-2">•</span>
                       {detail}
@@ -185,16 +178,16 @@ const Speaking = () => {
         </motion.div>
 
         {/* Training Formats */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+        <motion.div
+          initial={{opacity: 0,y: 20}}
+          animate={{opacity: 1,y: 0}}
+          transition={{delay: 0.4}}
           id="training-formats"
           className="bg-primary-50 rounded-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">Training Formats</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {trainingFormats.map((format, index) => (
+            {trainingFormats.map((format,index)=> (
               <div key={index} className="flex items-center space-x-3">
                 <SafeIcon icon={FiUsers} className="w-6 h-6 text-accent-500" />
                 <span className="text-gray-700">{format}</span>
@@ -204,15 +197,15 @@ const Speaking = () => {
         </motion.div>
 
         {/* Panel Discussion Photo */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+        <motion.div
+          initial={{opacity: 0,y: 20}}
+          animate={{opacity: 1,y: 0}}
+          transition={{delay: 0.5}}
           id="panel-discussion"
           className="text-center mb-12"
         >
-          <img 
-            src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751655293423-James%20brown%20on%20a%20panel%20at%20a%20conference.jpg" 
+          <img
+            src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751655293423-James%20brown%20on%20a%20panel%20at%20a%20conference.jpg"
             alt="James Brown on a panel at a conference"
             className="w-full max-w-4xl mx-auto h-80 object-cover rounded-lg shadow-lg"
           />
@@ -220,10 +213,10 @@ const Speaking = () => {
         </motion.div>
 
         {/* Request Speaking Information Form */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+        <motion.div
+          initial={{opacity: 0,y: 20}}
+          animate={{opacity: 1,y: 0}}
+          transition={{delay: 0.6}}
           id="speaking-inquiry"
           className="bg-white rounded-lg shadow-lg p-8"
         >
@@ -339,7 +332,7 @@ const Speaking = () => {
                   disabled={loading}
                   rows={4}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
-                  placeholder="Tell us about your event, audience size, date preferences, and any specific topics you'd like covered..."
+                  placeholder="Tell us about your event,audience size,date preferences,and any specific topics you'd like covered..."
                 />
               </div>
 
@@ -353,9 +346,19 @@ const Speaking = () => {
               <button
                 type="submit"
                 disabled={loading || !formData.message.trim()}
-                className="w-full bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                className="w-full bg-primary-800 hover:bg-primary-900 disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
               >
-                {loading ? 'Sending...' : 'Send Inquiry'}
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                    <span>Sending Inquiry...</span>
+                  </>
+                ) : (
+                  <>
+                    <SafeIcon icon={FiSend} className="w-5 h-5" />
+                    <span>Send Inquiry</span>
+                  </>
+                )}
               </button>
             </form>
           )}
