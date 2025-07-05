@@ -57,7 +57,6 @@ export const AuthProvider=({children})=> {
       if (error) throw error
       return {success: true,data}
     } catch (error) {
-      console.error('Sign in error:',error)
       setError(error.message)
       return {success: false,error: error.message}
     } finally {
@@ -77,7 +76,6 @@ export const AuthProvider=({children})=> {
       if (error) throw error
       return {success: true,data}
     } catch (error) {
-      console.error('Sign up error:',error)
       setError(error.message)
       return {success: false,error: error.message}
     } finally {
@@ -93,7 +91,6 @@ export const AuthProvider=({children})=> {
       if (error) throw error
       return {success: true}
     } catch (error) {
-      console.error('Sign out error:',error)
       setError(error.message)
       return {success: false,error: error.message}
     } finally {
@@ -111,7 +108,6 @@ export const AuthProvider=({children})=> {
       if (error) throw error
       return {success: true}
     } catch (error) {
-      console.error('Reset password error:',error)
       setError(error.message)
       return {success: false,error: error.message}
     } finally {
@@ -134,7 +130,6 @@ export const AuthProvider=({children})=> {
       if (error) throw error
       return {success: true}
     } catch (error) {
-      console.error('Update password error:',error)
       setError(error.message)
       return {success: false,error: error.message}
     } finally {
@@ -150,7 +145,6 @@ export const AuthProvider=({children})=> {
       if (error) throw error
       return {success: true}
     } catch (error) {
-      console.error('Update profile error:',error)
       setError(error.message)
       return {success: false,error: error.message}
     } finally {

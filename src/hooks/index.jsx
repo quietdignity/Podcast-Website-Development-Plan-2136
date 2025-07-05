@@ -1,2 +1,2 @@
 export {useAuth,AuthProvider} from './useAuth.jsx'
-export {useFormSubmission,useAnalytics,useSupabaseConnection,usePageTracking} from './useSupabase.jsx'
+export {useFormSubmission,usePageTracking} from './useSupabase.jsx'
