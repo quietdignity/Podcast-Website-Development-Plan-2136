@@ -43,6 +43,7 @@ const About = () => {
       <Helmet>
         <title>About James Brown - The Daily Note</title>
         <meta name="description" content="James Brown is an independent-thinking millennial who finds wisdom in the everyday, questioning modern life's trade-offs while honoring working-class roots." />
+        <link rel="canonical" href="https://thedailynote.net/about" />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -65,12 +66,14 @@ const About = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <img 
-              src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648064783-JamesBrown.jpg" 
-              alt="James Brown" 
-              className="w-full h-auto rounded-lg object-cover shadow-lg"
-              style={{ aspectRatio: '4/5', objectPosition: 'center top' }}
-            />
+            <div className="text-center">
+              <img 
+                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648064783-JamesBrown.jpg" 
+                alt="James Brown" 
+                className="w-full max-w-sm mx-auto h-auto rounded-lg object-cover shadow-lg mb-4"
+              />
+              <p className="text-gray-600 text-sm italic">James A. Brown in his hometown Rochester, NY</p>
+            </div>
           </motion.div>
 
           <motion.div 
@@ -92,6 +95,7 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
+          id="about-the-daily-note"
           className="bg-white rounded-lg shadow-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">About The Daily Note</h2>
@@ -114,6 +118,7 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
+          id="what-james-explores"
           className="bg-white rounded-lg shadow-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">What James Explores</h2>
@@ -137,6 +142,7 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0 }}
+          id="his-approach"
           className="bg-primary-50 rounded-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">His Approach</h2>
@@ -150,6 +156,7 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
+          id="recent-themes"
           className="bg-white rounded-lg shadow-lg p-8"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">Recent Themes</h2>

@@ -18,6 +18,7 @@ const Listen = () => {
       <Helmet>
         <title>Listen to The Daily Note - All Episodes</title>
         <meta name="description" content="Listen to all episodes of The Daily Note with James Brown. Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day, on-air and online from sea to shining sea." />
+        <link rel="canonical" href="https://thedailynote.net/listen" />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -39,6 +40,7 @@ const Listen = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
+          id="all-episodes"
           className="mb-12"
         >
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -64,6 +66,7 @@ const Listen = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
+          id="about-the-show"
           className="bg-white rounded-lg shadow-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-4">About the Show</h2>
@@ -86,6 +89,7 @@ const Listen = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
+          id="subscribe"
           className="grid grid-cols-1 lg:grid-cols-2 gap-8"
         >
           <div className="bg-white rounded-lg shadow-lg p-8">
@@ -113,12 +117,12 @@ const Listen = () => {
             <h3 className="text-xl font-bold text-primary-700 mb-6">
               Get Episodes by Email
             </h3>
-            <div className="mb-6">
+            <div className="bg-gray-50 rounded-lg overflow-hidden">
               <iframe 
                 src="https://jamesbrowntv.substack.com/embed" 
                 width="100%" 
-                height="320" 
-                style={{ border: '1px solid #EEE', background: 'white', borderRadius: '6px' }} 
+                height="280" 
+                style={{ border: 'none', background: 'white' }} 
                 frameBorder="0" 
                 scrolling="no"
                 title="Subscribe to The Daily Note Newsletter"

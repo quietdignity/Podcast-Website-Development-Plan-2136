@@ -21,15 +21,11 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
     const result = await submitForm(
-      () => submitContactForm({
-        ...formData,
-        formType: 'general'
-      }),
+      () => submitContactForm({ ...formData, formType: 'general' }),
       formData
     )
-
+    
     if (result.success) {
       setFormData({
         name: '',
@@ -43,7 +39,10 @@ const Contact = () => {
   }
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
   }
 
   return (
@@ -51,6 +50,7 @@ const Contact = () => {
       <Helmet>
         <title>Contact - The Daily Note</title>
         <meta name="description" content="Get in touch with James Brown and The Daily Note. Contact for feedback, business inquiries, course support, and advertising opportunities." />
+        <link rel="canonical" href="https://thedailynote.net/contact" />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -183,7 +183,7 @@ const Contact = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                    className="w-full bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
                   >
                     {loading ? 'Sending...' : 'Send Message'}
                   </button>
@@ -203,15 +203,17 @@ const Contact = () => {
             <div className="bg-white rounded-lg shadow-lg p-8">
               <h2 className="text-2xl font-bold text-primary-700 mb-6">Stay Connected</h2>
               <p className="text-gray-600 mb-6">Get episodes delivered to your inbox</p>
-              <iframe 
-                src="https://jamesbrowntv.substack.com/embed" 
-                width="100%" 
-                height="320" 
-                style={{ border: '1px solid #EEE', background: 'white', borderRadius: '6px' }} 
-                frameBorder="0" 
-                scrolling="no"
-                title="Subscribe to The Daily Note Newsletter"
-              />
+              <div className="bg-gray-50 rounded-lg overflow-hidden">
+                <iframe 
+                  src="https://jamesbrowntv.substack.com/embed" 
+                  width="100%" 
+                  height="280" 
+                  style={{ border: 'none', background: 'white' }} 
+                  frameBorder="0" 
+                  scrolling="no"
+                  title="Subscribe to The Daily Note Newsletter"
+                />
+              </div>
             </div>
 
             {/* Social Media */}
@@ -223,6 +225,7 @@ const Contact = () => {
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-accent-600 transition-colors"
+                  aria-label="Follow on X (Twitter)"
                 >
                   <SafeIcon icon={FiTwitter} className="w-8 h-8" />
                 </a>
@@ -231,6 +234,7 @@ const Contact = () => {
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-accent-600 transition-colors"
+                  aria-label="Follow on LinkedIn"
                 >
                   <SafeIcon icon={FiLinkedin} className="w-8 h-8" />
                 </a>
@@ -239,6 +243,7 @@ const Contact = () => {
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-accent-600 transition-colors"
+                  aria-label="Follow on Instagram"
                 >
                   <SafeIcon icon={FiInstagram} className="w-8 h-8" />
                 </a>

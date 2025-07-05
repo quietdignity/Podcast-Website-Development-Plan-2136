@@ -69,7 +69,7 @@ export const generateStructuredData = {
     },
     "offers": {
       "@type": "Offer",
-      "price": "397",
+      "price": "1497",
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock"
     },

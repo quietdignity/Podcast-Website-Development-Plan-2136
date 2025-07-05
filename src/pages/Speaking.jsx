@@ -59,7 +59,6 @@ const Speaking = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
     if (!formData.message.trim()) {
       return
     }
@@ -68,7 +67,7 @@ const Speaking = () => {
       () => submitSpeakingInquiry(formData),
       formData
     )
-
+    
     if (result.success) {
       setFormData({
         name: '',
@@ -83,7 +82,10 @@ const Speaking = () => {
   }
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
   }
 
   return (
@@ -91,6 +93,7 @@ const Speaking = () => {
       <Helmet>
         <title>Speaking & Corporate Training - The Daily Note</title>
         <meta name="description" content="Book James Brown for speaking engagements and corporate training. Featured speaker at Advanced Learning Institute conferences on employee communications." />
+        <link rel="canonical" href="https://thedailynote.net/speaking" />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -112,15 +115,15 @@ const Speaking = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
+          id="featured-speaking"
           className="bg-accent-50 rounded-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">Featured Speaker</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-lg text-gray-600 mb-4">
-                James has been a featured speaker at Advanced Learning Institute's premier employee 
-                communications conferences, sharing insights on the future of workforce communication 
-                and distributed team management.
+                James has been a featured speaker at Advanced Learning Institute's premier employee communications conferences, 
+                sharing insights on the future of workforce communication and distributed team management.
               </p>
               <div className="space-y-2">
                 <a 
@@ -144,7 +147,7 @@ const Speaking = () => {
             <div>
               <img 
                 src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751648125615-james%20brown%20speaking%20at%20a%20conference.jpg" 
-                alt="James Brown speaking at a conference" 
+                alt="James Brown speaking at a conference"
                 className="w-full h-64 object-cover rounded-lg shadow-lg"
               />
             </div>
@@ -156,6 +159,7 @@ const Speaking = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
+          id="speaking-topics"
           className="mb-12"
         >
           <h2 className="text-3xl font-bold text-primary-700 mb-8 text-center">Speaking Topics</h2>
@@ -185,6 +189,7 @@ const Speaking = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
+          id="training-formats"
           className="bg-primary-50 rounded-lg p-8 mb-12"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6">Training Formats</h2>
@@ -203,11 +208,12 @@ const Speaking = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
+          id="panel-discussion"
           className="text-center mb-12"
         >
           <img 
             src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751655293423-James%20brown%20on%20a%20panel%20at%20a%20conference.jpg" 
-            alt="James Brown on a panel at a conference" 
+            alt="James Brown on a panel at a conference"
             className="w-full max-w-4xl mx-auto h-80 object-cover rounded-lg shadow-lg"
           />
           <p className="text-gray-600 text-sm mt-4">James Brown (center right) speaking on panel</p>
@@ -218,6 +224,7 @@ const Speaking = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
+          id="speaking-inquiry"
           className="bg-white rounded-lg shadow-lg p-8"
         >
           <h2 className="text-2xl font-bold text-primary-700 mb-6 flex items-center">
@@ -249,7 +256,6 @@ const Speaking = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
                   />
                 </div>
-
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                     Email Address *
@@ -283,7 +289,6 @@ const Speaking = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50"
                   />
                 </div>
-
                 <div>
                   <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
                     Organization
@@ -348,7 +353,7 @@ const Speaking = () => {
               <button
                 type="submit"
                 disabled={loading || !formData.message.trim()}
-                className="bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                className="w-full bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
               >
                 {loading ? 'Sending...' : 'Send Inquiry'}
               </button>
