@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { submitSpeakingInquiry } from '../services/api'
+import { useFormSubmission } from '../hooks/useSupabase'
 
 const Speaking = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +12,8 @@ const Speaking = () => {
     eventType: '',
     message: ''
   })
+
+  const { loading, error, success, submitForm, resetForm } = useFormSubmission()
 
   const speakingTopics = [
     {
@@ -43,23 +47,34 @@ const Speaking = () => {
 
   const trainingFormats = [
     "Keynote presentations",
-    "Half-day workshops", 
+    "Half-day workshops",
     "Executive coaching sessions",
     "Team communication training"
   ]
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // Simple form submission - just show alert for demo
-    alert('Speaking inquiry submitted! We\'ll get back to you soon.')
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      organization: '',
-      eventType: '',
-      message: ''
-    })
+    
+    const result = await submitForm(
+      () => submitSpeakingInquiry(formData),
+      formData
+    )
+    
+    if (result.success) {
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        organization: '',
+        eventType: '',
+        message: ''
+      })
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        resetForm()
+      }, 5000)
+    }
   }
 
   const handleChange = (e) => {
@@ -176,113 +191,144 @@ const Speaking = () => {
             Request Speaking Information
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                  Full Name *
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500"
-                />
-              </div>
+          {success ? (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+              <span className="text-4xl block mb-4">✅</span>
+              <p className="text-green-800 font-medium text-lg mb-2">Speaking inquiry sent successfully!</p>
+              <p className="text-green-600">We'll get back to you within 24 hours with availability and pricing.</p>
+              <p className="text-green-600 text-sm mt-2">You should also receive a confirmation email shortly.</p>
             </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
+                  />
+                </div>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
+                    Organization
+                  </label>
+                  <input
+                    type="text"
+                    id="organization"
+                    name="organization"
+                    value={formData.organization}
+                    onChange={handleChange}
+                    disabled={loading}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
+                  />
+                </div>
+              </div>
+
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                  Phone Number *
+                <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-2">
+                  Event Type
                 </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
+                <select
+                  id="eventType"
+                  name="eventType"
+                  value={formData.eventType}
+                  onChange={handleChange}
+                  disabled={loading}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
+                >
+                  <option value="">Select event type</option>
+                  <option value="keynote">Keynote Presentation</option>
+                  <option value="workshop">Workshop</option>
+                  <option value="coaching">Executive Coaching</option>
+                  <option value="training">Team Training</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  Event Details *
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500"
+                  disabled={loading}
+                  rows={4}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500 disabled:opacity-50"
+                  placeholder="Tell us about your event, audience size, date preferences, and any specific topics you'd like covered..."
                 />
               </div>
-              <div>
-                <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
-                  Organization
-                </label>
-                <input
-                  type="text"
-                  id="organization"
-                  name="organization"
-                  value={formData.organization}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500"
-                />
-              </div>
-            </div>
 
-            <div>
-              <label htmlFor="eventType" className="block text-sm font-medium text-gray-700 mb-2">
-                Event Type
-              </label>
-              <select
-                id="eventType"
-                name="eventType"
-                value={formData.eventType}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500"
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center space-x-2">
+                  <span className="text-red-500">⚠️</span>
+                  <p className="text-red-800 text-sm">{error}</p>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading || !formData.message.trim()}
+                className="w-full bg-primary-800 hover:bg-primary-900 disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
               >
-                <option value="">Select event type</option>
-                <option value="keynote">Keynote Presentation</option>
-                <option value="workshop">Workshop</option>
-                <option value="coaching">Executive Coaching</option>
-                <option value="training">Team Training</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                Message *
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bronze-500 focus:border-bronze-500"
-                placeholder="Tell us about your event, audience size, date preferences, and any specific topics you'd like covered..."
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={!formData.message.trim()}
-              className="w-full bg-primary-800 hover:bg-primary-900 disabled:opacity-50 disabled:cursor-not-allowed text-white px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
-            >
-              <span>📧</span>
-              <span>Send Inquiry</span>
-            </button>
-          </form>
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                    <span>Sending Inquiry...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>📧</span>
+                    <span>Send Inquiry</span>
+                  </>
+                )}
+              </button>
+            </form>
+          )}
 
           <div className="mt-6 text-center text-gray-600">
             <p>Investment: Contact for speaking fees and availability</p>

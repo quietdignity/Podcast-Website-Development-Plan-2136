@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import supabase from '../lib/supabase'
+import { submitContactForm } from '../services/api'
+import { useFormSubmission } from '../hooks/useSupabase'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -10,31 +11,18 @@ const Contact = () => {
     subject: '',
     message: ''
   })
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState(null)
+  
+  const { loading, error, success, submitForm, resetForm } = useFormSubmission()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
-    setError(null)
-
-    try {
-      const { data, error } = await supabase
-        .from('contact_submissions_dn2024')
-        .insert([{
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject || '',
-          message: formData.message,
-          form_type: 'general',
-          inquiry_type: formData.inquiryType || null
-        }])
-        .select()
-
-      if (error) throw error
-
-      setSuccess(true)
+    
+    const result = await submitForm(
+      () => submitContactForm(formData),
+      formData
+    )
+    
+    if (result.success) {
       setFormData({
         name: '',
         email: '',
@@ -42,13 +30,11 @@ const Contact = () => {
         subject: '',
         message: ''
       })
+      
+      // Reset success message after 5 seconds
       setTimeout(() => {
-        setSuccess(false)
-      }, 3000)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
+        resetForm()
+      }, 5000)
     }
   }
 
@@ -87,10 +73,11 @@ const Contact = () => {
               </h2>
 
               {success ? (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                  <span className="text-4xl block mb-2">✅</span>
-                  <p className="text-green-800 font-medium">Message sent successfully!</p>
-                  <p className="text-green-600 text-sm">We'll get back to you soon.</p>
+                <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+                  <span className="text-4xl block mb-4">✅</span>
+                  <p className="text-green-800 font-medium text-lg mb-2">Message sent successfully!</p>
+                  <p className="text-green-600">We'll get back to you within 24-48 hours.</p>
+                  <p className="text-green-600 text-sm mt-2">You should also receive a confirmation email shortly.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -259,6 +246,15 @@ const Contact = () => {
                   📷
                 </a>
               </div>
+            </div>
+
+            {/* Response Time Info */}
+            <div className="bg-primary-50 rounded-lg p-6">
+              <h3 className="text-lg font-bold text-primary-700 mb-3">📧 Email Response</h3>
+              <p className="text-primary-600 text-sm">
+                We typically respond to all inquiries within 24-48 hours. For urgent speaking requests, 
+                please include your event date in the subject line.
+              </p>
             </div>
           </div>
         </div>

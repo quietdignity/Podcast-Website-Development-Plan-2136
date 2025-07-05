@@ -15,13 +15,13 @@ const Footer = () => {
             Get The Daily Note in Your Email Daily at 6 a.m.
           </h3>
           <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
-            <iframe
-              src="https://jamesbrowntv.substack.com/embed"
-              width="100%"
-              height="200"
-              style={{ border: 'none', background: 'white' }}
-              frameBorder="0"
-              scrolling="no"
+            <iframe 
+              src="https://jamesbrowntv.substack.com/embed" 
+              width="100%" 
+              height="200" 
+              style={{border: 'none', background: 'white'}} 
+              frameBorder="0" 
+              scrolling="no" 
               title="Subscribe to The Daily Note Newsletter"
             />
           </div>
@@ -31,10 +31,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <img
-                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751650292381-blob"
-                alt="The Daily Note Logo"
-                className="h-8 w-auto"
+              <img 
+                src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751650292381-blob" 
+                alt="The Daily Note Logo" 
+                className="h-8 w-auto" 
               />
               <h3 className="text-lg font-bold">The Daily Note</h3>
             </div>
@@ -59,10 +59,10 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li className="flex items-center space-x-2">
                 <SafeIcon icon={FiMusic} className="w-4 h-4" />
-                <a
-                  href="https://open.spotify.com/show/6Syvs3L8YwsYEFAYb2bntF"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <a 
+                  href="https://open.spotify.com/show/4EygeQPe0pyQHQs3i2Lf7j" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
                   className="text-cream-200 hover:text-cream-50 transition-colors"
                 >
                   Spotify
@@ -70,10 +70,10 @@ const Footer = () => {
               </li>
               <li className="flex items-center space-x-2">
                 <SafeIcon icon={FiMusic} className="w-4 h-4" />
-                <a
-                  href="https://podcasts.apple.com/us/podcast/the-james-brown-commentary/id1688955029"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <a 
+                  href="https://podcasts.apple.com/us/podcast/the-daily-note-with-james-brown/id1760569557" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
                   className="text-cream-200 hover:text-cream-50 transition-colors"
                 >
                   Apple Podcasts
@@ -81,10 +81,10 @@ const Footer = () => {
               </li>
               <li className="flex items-center space-x-2">
                 <SafeIcon icon={FiRss} className="w-4 h-4" />
-                <a
-                  href="https://feeds.captivate.fm/the-james-brown-commentary/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <a 
+                  href="https://feeds.captivate.fm/the-james-brown-commentary/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
                   className="text-cream-200 hover:text-cream-50 transition-colors"
                 >
                   RSS Feed
@@ -96,29 +96,29 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Follow</h4>
             <div className="flex space-x-4">
-              <a
-                href="https://instagram.com/dailynoteshow"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cream-200 hover:text-cream-50 transition-colors"
+              <a 
+                href="https://instagram.com/dailynoteshow" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-cream-200 hover:text-cream-50 transition-colors" 
                 aria-label="Follow on Instagram"
               >
                 <SafeIcon icon={FiInstagram} className="w-5 h-5" />
               </a>
-              <a
-                href="https://x.com/dailynoteshow"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cream-200 hover:text-cream-50 transition-colors"
+              <a 
+                href="https://x.com/dailynoteshow" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-cream-200 hover:text-cream-50 transition-colors" 
                 aria-label="Follow on X (Twitter)"
               >
                 <SafeIcon icon={FiTwitter} className="w-5 h-5" />
               </a>
-              <a
-                href="https://www.linkedin.com/company/the-daily-note-with-james-a-brown/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cream-200 hover:text-cream-50 transition-colors"
+              <a 
+                href="https://www.linkedin.com/company/the-daily-note-with-james-a-brown/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-cream-200 hover:text-cream-50 transition-colors" 
                 aria-label="Follow on LinkedIn"
               >
                 <SafeIcon icon={FiLinkedin} className="w-5 h-5" />
