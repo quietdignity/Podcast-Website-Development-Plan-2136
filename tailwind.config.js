@@ -56,10 +56,6 @@ export default {
           900: '#1a252f',
         }
       },
-      fontFamily: {
-        'serif': ['Georgia', 'Times New Roman', 'serif'],
-        'sans': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-      },
     },
   },
   plugins: [],
