@@ -6,7 +6,7 @@ import { useAdminUser } from '../hooks/useAdminUser.jsx'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiMenu, FiX, FiUser, FiLogIn, FiSettings } = FiIcons
+const { FiMenu, FiX, FiUser, FiSettings } = FiIcons
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -57,18 +57,16 @@ const Navigation = () => {
               </Link>
             ))}
             
-            {/* Auth/Admin Links */}
-            {user ? (
+            {/* Only show admin links if user is logged in AND is admin */}
+            {user && isAdmin && (
               <div className="flex items-center space-x-4">
-                {isAdmin && (
-                  <Link
-                    to="/admin"
-                    className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
-                  >
-                    <SafeIcon icon={FiSettings} className="w-4 h-4" />
-                    <span>Admin</span>
-                  </Link>
-                )}
+                <Link
+                  to="/admin"
+                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
+                >
+                  <SafeIcon icon={FiSettings} className="w-4 h-4" />
+                  <span>Admin</span>
+                </Link>
                 
                 <Link
                   to="/dashboard"
@@ -78,14 +76,6 @@ const Navigation = () => {
                   <span>Dashboard</span>
                 </Link>
               </div>
-            ) : (
-              <Link
-                to="/door"
-                className="bg-primary-700 hover:bg-primary-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
-              >
-                <SafeIcon icon={FiLogIn} className="w-4 h-4" />
-                <span>Sign In</span>
-              </Link>
             )}
           </div>
 
@@ -123,18 +113,16 @@ const Navigation = () => {
                 </Link>
               ))}
               
-              {/* Mobile Auth/Admin Links */}
-              {user ? (
+              {/* Mobile Admin Links - Only if logged in AND admin */}
+              {user && isAdmin && (
                 <>
-                  {isAdmin && (
-                    <Link
-                      to="/admin"
-                      onClick={() => setIsOpen(false)}
-                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-800 hover:bg-cream-100 transition-colors"
-                    >
-                      Admin
-                    </Link>
-                  )}
+                  <Link
+                    to="/admin"
+                    onClick={() => setIsOpen(false)}
+                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-800 hover:bg-cream-100 transition-colors"
+                  >
+                    Admin
+                  </Link>
                   
                   <Link
                     to="/dashboard"
@@ -144,14 +132,6 @@ const Navigation = () => {
                     Dashboard
                   </Link>
                 </>
-              ) : (
-                <Link
-                  to="/door"
-                  onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 text-base font-medium text-primary-700 hover:text-primary-800 hover:bg-cream-100 transition-colors"
-                >
-                  Sign In
-                </Link>
               )}
             </div>
           </motion.div>
