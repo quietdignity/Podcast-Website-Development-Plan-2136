@@ -1,6 +1,6 @@
 import React from 'react'
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import {HelmetProvider} from 'react-helmet-async'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import './App.css'
 
 // Components
@@ -9,6 +9,8 @@ import Layout from './components/Layout'
 // Pages
 import Home from './pages/Home'
 import Listen from './pages/Listen'
+import Blog from './pages/Blog'
+import BlogPost from './pages/BlogPost'
 import About from './pages/About'
 import Education from './pages/Education'
 import Speaking from './pages/Speaking'
@@ -22,6 +24,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/listen" element={<Listen />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/about" element={<About />} />
             <Route path="/education" element={<Education />} />
             <Route path="/speaking" element={<Speaking />} />

@@ -1,45 +1,44 @@
-import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { submitContactForm } from '../services/api'
-import { useFormSubmission } from '../hooks/useSupabase'
+import React,{useState,useEffect} from 'react'
+import {motion} from 'framer-motion'
+import {useNavigate,useLocation} from 'react-router-dom'
+import {submitContactForm} from '../services/api'
+import {useFormSubmission} from '../hooks/useSupabase'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiMail, FiUser, FiMessageSquare, FiSend, FiCheck } = FiIcons
+const {FiMail,FiUser,FiMessageSquare,FiSend,FiCheck}=FiIcons
 
-const ContactForm = () => {
-  const [formData, setFormData] = useState({
+const ContactForm=()=> {
+  const [formData,setFormData]=useState({
     name: '',
     email: '',
     subject: '',
     message: '',
     inquiryType: 'general'
   })
-  
-  const { loading, error, success, submitForm, resetForm } = useFormSubmission()
-  const navigate = useNavigate()
-  const location = useLocation()
+
+  const {loading,error,success,submitForm,resetForm}=useFormSubmission()
+  const navigate=useNavigate()
+  const location=useLocation()
 
   // Check if we're coming back from a successful submission
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search)
-    if (urlParams.get('success') === 'contact') {
+  useEffect(()=> {
+    const urlParams=new URLSearchParams(location.search)
+    if (urlParams.get('success')==='contact') {
       // Show success state briefly, then redirect to home
-      setTimeout(() => {
-        navigate('/', { replace: true })
-      }, 3000)
+      setTimeout(()=> {
+        navigate('/',{replace: true})
+      },3000)
     }
-  }, [location, navigate])
+  },[location,navigate])
 
-  const handleSubmit = async (e) => {
+  const handleSubmit=async (e)=> {
     e.preventDefault()
-    
-    console.log('📧 Contact form submitting:', formData)
-    
+    console.log('📧 Contact form submitting:',formData)
+
     // Submit to Supabase and send emails
-    const result = await submitForm(
-      () => submitContactForm(formData),
+    const result=await submitForm(
+      ()=> submitContactForm(formData),
       formData
     )
 
@@ -53,25 +52,24 @@ const ContactForm = () => {
         message: '',
         inquiryType: 'general'
       })
-      
       // Redirect to home with success parameter
-      setTimeout(() => {
-        navigate('/?success=contact', { replace: true })
-      }, 2000)
+      setTimeout(()=> {
+        navigate('/?success=contact',{replace: true})
+      },2000)
     } else {
-      console.error('❌ Contact form submission failed:', result.error)
+      console.error('❌ Contact form submission failed:',result.error)
     }
   }
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+  const handleChange=(e)=> {
+    setFormData({...formData,[e.target.name]: e.target.value})
   }
 
   if (success) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{opacity: 0,scale: 0.9}}
+        animate={{opacity: 1,scale: 1}}
         className="bg-green-50 border border-green-200 rounded-lg p-6 text-center"
       >
         <SafeIcon icon={FiCheck} className="w-12 h-12 text-green-600 mx-auto mb-4" />

@@ -2,8 +2,8 @@ import React from 'react'
 import {Helmet} from 'react-helmet-async'
 import {Link} from 'react-router-dom'
 
-const Education = () => {
-  const courseModules = [
+const Education=()=> {
+  const courseModules=[
     "How government actually makes decisions (not the textbook version)",
     "The real power players and how to reach them",
     "Communication strategies that work with officials",
@@ -12,7 +12,7 @@ const Education = () => {
     "Digital tools for modern advocacy campaigns"
   ]
 
-  const courseIncludes = [
+  const courseIncludes=[
     "6 comprehensive audio modules (3+ hours)",
     "Complete toolkit with templates and worksheets",
     "Power mapping exercises",
@@ -21,7 +21,7 @@ const Education = () => {
     "Digital advocacy templates"
   ]
 
-  const targetAudience = [
+  const targetAudience=[
     "Professionals advocating for business interests",
     "Community leaders driving local change",
     "Non-profit professionals seeking policy change",
@@ -61,9 +61,14 @@ const Education = () => {
               />
             </div>
             <div>
-              <div className="bg-green-600 text-white text-3xl font-bold py-4 px-8 rounded-lg inline-block mb-6">
+              <a
+                href="https://knowyourpowernow.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-600 hover:bg-green-700 text-white text-3xl font-bold py-4 px-8 rounded-lg inline-block mb-6 transition-colors"
+              >
                 $1,497 - Complete Course
-              </div>
+              </a>
               <div className="text-center">
                 <a
                   href="https://knowyourpowernow.com"
@@ -74,7 +79,7 @@ const Education = () => {
                   Get Instant Access
                 </a>
                 <p className="text-gray-600">
-                  Questions? <Link to="/contact" className="text-bronze-600 hover:text-bronze-700 underline">Contact us</Link>
+                  Questions? Email <a href="mailto:support@knowyourpowernow.com" className="text-bronze-600 hover:text-bronze-700 underline">support@knowyourpowernow.com</a>
                 </p>
               </div>
             </div>
@@ -85,7 +90,7 @@ const Education = () => {
         <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
           <h2 className="text-2xl font-bold text-primary-700 mb-6">What You'll Learn</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {courseModules.map((module, index) => (
+            {courseModules.map((module,index)=> (
               <div key={index} className="flex items-start space-x-3">
                 <span className="text-green-500 text-xl">✓</span>
                 <span className="text-gray-700">{module}</span>
@@ -98,7 +103,7 @@ const Education = () => {
         <div className="bg-primary-50 rounded-lg p-8 mb-12">
           <h2 className="text-2xl font-bold text-primary-700 mb-6">Course Includes</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {courseIncludes.map((item, index) => (
+            {courseIncludes.map((item,index)=> (
               <div key={index} className="flex items-start space-x-3">
                 <span className="text-bronze-500 text-xl">✓</span>
                 <span className="text-gray-700">{item}</span>
@@ -111,7 +116,7 @@ const Education = () => {
         <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
           <h2 className="text-2xl font-bold text-primary-700 mb-6">Who This Is For</h2>
           <div className="space-y-4">
-            {targetAudience.map((audience, index) => (
+            {targetAudience.map((audience,index)=> (
               <div key={index} className="flex items-start space-x-3">
                 <span className="text-primary-600 text-xl">🎯</span>
                 <span className="text-gray-700">{audience}</span>
@@ -146,7 +151,7 @@ const Education = () => {
           </div>
           <div className="flex items-center justify-center space-x-2 text-gray-300">
             <span>✉️</span>
-            <span>Questions? <Link to="/contact" className="text-cream-200 hover:text-cream-100 underline">Contact us</Link></span>
+            <span>Questions? Email <a href="mailto:support@knowyourpowernow.com" className="text-cream-200 hover:text-cream-100 underline">support@knowyourpowernow.com</a></span>
           </div>
         </div>
       </div>

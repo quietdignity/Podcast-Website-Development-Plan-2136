@@ -1,7 +1,7 @@
-const nodemailer = require('nodemailer');
+const nodemailer=require('nodemailer');
 
 // Hostinger SMTP configuration - verified settings
-const transporter = nodemailer.createTransporter({
+const transporter=nodemailer.createTransporter({
   host: 'smtp.hostinger.com',
   port: 465,
   secure: true, // true for 465, false for other ports
