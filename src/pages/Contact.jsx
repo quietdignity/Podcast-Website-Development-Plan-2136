@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
@@ -40,26 +40,38 @@ const Contact = () => {
     { type: 'Media Requests', time: 'Same day' }
   ]
 
+  // Load SpeakPipe script for the floating button
+  useEffect(() => {
+    // Add SpeakPipe script for floating button
+    const loadSpeakPipeButton = () => {
+      const script = document.createElement('script')
+      script.type = 'text/javascript'
+      script.async = true
+      script.innerHTML = `
+        (function(d){
+          var app = d.createElement('script'); app.type = 'text/javascript'; app.async = true;
+          app.src = 'https://www.speakpipe.com/loader/olcg9mh0oq0khilucima6zos4b3q0jua.js';
+          var s = d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(app, s);
+        })(document);
+      `
+      document.head.appendChild(script)
+    }
+
+    // Load SpeakPipe after a short delay to ensure page is ready
+    const timer = setTimeout(loadSpeakPipeButton, 1000)
+
+    return () => {
+      clearTimeout(timer)
+      // No need to clean up script as it's added to head
+    }
+  }, [])
+
   return (
     <>
       <Helmet>
         <title>Contact - The Daily Note</title>
         <meta name="description" content="Get in touch with James A. Brown and The Daily Note. Direct email contact and voice messages for feedback on the show." />
         <link rel="canonical" href="https://thedailynote.net/contact" />
-        
-        {/* SpeakPipe Script */}
-        <script type="text/javascript">
-          {`
-            (function(d){
-              var app = d.createElement('script'); 
-              app.type = 'text/javascript'; 
-              app.async = true;
-              app.src = 'https://www.speakpipe.com/loader/olcg9mh0oq0khilucima6zos4b3q0jua.js';
-              var s = d.getElementsByTagName('script')[0]; 
-              s.parentNode.insertBefore(app, s);
-            })(document);
-          `}
-        </script>
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -93,7 +105,7 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Voice Messages Section */}
+          {/* Voice Messages Section with Both Widget and Button */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-center space-x-2 mb-6">
               <SafeIcon icon={FiHeadphones} className="w-6 h-6 text-primary-700" />
@@ -103,13 +115,29 @@ const Contact = () => {
               Have feedback on the show? Leave James a voice message directly! Your thoughts help make The Daily Note better.
             </p>
             
-            {/* SpeakPipe Widget Container */}
-            <div id="speakpipe-widget" className="bg-gray-50 rounded-lg p-4 min-h-[200px] flex items-center justify-center">
-              <div className="text-center text-gray-500">
-                <SafeIcon icon={FiMic} className="w-8 h-8 mx-auto mb-2" />
-                <p>Voice message widget loading...</p>
-                <p className="text-sm">Click to record your message for James</p>
+            {/* SpeakPipe Widget Embedded */}
+            <div className="bg-gray-50 p-4 rounded-lg mb-4">
+              <h3 className="font-semibold text-primary-800 mb-3">Record Voice Message Here:</h3>
+              <div className="speakpipe-iframe-wrapper">
+                <iframe 
+                  src="https://www.speakpipe.com/widget/inline/olcg9mh0oq0khilucima6zos4b3q0jua" 
+                  width="100%" 
+                  height="180" 
+                  frameBorder="0"
+                  title="SpeakPipe Voice Message Widget"
+                ></iframe>
               </div>
+            </div>
+            
+            {/* SpeakPipe Button Instructions */}
+            <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
+              <div className="flex items-center space-x-2 mb-2">
+                <SafeIcon icon={FiMic} className="w-5 h-5 text-primary-600" />
+                <h3 className="font-semibold text-primary-800">Voice Message Button</h3>
+              </div>
+              <p className="text-primary-700 text-sm">
+                You can also use the floating voice message button that appears in the bottom corner of any page!
+              </p>
             </div>
           </div>
 
@@ -204,28 +232,6 @@ const Contact = () => {
                   </svg>
                 </a>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Additional Contact Info */}
-        <div className="mt-12 bg-bronze-50 rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-primary-700 mb-4">Other Ways to Connect</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-            <div>
-              <h3 className="font-semibold text-primary-700 mb-2">📧 Email</h3>
-              <p className="text-gray-600">support@thedailynote.net</p>
-              <p className="text-gray-500">For all inquiries</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-primary-700 mb-2">🎙️ Voice Messages</h3>
-              <p className="text-gray-600">Use the widget above</p>
-              <p className="text-gray-500">Share your thoughts directly</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-primary-700 mb-2">📱 Social Media</h3>
-              <p className="text-gray-600">@dailynoteshow</p>
-              <p className="text-gray-500">Follow for updates</p>
             </div>
           </div>
         </div>
