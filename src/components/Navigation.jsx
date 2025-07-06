@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { useAuth } from '../hooks/useAuth.jsx'
+import { useAdminUser } from '../hooks/useAdminUser.jsx'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiMenu, FiX } = FiIcons
+const { FiMenu, FiX, FiUser, FiLogIn, FiSettings } = FiIcons
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false)
   const location = useLocation()
+  const { user } = useAuth()
+  const { isAdmin } = useAdminUser()
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -27,10 +31,10 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3">
-            <img
-              src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751650292381-blob"
-              alt="The Daily Note Logo"
-              className="h-10 w-auto"
+            <img 
+              src="https://quest-media-storage-bucket.s3.us-east-2.amazonaws.com/1751650292381-blob" 
+              alt="The Daily Note Logo" 
+              className="h-10 w-auto" 
             />
             <div className="text-xl font-bold text-primary-800">
               The Daily Note
@@ -52,6 +56,37 @@ const Navigation = () => {
                 {item.name}
               </Link>
             ))}
+            
+            {/* Auth/Admin Links */}
+            {user ? (
+              <div className="flex items-center space-x-4">
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
+                  >
+                    <SafeIcon icon={FiSettings} className="w-4 h-4" />
+                    <span>Admin</span>
+                  </Link>
+                )}
+                
+                <Link
+                  to="/dashboard"
+                  className="bg-primary-700 hover:bg-primary-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
+                >
+                  <SafeIcon icon={FiUser} className="w-4 h-4" />
+                  <span>Dashboard</span>
+                </Link>
+              </div>
+            ) : (
+              <Link
+                to="/door"
+                className="bg-primary-700 hover:bg-primary-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
+              >
+                <SafeIcon icon={FiLogIn} className="w-4 h-4" />
+                <span>Sign In</span>
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -87,6 +122,37 @@ const Navigation = () => {
                   {item.name}
                 </Link>
               ))}
+              
+              {/* Mobile Auth/Admin Links */}
+              {user ? (
+                <>
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setIsOpen(false)}
+                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-800 hover:bg-cream-100 transition-colors"
+                    >
+                      Admin
+                    </Link>
+                  )}
+                  
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setIsOpen(false)}
+                    className="block px-3 py-2 text-base font-medium text-primary-700 hover:text-primary-800 hover:bg-cream-100 transition-colors"
+                  >
+                    Dashboard
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  to="/door"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-3 py-2 text-base font-medium text-primary-700 hover:text-primary-800 hover:bg-cream-100 transition-colors"
+                >
+                  Sign In
+                </Link>
+              )}
             </div>
           </motion.div>
         )}

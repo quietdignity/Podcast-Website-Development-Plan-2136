@@ -3,31 +3,19 @@ import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import { getBlogPosts } from '../services/blogApi'
-import AutoRSSIndicator from '../components/AutoRSSIndicator'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiCalendar, FiClock, FiArrowRight, FiSearch, FiRefreshCw, FiHeadphones, FiTestTube } = FiIcons
+const { FiCalendar, FiClock, FiArrowRight, FiSearch, FiHeadphones } = FiIcons
 
 const Blog = () => {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [syncing, setSyncing] = useState(false)
-  const [testing, setTesting] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredPosts, setFilteredPosts] = useState([])
 
   useEffect(() => {
     fetchPosts()
-
-    // Listen for auto RSS sync events
-    const handleRSSSync = (event) => {
-      console.log('🔄 Auto RSS sync detected:', event.detail)
-      fetchPosts() // Refresh posts when auto-sync completes
-    }
-
-    window.addEventListener('rssSync', handleRSSSync)
-    return () => window.removeEventListener('rssSync', handleRSSSync)
   }, [])
 
   useEffect(() => {
@@ -42,8 +30,10 @@ const Blog = () => {
     try {
       const result = await getBlogPosts()
       if (result.success) {
-        setPosts(result.data)
-        setFilteredPosts(result.data)
+        // Only show published posts to public
+        const publishedPosts = result.data.filter(post => post.status === 'published')
+        setPosts(publishedPosts)
+        setFilteredPosts(publishedPosts)
       } else {
         console.error('Failed to fetch posts:', result.error)
       }
@@ -51,90 +41,6 @@ const Blog = () => {
       console.error('Error fetching posts:', error)
     } finally {
       setLoading(false)
-    }
-  }
-
-  // Test if Netlify Functions are working at all
-  const testNetlifyFunctions = async () => {
-    setTesting(true)
-    try {
-      console.log('🧪 Testing Netlify Functions...')
-      
-      const response = await fetch('/.netlify/functions/test', {
-        method: 'GET'
-      })
-
-      console.log('📊 Test response status:', response.status)
-      console.log('📊 Test response URL:', response.url)
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-      }
-
-      const result = await response.json()
-      console.log('✅ Netlify Functions test result:', result)
-      
-      alert(`✅ Netlify Functions Working!\n\nStatus: ${response.status}\nMessage: ${result.message}`)
-
-    } catch (error) {
-      console.error('❌ Netlify Functions test error:', error)
-      alert(`❌ Netlify Functions Test Failed!\n\nError: ${error.message}\n\nThis means the functions aren't deployed or accessible.`)
-    } finally {
-      setTesting(false)
-    }
-  }
-
-  const handleManualRSSSync = async () => {
-    setSyncing(true)
-    try {
-      console.log('🔄 Starting manual RSS sync...')
-      
-      const response = await fetch('/.netlify/functions/auto-rss-sync', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-
-      console.log('📊 RSS sync response status:', response.status)
-      console.log('📊 RSS sync response URL:', response.url)
-
-      // Check if response is ok first
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-      }
-
-      // Check content type before parsing as JSON
-      const contentType = response.headers.get('content-type')
-      console.log('📄 Response content type:', contentType)
-
-      let result
-      if (contentType && contentType.includes('application/json')) {
-        result = await response.json()
-      } else {
-        // If not JSON, get as text and try to understand what went wrong
-        const text = await response.text()
-        console.error('❌ Non-JSON response received:', text.substring(0, 200))
-        throw new Error('Server returned non-JSON response. Check function logs.')
-      }
-
-      console.log('📊 Manual sync result:', result)
-
-      if (result.success) {
-        const message = `✅ RSS Sync Complete!\n\nInserted: ${result.data.inserted} new posts\nErrors: ${result.data.errors}\nTotal processed: ${result.data.total}\nNew posts: ${result.data.newPosts}`
-        alert(message)
-        
-        // Refresh the posts
-        await fetchPosts()
-      } else {
-        alert(`❌ RSS Sync Failed: ${result.error}`)
-      }
-
-    } catch (error) {
-      console.error('RSS sync error:', error)
-      alert(`❌ RSS Sync Error: ${error.message}`)
-    } finally {
-      setSyncing(false)
     }
   }
 
@@ -180,9 +86,6 @@ const Blog = () => {
         <link rel="canonical" href="https://thedailynote.net/blog" />
       </Helmet>
 
-      {/* Auto RSS Sync Indicator */}
-      <AutoRSSIndicator />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-primary-700 mb-6">
@@ -192,45 +95,16 @@ const Blog = () => {
             Written reflections on finding the extraordinary in ordinary moments
           </p>
 
-          {/* Admin Controls */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-            {/* Search Bar */}
-            <div className="max-w-md relative">
-              <SafeIcon icon={FiSearch} className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search posts..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              />
-            </div>
-
-            {/* Test Netlify Functions Button */}
-            <button
-              onClick={testNetlifyFunctions}
-              disabled={testing}
-              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2"
-            >
-              <SafeIcon icon={FiTestTube} className={`w-5 h-5 ${testing ? 'animate-spin' : ''}`} />
-              <span>{testing ? 'Testing...' : 'Test Functions'}</span>
-            </button>
-
-            {/* Manual RSS Sync Button */}
-            <button
-              onClick={handleManualRSSSync}
-              disabled={syncing}
-              className="bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2"
-            >
-              <SafeIcon icon={FiRefreshCw} className={`w-5 h-5 ${syncing ? 'animate-spin' : ''}`} />
-              <span>{syncing ? 'Syncing RSS...' : 'Manual Sync'}</span>
-            </button>
-          </div>
-
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
-            <p className="text-sm text-blue-800">
-              🤖 <strong>Auto RSS Sync:</strong> New episodes are automatically imported every 6 hours • {posts.length} posts available • Manual sync available above
-            </p>
+          {/* Search Bar */}
+          <div className="max-w-md mx-auto relative mb-8">
+            <SafeIcon icon={FiSearch} className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search posts..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            />
           </div>
         </div>
 
@@ -240,21 +114,8 @@ const Blog = () => {
               {searchTerm ? 'No posts found matching your search.' : 'No blog posts available yet.'}
             </p>
             {!searchTerm && (
-              <div className="space-y-4">
-                <button
-                  onClick={testNetlifyFunctions}
-                  disabled={testing}
-                  className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors mr-4"
-                >
-                  {testing ? 'Testing Functions...' : 'Test Netlify Functions First'}
-                </button>
-                <button
-                  onClick={handleManualRSSSync}
-                  disabled={syncing}
-                  className="bg-primary-700 hover:bg-primary-800 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                >
-                  {syncing ? 'Syncing...' : 'Import from RSS Feed'}
-                </button>
+              <div className="text-gray-500">
+                <p>Check back soon for new reflections and insights.</p>
               </div>
             )}
           </div>
@@ -272,7 +133,7 @@ const Blog = () => {
                   <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
                     <div className="flex items-center space-x-1">
                       <SafeIcon icon={FiCalendar} className="w-4 h-4" />
-                      <span>{formatDate(post.published_date)}</span>
+                      <span>{formatDate(post.published_date || post.created_at)}</span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <SafeIcon icon={FiClock} className="w-4 h-4" />
