@@ -1,0 +1,50 @@
+name: RSS to Blog Sync
+
+on:
+  # Run every 6 hours
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  
+  # Manual trigger
+  workflow_dispatch:
+    inputs:
+      force_sync:
+        description: 'Force sync even if no new episodes'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  sync-rss:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm install @supabase/supabase-js node-fetch
+      
+      - name: Run RSS Sync
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          RSS_URL: 'https://feeds.captivate.fm/jamesbrowninterviews/'
+          FORCE_SYNC: ${{ github.event.inputs.force_sync || 'false' }}
+        run: node .github/scripts/rss-sync.js
+      
+      - name: Notify on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log('🚨 RSS Sync Failed!');
+            console.log('Check the logs for details.');
+            console.log('Time:', new Date().toISOString());

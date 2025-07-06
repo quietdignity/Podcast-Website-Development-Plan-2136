@@ -3,21 +3,31 @@ import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import { getBlogPosts } from '../services/blogApi'
-import { syncRSSToSupabase } from '../services/rssParser'
+import AutoRSSIndicator from '../components/AutoRSSIndicator'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiCalendar, FiClock, FiArrowRight, FiSearch, FiRefreshCw, FiHeadphones } = FiIcons
+const { FiCalendar, FiClock, FiArrowRight, FiSearch, FiRefreshCw, FiHeadphones, FiTestTube } = FiIcons
 
 const Blog = () => {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [syncing, setSyncing] = useState(false)
+  const [testing, setTesting] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredPosts, setFilteredPosts] = useState([])
 
   useEffect(() => {
     fetchPosts()
+
+    // Listen for auto RSS sync events
+    const handleRSSSync = (event) => {
+      console.log('🔄 Auto RSS sync detected:', event.detail)
+      fetchPosts() // Refresh posts when auto-sync completes
+    }
+
+    window.addEventListener('rssSync', handleRSSSync)
+    return () => window.removeEventListener('rssSync', handleRSSSync)
   }, [])
 
   useEffect(() => {
@@ -29,27 +39,97 @@ const Blog = () => {
   }, [searchTerm, posts])
 
   const fetchPosts = async () => {
-    const result = await getBlogPosts()
-    if (result.success) {
-      setPosts(result.data)
-      setFilteredPosts(result.data)
+    try {
+      const result = await getBlogPosts()
+      if (result.success) {
+        setPosts(result.data)
+        setFilteredPosts(result.data)
+      } else {
+        console.error('Failed to fetch posts:', result.error)
+      }
+    } catch (error) {
+      console.error('Error fetching posts:', error)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
-  const handleRSSSync = async () => {
+  // Test if Netlify Functions are working at all
+  const testNetlifyFunctions = async () => {
+    setTesting(true)
+    try {
+      console.log('🧪 Testing Netlify Functions...')
+      
+      const response = await fetch('/.netlify/functions/test', {
+        method: 'GET'
+      })
+
+      console.log('📊 Test response status:', response.status)
+      console.log('📊 Test response URL:', response.url)
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      const result = await response.json()
+      console.log('✅ Netlify Functions test result:', result)
+      
+      alert(`✅ Netlify Functions Working!\n\nStatus: ${response.status}\nMessage: ${result.message}`)
+
+    } catch (error) {
+      console.error('❌ Netlify Functions test error:', error)
+      alert(`❌ Netlify Functions Test Failed!\n\nError: ${error.message}\n\nThis means the functions aren't deployed or accessible.`)
+    } finally {
+      setTesting(false)
+    }
+  }
+
+  const handleManualRSSSync = async () => {
     setSyncing(true)
     try {
-      console.log('🔄 Starting RSS sync...')
-      const result = await syncRSSToSupabase()
+      console.log('🔄 Starting manual RSS sync...')
       
+      const response = await fetch('/.netlify/functions/auto-rss-sync', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      console.log('📊 RSS sync response status:', response.status)
+      console.log('📊 RSS sync response URL:', response.url)
+
+      // Check if response is ok first
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      // Check content type before parsing as JSON
+      const contentType = response.headers.get('content-type')
+      console.log('📄 Response content type:', contentType)
+
+      let result
+      if (contentType && contentType.includes('application/json')) {
+        result = await response.json()
+      } else {
+        // If not JSON, get as text and try to understand what went wrong
+        const text = await response.text()
+        console.error('❌ Non-JSON response received:', text.substring(0, 200))
+        throw new Error('Server returned non-JSON response. Check function logs.')
+      }
+
+      console.log('📊 Manual sync result:', result)
+
       if (result.success) {
-        alert(`✅ RSS Sync Complete!\n\nInserted: ${result.inserted} new posts\nErrors: ${result.errors}\nTotal processed: ${result.total}`)
+        const message = `✅ RSS Sync Complete!\n\nInserted: ${result.data.inserted} new posts\nErrors: ${result.data.errors}\nTotal processed: ${result.data.total}\nNew posts: ${result.data.newPosts}`
+        alert(message)
+        
         // Refresh the posts
         await fetchPosts()
       } else {
         alert(`❌ RSS Sync Failed: ${result.error}`)
       }
+
     } catch (error) {
       console.error('RSS sync error:', error)
       alert(`❌ RSS Sync Error: ${error.message}`)
@@ -100,6 +180,9 @@ const Blog = () => {
         <link rel="canonical" href="https://thedailynote.net/blog" />
       </Helmet>
 
+      {/* Auto RSS Sync Indicator */}
+      <AutoRSSIndicator />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-primary-700 mb-6">
@@ -123,20 +206,32 @@ const Blog = () => {
               />
             </div>
 
-            {/* RSS Sync Button */}
+            {/* Test Netlify Functions Button */}
             <button
-              onClick={handleRSSSync}
+              onClick={testNetlifyFunctions}
+              disabled={testing}
+              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2"
+            >
+              <SafeIcon icon={FiTestTube} className={`w-5 h-5 ${testing ? 'animate-spin' : ''}`} />
+              <span>{testing ? 'Testing...' : 'Test Functions'}</span>
+            </button>
+
+            {/* Manual RSS Sync Button */}
+            <button
+              onClick={handleManualRSSSync}
               disabled={syncing}
               className="bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2"
             >
               <SafeIcon icon={FiRefreshCw} className={`w-5 h-5 ${syncing ? 'animate-spin' : ''}`} />
-              <span>{syncing ? 'Syncing RSS...' : 'Sync from RSS'}</span>
+              <span>{syncing ? 'Syncing RSS...' : 'Manual Sync'}</span>
             </button>
           </div>
 
-          <p className="text-sm text-gray-500">
-            {posts.length} posts • Click "Sync from RSS" to import latest episodes
-          </p>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+            <p className="text-sm text-blue-800">
+              🤖 <strong>Auto RSS Sync:</strong> New episodes are automatically imported every 6 hours • {posts.length} posts available • Manual sync available above
+            </p>
+          </div>
         </div>
 
         {filteredPosts.length === 0 ? (
@@ -145,13 +240,22 @@ const Blog = () => {
               {searchTerm ? 'No posts found matching your search.' : 'No blog posts available yet.'}
             </p>
             {!searchTerm && (
-              <button
-                onClick={handleRSSSync}
-                disabled={syncing}
-                className="bg-primary-700 hover:bg-primary-800 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-              >
-                {syncing ? 'Syncing...' : 'Import from RSS Feed'}
-              </button>
+              <div className="space-y-4">
+                <button
+                  onClick={testNetlifyFunctions}
+                  disabled={testing}
+                  className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors mr-4"
+                >
+                  {testing ? 'Testing Functions...' : 'Test Netlify Functions First'}
+                </button>
+                <button
+                  onClick={handleManualRSSSync}
+                  disabled={syncing}
+                  className="bg-primary-700 hover:bg-primary-800 disabled:opacity-50 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                >
+                  {syncing ? 'Syncing...' : 'Import from RSS Feed'}
+                </button>
+              </div>
             )}
           </div>
         ) : (

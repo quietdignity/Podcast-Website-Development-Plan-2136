@@ -1,0 +1,52 @@
+name: Manual RSS Sync
+
+on:
+  workflow_dispatch:
+    inputs:
+      sync_message:
+        description: 'Why are you running this sync?'
+        required: false
+        default: 'Manual sync requested'
+        type: string
+
+jobs:
+  manual-sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm install @supabase/supabase-js node-fetch
+      
+      - name: Run Manual RSS Sync
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          RSS_URL: 'https://feeds.captivate.fm/jamesbrowninterviews/'
+          SYNC_MESSAGE: ${{ github.event.inputs.sync_message }}
+        run: |
+          echo "🔄 Manual sync requested: $SYNC_MESSAGE"
+          node .github/scripts/rss-sync.js
+      
+      - name: Success notification
+        if: success()
+        run: |
+          echo "🎉 Manual RSS sync completed successfully!"
+          echo "📊 Check the logs above for details"
+          echo "🌐 Visit https://thedailynote.net/blog to see new posts"
+      
+      - name: Failure notification
+        if: failure()
+        run: |
+          echo "🚨 Manual RSS sync failed!"
+          echo "📊 Check the logs above for error details"
+          echo "💡 Try running again or check the RSS feed"
