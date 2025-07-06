@@ -1,6 +1,9 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
-import SpeakingForm from '../components/SpeakingForm'
+import SafeIcon from '../common/SafeIcon'
+import * as FiIcons from 'react-icons/fi'
+
+const { FiMail, FiMic, FiClock, FiCheckCircle } = FiIcons
 
 const Speaking = () => {
   const speakingTopics = [
@@ -14,7 +17,7 @@ const Speaking = () => {
       ]
     },
     {
-      title: "Finding Meaning in Modern Work",
+      title: "Finding Meaning in Modern Work", 
       description: "Helping teams discover purpose beyond productivity",
       details: [
         "The extraordinary in ordinary work moments",
@@ -24,7 +27,7 @@ const Speaking = () => {
     },
     {
       title: "Leadership in an Outsourced World",
-      description: "Developing self-reliance and authentic leadership",
+      description: "Developing self-reliance and authentic leadership", 
       details: [
         "Handling challenges without defaulting to outsourcing",
         "Building resilience in complex systems",
@@ -35,18 +38,10 @@ const Speaking = () => {
 
   const trainingFormats = [
     "Keynote presentations",
-    "Half-day workshops",
+    "Half-day workshops", 
     "Executive coaching sessions",
     "Team communication training"
   ]
-
-  const handleAnchorClick = (e, targetId) => {
-    e.preventDefault()
-    const element = document.getElementById(targetId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
 
   return (
     <>
@@ -72,13 +67,13 @@ const Speaking = () => {
           <p className="text-lg mb-6 text-primary-100">
             Get availability and pricing for your next event
           </p>
-          <button
-            onClick={(e) => handleAnchorClick(e, 'speaking-form')}
+          <a
+            href="mailto:support@thedailynote.net?subject=Speaking Inquiry"
             className="bg-white text-primary-700 hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg transition-colors inline-flex items-center space-x-2"
           >
-            <span>📧</span>
-            <span>Submit Speaking Inquiry</span>
-          </button>
+            <SafeIcon icon={FiMail} className="w-5 h-5" />
+            <span>Email Speaking Inquiry</span>
+          </a>
           <p className="text-primary-200 text-sm mt-4">
             Response within 24 hours • Include event date for priority response
           </p>
@@ -149,7 +144,7 @@ const Speaking = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {trainingFormats.map((format, index) => (
               <div key={index} className="flex items-center space-x-3">
-                <span className="text-bronze-500 text-xl">👥</span>
+                <SafeIcon icon={FiCheckCircle} className="w-5 h-5 text-bronze-500" />
                 <span className="text-gray-700">{format}</span>
               </div>
             ))}
@@ -166,16 +161,25 @@ const Speaking = () => {
           <p className="text-gray-600 text-sm mt-4">James A. Brown (center right) speaking on panel</p>
         </div>
 
-        {/* Speaking Form */}
-        <div id="speaking-form" className="mb-12 scroll-mt-20">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-primary-700 mb-4">Submit Speaking Inquiry</h2>
-            <p className="text-gray-600">
-              Tell us about your event and we'll get back to you within 24 hours with availability and pricing.
+        {/* Contact Information */}
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-12 text-center">
+          <h2 className="text-2xl font-bold text-primary-700 mb-6">Book James for Your Event</h2>
+          <p className="text-gray-600 mb-6">
+            Ready to bring James's insights to your organization? Get in touch to discuss availability and pricing.
+          </p>
+          
+          <div className="space-y-4">
+            <a
+              href="mailto:support@thedailynote.net?subject=Speaking Inquiry - [Your Event Name]"
+              className="bg-primary-700 hover:bg-primary-800 text-white px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center space-x-2"
+            >
+              <SafeIcon icon={FiMail} className="w-5 h-5" />
+              <span>Email Speaking Inquiry</span>
+            </a>
+            
+            <p className="text-gray-600 text-sm">
+              Please include: Event date, location, audience size, and topic preferences
             </p>
-          </div>
-          <div className="max-w-3xl mx-auto">
-            <SpeakingForm />
           </div>
         </div>
 
