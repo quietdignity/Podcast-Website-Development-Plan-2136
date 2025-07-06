@@ -48,11 +48,7 @@ const Contact = () => {
       script.type = 'text/javascript'
       script.async = true
       script.innerHTML = `
-        (function(d){
-          var app = d.createElement('script'); app.type = 'text/javascript'; app.async = true;
-          app.src = 'https://www.speakpipe.com/loader/olcg9mh0oq0khilucima6zos4b3q0jua.js';
-          var s = d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(app, s);
-        })(document);
+        (function(d){var app=d.createElement('script');app.type='text/javascript';app.async=true;app.src='https://www.speakpipe.com/loader/olcg9mh0oq0khilucima6zos4b3q0jua.js';var s=d.getElementsByTagName('script')[0];s.parentNode.insertBefore(app,s);})(document);
       `
       document.head.appendChild(script)
     }
@@ -70,7 +66,10 @@ const Contact = () => {
     <>
       <Helmet>
         <title>Contact - The Daily Note</title>
-        <meta name="description" content="Get in touch with James A. Brown and The Daily Note. Direct email contact and voice messages for feedback on the show." />
+        <meta
+          name="description"
+          content="Get in touch with James A. Brown and The Daily Note. Direct email contact and voice messages for feedback on the show."
+        />
         <link rel="canonical" href="https://thedailynote.net/contact" />
       </Helmet>
 
@@ -91,13 +90,13 @@ const Contact = () => {
               key={method.title}
               className="bg-white rounded-lg shadow-lg p-6 text-center hover:shadow-xl transition-shadow"
             >
-              <SafeIcon icon={method.icon} className="w-12 h-12 mx-auto mb-4 text-primary-600" />
+              <SafeIcon
+                icon={method.icon}
+                className="w-12 h-12 mx-auto mb-4 text-primary-600"
+              />
               <h3 className="text-xl font-bold text-gray-900 mb-2">{method.title}</h3>
               <p className="text-gray-600 mb-4 text-sm">{method.description}</p>
-              <a
-                href={method.href}
-                className={`${method.color} hover:underline font-medium`}
-              >
+              <a href={method.href} className={`${method.color} hover:underline font-medium`}>
                 {method.action}
               </a>
             </div>
@@ -105,7 +104,7 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Voice Messages Section with Both Widget and Button */}
+          {/* Voice Messages Section with Widget */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-center space-x-2 mb-6">
               <SafeIcon icon={FiHeadphones} className="w-6 h-6 text-primary-700" />
@@ -114,30 +113,18 @@ const Contact = () => {
             <p className="text-gray-600 mb-6">
               Have feedback on the show? Leave James a voice message directly! Your thoughts help make The Daily Note better.
             </p>
-            
             {/* SpeakPipe Widget Embedded */}
             <div className="bg-gray-50 p-4 rounded-lg mb-4">
               <h3 className="font-semibold text-primary-800 mb-3">Record Voice Message Here:</h3>
               <div className="speakpipe-iframe-wrapper">
-                <iframe 
-                  src="https://www.speakpipe.com/widget/inline/olcg9mh0oq0khilucima6zos4b3q0jua" 
-                  width="100%" 
-                  height="180" 
+                <iframe
+                  src="https://www.speakpipe.com/widget/inline/olcg9mh0oq0khilucima6zos4b3q0jua"
+                  width="100%"
+                  height="180"
                   frameBorder="0"
                   title="SpeakPipe Voice Message Widget"
                 ></iframe>
               </div>
-            </div>
-            
-            {/* SpeakPipe Button Instructions */}
-            <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
-              <div className="flex items-center space-x-2 mb-2">
-                <SafeIcon icon={FiMic} className="w-5 h-5 text-primary-600" />
-                <h3 className="font-semibold text-primary-800">Voice Message Button</h3>
-              </div>
-              <p className="text-primary-700 text-sm">
-                You can also use the floating voice message button that appears in the bottom corner of any page!
-              </p>
             </div>
           </div>
 
@@ -206,7 +193,7 @@ const Contact = () => {
                   aria-label="Follow on X (Twitter)"
                 >
                   <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
                 </a>
                 <a
@@ -217,7 +204,7 @@ const Contact = () => {
                   aria-label="Follow on LinkedIn"
                 >
                   <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                   </svg>
                 </a>
                 <a
@@ -228,7 +215,7 @@ const Contact = () => {
                   aria-label="Follow on Instagram"
                 >
                   <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.004 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.33-1.297L3.182 14.754c-.49-.49-.49-1.297 0-1.787s1.297-.49 1.787 0l1.937 1.937c.49.49 1.297.49 1.787 0l7.744-7.744c.49-.49 1.297-.49 1.787 0s.49 1.297 0 1.787L9.48 16.691c-.49.49-1.297.49-1.787 0-.245-.245-.367-.613-.245-.98z"/>
+                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.004 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.33-1.297L3.182 14.754c-.49-.49-.49-1.297 0-1.787s1.297-.49 1.787 0l1.937 1.937c.49.49 1.297.49 1.787 0l7.744-7.744c.49-.49 1.297-.49 1.787 0s.49 1.297 0 1.787L9.48 16.691c-.49.49-1.297.49-1.787 0-.245-.245-.367-.613-.245-.98z" />
                   </svg>
                 </a>
               </div>

@@ -17,13 +17,6 @@
   to = "/index.html"
   status = 200
 
-# Remove old hash-based redirects if any
-[[redirects]]
-  from = "/#/*"
-  to = "/:splat"
-  status = 301
-  force = true
-
 # Form success redirects
 [[redirects]]
   from = "/contact-success"

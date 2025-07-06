@@ -1,87 +1,66 @@
-# The Daily Note - Professional Blog Management System
+# The Daily Note Website
 
-A complete WordPress-style blog management system for The Daily Note podcast with James Brown.
+A clean, professional website for The Daily Note podcast with James A. Brown.
 
-## 🚀 **NEW: Professional Blog Management**
+## Features
 
-We've completely rebuilt this as a proper blog management system with:
+- **📻 Podcast Player**: Embedded Captivate.fm player for all episodes
+- **📧 Newsletter Integration**: Substack newsletter signup
+- **🎤 Speaking Inquiries**: Professional contact forms
+- **📚 Course Promotion**: Know Your Power course integration
+- **📱 Responsive Design**: Works perfectly on all devices
+- **⚡ Fast Performance**: Optimized for speed and SEO
 
-### ✅ **WordPress-Style Admin Interface**
-- **Admin Dashboard** - Overview of all posts and stats
-- **Rich Text Editor** - Write posts with formatting tools
-- **Draft/Published System** - Save drafts and publish when ready
-- **Categories & Tags** - Organize your content
-- **SEO Management** - Meta descriptions and featured images
+## Pages
 
-### 🔐 **Secure Authentication**
-- **Admin-Only Access** - Only authorized users can create/edit posts
-- **Role-Based Permissions** - Control who can do what
-- **Protected Routes** - Admin areas require authentication
+- **Home** (`/`): Welcome page with latest episode and key information
+- **Listen** (`/listen`): Full podcast player and episode archive
+- **About** (`/about`): James's background and show information
+- **Education** (`/education`): Know Your Power course details
+- **Speaking** (`/speaking`): Speaking engagements and corporate training
+- **Contact** (`/contact`): Multiple ways to get in touch
 
-### 📝 **Content Management Features**
-- **Rich Text Editor** with formatting tools (bold, italic, lists, links)
-- **Live Preview** - See how your post will look
-- **Auto-Save Drafts** - Your work is always saved
-- **SEO Optimization** - Meta descriptions, featured images
-- **Categories & Tags** - Organize your content properly
-- **Slug Management** - SEO-friendly URLs
+## Technology Stack
 
-## 🎯 **How to Use (James)**
+- **React 18** with Vite for fast development
+- **Tailwind CSS** for styling
+- **Framer Motion** for animations
+- **React Router** for navigation (clean URLs, no hashes)
+- **React Helmet Async** for SEO
+- **Netlify** for hosting and forms
 
-### **First Time Setup:**
-1. **Go to**: `/door` and create your account
-2. **Contact me** to make your account an admin
-3. **Go to**: `/admin` to access your dashboard
+## Key Integrations
 
-### **Writing Posts:**
-1. **Go to**: `/admin/blog/new`
-2. **Write your post** using the rich text editor
-3. **Add category, tags, and SEO info**
-4. **Save as draft** or **publish immediately**
-5. **Edit anytime** from `/admin/blog`
+- **Captivate.fm**: Podcast hosting and player
+- **Substack**: Newsletter management
+- **SpeakPipe**: Voice message widget
+- **Social Media**: Links to Instagram, X/Twitter, LinkedIn
 
-### **Managing Content:**
-- **Dashboard**: `/admin` - Overview and quick actions
-- **All Posts**: `/admin/blog` - View, edit, delete posts
-- **New Post**: `/admin/blog/new` - Create new content
-- **Edit Post**: Click edit button on any post
+## Contact Features
 
-## 📊 **Features for Visitors**
+- **Direct Email**: support@thedailynote.net
+- **Voice Messages**: SpeakPipe widget for audio feedback
+- **Contact Forms**: Professional inquiry handling
+- **Speaking Requests**: Priority handling for events
 
-### **Clean Public Blog** (`/blog`)
-- Only published posts are visible
-- Search functionality
-- Clean, professional design
-- No admin clutter visible to public
+## Development
 
-### **Individual Post Pages** (`/blog/post-slug`)
-- Beautiful post layout
-- SEO optimized
-- Social sharing ready
-- Professional typography
+```bash
+npm install
+npm run dev
+```
 
-## 🔧 **Technical Benefits**
+## Deployment
 
-### **vs. RSS Import Issues:**
-- ✅ **Direct control** - Write exactly what you want
-- ✅ **No sync failures** - No external dependencies
-- ✅ **Professional quality** - Proper formatting and layout
-- ✅ **SEO optimized** - Better search engine visibility
-- ✅ **Instant publishing** - No waiting for sync
+Automatically deploys to Netlify when pushed to main branch.
 
-### **WordPress-Level Features:**
-- ✅ **Rich text editing** with formatting
-- ✅ **Draft/publish workflow** 
-- ✅ **Categories and tags**
-- ✅ **SEO management**
-- ✅ **Media management**
-- ✅ **User roles and permissions**
+## Clean & Simple
 
-## 🚀 **Next Steps**
+This website focuses on what matters:
+- Easy access to episodes
+- Clear contact methods
+- Professional presentation
+- Fast loading times
+- Mobile-friendly design
 
-1. **Deploy this updated system**
-2. **James creates account at `/door`**
-3. **I'll make James's account an admin**
-4. **James can start writing posts at `/admin`**
-
-This gives you complete control over your content while maintaining a professional, clean public-facing blog!
+No unnecessary complexity, just a great experience for listeners and potential clients.

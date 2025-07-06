@@ -1,27 +1,22 @@
-import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { useAuth } from '../hooks/useAuth.jsx'
-import { useAdminUser } from '../hooks/useAdminUser.jsx'
+import React, {useState} from 'react'
+import {Link, useLocation} from 'react-router-dom'
+import {motion} from 'framer-motion'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiMenu, FiX, FiUser, FiSettings } = FiIcons
+const {FiMenu, FiX} = FiIcons
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false)
   const location = useLocation()
-  const { user } = useAuth()
-  const { isAdmin } = useAdminUser()
 
   const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'Listen', path: '/listen' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'About', path: '/about' },
-    { name: 'Education', path: '/education' },
-    { name: 'Speaking & Training', path: '/speaking' },
-    { name: 'Contact', path: '/contact' }
+    {name: 'Home', path: '/'},
+    {name: 'Listen', path: '/listen'},
+    {name: 'About', path: '/about'},
+    {name: 'Education', path: '/education'},
+    {name: 'Speaking & Training', path: '/speaking'},
+    {name: 'Contact', path: '/contact'}
   ]
 
   const isActive = (path) => location.pathname === path
@@ -56,27 +51,6 @@ const Navigation = () => {
                 {item.name}
               </Link>
             ))}
-            
-            {/* Only show admin links if user is logged in AND is admin */}
-            {user && isAdmin && (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/admin"
-                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
-                >
-                  <SafeIcon icon={FiSettings} className="w-4 h-4" />
-                  <span>Admin</span>
-                </Link>
-                
-                <Link
-                  to="/dashboard"
-                  className="bg-primary-700 hover:bg-primary-800 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
-                >
-                  <SafeIcon icon={FiUser} className="w-4 h-4" />
-                  <span>Dashboard</span>
-                </Link>
-              </div>
-            )}
           </div>
 
           {/* Mobile menu button */}
@@ -93,8 +67,8 @@ const Navigation = () => {
         {/* Mobile Navigation */}
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{opacity: 0, y: -20}}
+            animate={{opacity: 1, y: 0}}
             className="md:hidden bg-white border-t border-gray-200"
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
@@ -112,27 +86,6 @@ const Navigation = () => {
                   {item.name}
                 </Link>
               ))}
-              
-              {/* Mobile Admin Links - Only if logged in AND admin */}
-              {user && isAdmin && (
-                <>
-                  <Link
-                    to="/admin"
-                    onClick={() => setIsOpen(false)}
-                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-800 hover:bg-cream-100 transition-colors"
-                  >
-                    Admin
-                  </Link>
-                  
-                  <Link
-                    to="/dashboard"
-                    onClick={() => setIsOpen(false)}
-                    className="block px-3 py-2 text-base font-medium text-primary-700 hover:text-primary-800 hover:bg-cream-100 transition-colors"
-                  >
-                    Dashboard
-                  </Link>
-                </>
-              )}
             </div>
           </motion.div>
         )}
