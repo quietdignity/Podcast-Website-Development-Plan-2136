@@ -32,7 +32,9 @@ const Door = () => {
   }, [location])
 
   const handleToggleMode = () => setMode(mode === 'login' ? 'signup' : 'login')
+
   const handleForgotPassword = () => setShowForgotPassword(true)
+
   const handleBackToLogin = () => {
     setShowForgotPassword(false)
     setMode('login')

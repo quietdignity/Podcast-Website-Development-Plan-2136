@@ -21,11 +21,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const getSession = async () => {
       try {
+        console.log('🔄 Getting session...')
         const { data: { session }, error } = await supabase.auth.getSession()
         if (error) throw error
         setUser(session?.user ?? null)
+        console.log('✅ Session loaded:', session?.user?.email || 'No user')
       } catch (error) {
-        console.error('Error getting session:', error)
+        console.error('❌ Error getting session:', error)
         setError(error.message)
       } finally {
         setLoading(false)
@@ -36,12 +38,15 @@ export const AuthProvider = ({ children }) => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('🔄 Auth state changed:', event, session?.user?.email || 'No user')
         setUser(session?.user ?? null)
         setLoading(false)
         
         if (event === 'SIGNED_IN') {
-          navigate('/dashboard')
+          console.log('✅ User signed in, navigating to /admin')
+          navigate('/admin')
         } else if (event === 'SIGNED_OUT') {
+          console.log('👋 User signed out, navigating to /door')
           navigate('/door')
         }
       }
@@ -54,10 +59,19 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true)
       setError(null)
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+      console.log('🔄 Attempting sign in for:', email)
+      
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      })
+      
       if (error) throw error
+      
+      console.log('✅ Sign in successful:', data.user?.email)
       return { success: true, data }
     } catch (error) {
+      console.error('❌ Sign in error:', error)
       setError(error.message)
       return { success: false, error: error.message }
     } finally {
@@ -69,14 +83,28 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true)
       setError(null)
+      console.log('🔄 Attempting sign up for:', email)
+      
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: metadata }
+        options: {
+          data: metadata
+        }
       })
+      
       if (error) throw error
+      
+      console.log('✅ Sign up successful:', data.user?.email)
+      
+      // If email confirmation is disabled, the user will be signed in immediately
+      if (data.user && !data.user.email_confirmed_at) {
+        console.log('ℹ️ Account created but email not confirmed')
+      }
+      
       return { success: true, data }
     } catch (error) {
+      console.error('❌ Sign up error:', error)
       setError(error.message)
       return { success: false, error: error.message }
     } finally {
@@ -88,10 +116,15 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true)
       setError(null)
+      console.log('🔄 Signing out...')
+      
       const { error } = await supabase.auth.signOut()
       if (error) throw error
+      
+      console.log('✅ Sign out successful')
       return { success: true }
     } catch (error) {
+      console.error('❌ Sign out error:', error)
       setError(error.message)
       return { success: false, error: error.message }
     } finally {
@@ -103,10 +136,13 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true)
       setError(null)
+      
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/#/reset-password`
       })
+      
       if (error) throw error
+      
       return { success: true }
     } catch (error) {
       setError(error.message)
@@ -128,9 +164,13 @@ export const AuthProvider = ({ children }) => {
         })
         if (sessionError) throw sessionError
       }
-
-      const { error } = await supabase.auth.updateUser({ password: newPassword })
+      
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      })
+      
       if (error) throw error
+      
       return { success: true }
     } catch (error) {
       setError(error.message)
@@ -144,8 +184,13 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true)
       setError(null)
-      const { error } = await supabase.auth.updateUser({ data: profileData })
+      
+      const { error } = await supabase.auth.updateUser({
+        data: profileData
+      })
+      
       if (error) throw error
+      
       return { success: true }
     } catch (error) {
       setError(error.message)

@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth.jsx'
 import SafeIcon from '../../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiMail, FiLock, FiUser, FiEye, FiEyeOff, FiLoader } = FiIcons
+const { FiMail, FiLock, FiUser, FiEye, FiEyeOff, FiLoader, FiCheck } = FiIcons
 
 const SignUpForm = ({ onToggleMode }) => {
   const [formData, setFormData] = useState({
@@ -16,6 +16,7 @@ const SignUpForm = ({ onToggleMode }) => {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const { signUp, loading, error } = useAuth()
 
   const handleSubmit = async (e) => {
@@ -25,20 +26,59 @@ const SignUpForm = ({ onToggleMode }) => {
       return
     }
 
-    await signUp(formData.email, formData.password, {
+    console.log('Submitting signup form:', formData.email)
+    
+    const result = await signUp(formData.email, formData.password, {
       firstName: formData.firstName,
       lastName: formData.lastName
     })
+
+    if (result.success) {
+      console.log('Signup successful, showing success message')
+      setIsSuccess(true)
+      
+      // Clear form
+      setFormData({
+        email: '',
+        password: '',
+        confirmPassword: '',
+        firstName: '',
+        lastName: ''
+      })
+    }
   }
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const passwordsMatch = formData.password === formData.confirmPassword
+
+  if (isSuccess) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full max-w-md mx-auto"
+      >
+        <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+          <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <SafeIcon icon={FiCheck} className="w-8 h-8 text-green-600" />
+          </div>
+          <h2 className="text-2xl font-bold text-primary-800 mb-4">Account Created!</h2>
+          <p className="text-gray-600 mb-6">
+            Your account has been created successfully. You can now sign in.
+          </p>
+          <button
+            onClick={onToggleMode}
+            className="bg-primary-700 hover:bg-primary-800 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+          >
+            Sign In Now
+          </button>
+        </div>
+      </motion.div>
+    )
+  }
 
   return (
     <motion.div
@@ -48,8 +88,8 @@ const SignUpForm = ({ onToggleMode }) => {
     >
       <div className="bg-white rounded-lg shadow-lg p-8">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-primary-800 mb-2">Create Account</h2>
-          <p className="text-gray-600">Join The Daily Note community</p>
+          <h2 className="text-3xl font-bold text-primary-800 mb-2">Create Admin Account</h2>
+          <p className="text-gray-600">Join The Daily Note admin team</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -155,8 +195,8 @@ const SignUpForm = ({ onToggleMode }) => {
                 required
                 disabled={loading}
                 className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 disabled:opacity-50 ${
-                  formData.confirmPassword && !passwordsMatch 
-                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
+                  formData.confirmPassword && !passwordsMatch
+                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
                     : 'border-gray-300'
                 }`}
                 placeholder="Confirm your password"
@@ -182,7 +222,7 @@ const SignUpForm = ({ onToggleMode }) => {
 
           <button
             type="submit"
-            disabled={loading || !passwordsMatch}
+            disabled={loading || !passwordsMatch || !formData.password}
             className="w-full bg-primary-700 hover:bg-primary-800 disabled:opacity-50 text-white py-3 px-4 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
           >
             {loading ? (
@@ -191,7 +231,7 @@ const SignUpForm = ({ onToggleMode }) => {
                 <span>Creating account...</span>
               </>
             ) : (
-              <span>Create Account</span>
+              <span>Create Admin Account</span>
             )}
           </button>
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { AuthProvider } from './hooks/useAuth.jsx'
 import ProtectedAdminRoute from './components/Auth/ProtectedAdminRoute'
@@ -42,33 +42,45 @@ function App() {
               <Route path="/education" element={<Education />} />
               <Route path="/speaking" element={<Speaking />} />
               <Route path="/contact" element={<Contact />} />
-              
+
               {/* Auth Routes */}
               <Route path="/door" element={<DoorPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              
+
               {/* Admin Routes */}
-              <Route path="/admin" element={
-                <ProtectedAdminRoute>
-                  <AdminDashboard />
-                </ProtectedAdminRoute>
-              } />
-              <Route path="/admin/blog" element={
-                <ProtectedAdminRoute>
-                  <AdminBlog />
-                </ProtectedAdminRoute>
-              } />
-              <Route path="/admin/blog/new" element={
-                <ProtectedAdminRoute>
-                  <AdminBlogNew />
-                </ProtectedAdminRoute>
-              } />
-              <Route path="/admin/blog/edit/:id" element={
-                <ProtectedAdminRoute>
-                  <AdminBlogEdit />
-                </ProtectedAdminRoute>
-              } />
-              
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedAdminRoute>
+                    <AdminDashboard />
+                  </ProtectedAdminRoute>
+                }
+              />
+              <Route
+                path="/admin/blog"
+                element={
+                  <ProtectedAdminRoute>
+                    <AdminBlog />
+                  </ProtectedAdminRoute>
+                }
+              />
+              <Route
+                path="/admin/blog/new"
+                element={
+                  <ProtectedAdminRoute>
+                    <AdminBlogNew />
+                  </ProtectedAdminRoute>
+                }
+              />
+              <Route
+                path="/admin/blog/edit/:id"
+                element={
+                  <ProtectedAdminRoute>
+                    <AdminBlogEdit />
+                  </ProtectedAdminRoute>
+                }
+              />
+
               {/* Catch all route */}
               <Route path="*" element={<Home />} />
             </Routes>

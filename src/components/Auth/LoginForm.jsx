@@ -8,22 +8,20 @@ const { FiMail, FiLock, FiEye, FiEyeOff, FiLoader } = FiIcons
 
 const LoginForm = ({ onToggleMode, onForgotPassword }) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: 'support@thedailynote.net',
+    password: 'GhostTown17'
   })
   const [showPassword, setShowPassword] = useState(false)
   const { signIn, loading, error } = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log('Attempting login for:', formData.email)
     await signIn(formData.email, formData.password)
   }
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   return (
@@ -35,7 +33,7 @@ const LoginForm = ({ onToggleMode, onForgotPassword }) => {
       <div className="bg-white rounded-lg shadow-lg p-8">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-primary-800 mb-2">Welcome Back</h2>
-          <p className="text-gray-600">Sign in to your account</p>
+          <p className="text-gray-600">Sign in to your admin account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -127,6 +125,14 @@ const LoginForm = ({ onToggleMode, onForgotPassword }) => {
             </p>
           </div>
         </form>
+
+        {/* Debug Info */}
+        <div className="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-800">
+          <p><strong>Pre-filled Test Account:</strong></p>
+          <p>Email: support@thedailynote.net</p>
+          <p>Password: GhostTown17</p>
+          <p className="mt-2">✅ Form is pre-filled for easy testing</p>
+        </div>
       </div>
     </motion.div>
   )
