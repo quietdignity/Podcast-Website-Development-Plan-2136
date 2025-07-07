@@ -1,15 +1,15 @@
-import React,{useState,useEffect} from 'react'
-import {motion} from 'framer-motion'
-import {useNavigate,useLocation} from 'react-router-dom'
-import {submitSpeakingInquiry} from '../services/api'
-import {useFormSubmission} from '../hooks/useSupabase'
+import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { submitSpeakingInquiry } from '../services/api'
+import { useFormSubmission } from '../hooks/useFormSubmission'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const {FiMic,FiUser,FiMail,FiPhone,FiBuilding,FiMessageSquare,FiSend,FiCheck}=FiIcons
+const { FiMic, FiUser, FiMail, FiPhone, FiBuilding, FiMessageSquare, FiSend, FiCheck } = FiIcons
 
-const SpeakingForm=()=> {
-  const [formData,setFormData]=useState({
+const SpeakingForm = () => {
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
@@ -18,26 +18,26 @@ const SpeakingForm=()=> {
     eventDetails: ''
   })
 
-  const {loading,error,success,submitForm,resetForm}=useFormSubmission()
-  const navigate=useNavigate()
-  const location=useLocation()
+  const { loading, error, success, submitForm, resetForm } = useFormSubmission()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   // Check if we're coming back from a successful submission
-  useEffect(()=> {
-    const urlParams=new URLSearchParams(location.search)
-    if (urlParams.get('success')==='speaking') {
-      setTimeout(()=> {
-        navigate('/',{replace: true})
-      },3000)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search)
+    if (urlParams.get('success') === 'speaking') {
+      setTimeout(() => {
+        navigate('/', { replace: true })
+      }, 3000)
     }
-  },[location,navigate])
+  }, [location, navigate])
 
-  const handleSubmit=async (e)=> {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('🎤 Speaking form submitting:',formData)
+    console.log('🎤 Speaking form submitting:', formData)
 
-    const result=await submitForm(
-      ()=> submitSpeakingInquiry(formData),
+    const result = await submitForm(
+      () => submitSpeakingInquiry(formData),
       formData
     )
 
@@ -53,23 +53,23 @@ const SpeakingForm=()=> {
         eventDetails: ''
       })
       // Redirect to home with success parameter
-      setTimeout(()=> {
-        navigate('/?success=speaking',{replace: true})
-      },2000)
+      setTimeout(() => {
+        navigate('/?success=speaking', { replace: true })
+      }, 2000)
     } else {
-      console.error('❌ Speaking form failed:',result.error)
+      console.error('❌ Speaking form failed:', result.error)
     }
   }
 
-  const handleChange=(e)=> {
-    setFormData({...formData,[e.target.name]: e.target.value})
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   if (success) {
     return (
       <motion.div
-        initial={{opacity: 0,scale: 0.9}}
-        animate={{opacity: 1,scale: 1}}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
         className="bg-green-50 border border-green-200 rounded-lg p-6 text-center"
       >
         <SafeIcon icon={FiCheck} className="w-12 h-12 text-green-600 mx-auto mb-4" />

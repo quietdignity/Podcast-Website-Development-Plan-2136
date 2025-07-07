@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
-import { motion } from 'framer-motion'
+import React, {useEffect, useState} from 'react'
+import {Link, useLocation} from 'react-router-dom'
+import {Helmet} from 'react-helmet-async'
+import {motion} from 'framer-motion'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiCheck, FiX } = FiIcons
+const {FiCheck, FiX} = FiIcons
 
 const Home = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
@@ -15,15 +15,12 @@ const Home = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search)
     const success = urlParams.get('success')
-    
     if (success) {
       setSuccessType(success)
       setShowSuccessMessage(true)
-      
       // Clear the URL parameter after showing the message
       const newUrl = window.location.pathname
       window.history.replaceState({}, '', newUrl)
-      
       // Hide message after 5 seconds
       setTimeout(() => {
         setShowSuccessMessage(false)
@@ -80,21 +77,27 @@ const Home = () => {
     <>
       <Helmet>
         <title>The Daily Note with James A. Brown - Finding the extraordinary in the ordinary</title>
-        <meta name="description" content="Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day, on-air and online from sea to shining sea. Daily wisdom from James A. Brown." />
+        <meta
+          name="description"
+          content="Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day, on-air and online from sea to shining sea. Daily wisdom from James A. Brown."
+        />
         <link rel="canonical" href="https://thedailynote.net/" />
       </Helmet>
 
       {/* Success Message */}
       {showSuccessMessage && (
         <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
+          initial={{opacity: 0, y: -50}}
+          animate={{opacity: 1, y: 0}}
+          exit={{opacity: 0, y: -50}}
           className="fixed top-20 left-4 right-4 z-50 max-w-md mx-auto"
         >
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 shadow-lg">
             <div className="flex items-start space-x-3">
-              <SafeIcon icon={FiCheck} className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
+              <SafeIcon
+                icon={FiCheck}
+                className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5"
+              />
               <div className="flex-1">
                 <h3 className="text-green-800 font-semibold">{successMessage.title}</h3>
                 <p className="text-green-700 text-sm mt-1">{successMessage.description}</p>
@@ -171,9 +174,9 @@ const Home = () => {
           </div>
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-lg shadow-lg p-8">
-              <div style={{ width: '100%', height: '200px', marginBottom: '20px', borderRadius: '6px', overflow: 'hidden' }}>
+              <div style={{width: '100%', height: '200px', marginBottom: '20px', borderRadius: '6px', overflow: 'hidden'}}>
                 <iframe
-                  style={{ width: '100%', height: '200px' }}
+                  style={{width: '100%', height: '200px'}}
                   frameBorder="no"
                   scrolling="no"
                   seamless

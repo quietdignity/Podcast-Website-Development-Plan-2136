@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
+import ContactForm from '../components/ContactForm'
+import SpeakingForm from '../components/SpeakingForm'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
@@ -90,10 +92,7 @@ const Contact = () => {
               key={method.title}
               className="bg-white rounded-lg shadow-lg p-6 text-center hover:shadow-xl transition-shadow"
             >
-              <SafeIcon
-                icon={method.icon}
-                className="w-12 h-12 mx-auto mb-4 text-primary-600"
-              />
+              <SafeIcon icon={method.icon} className="w-12 h-12 mx-auto mb-4 text-primary-600" />
               <h3 className="text-xl font-bold text-gray-900 mb-2">{method.title}</h3>
               <p className="text-gray-600 mb-4 text-sm">{method.description}</p>
               <a href={method.href} className={`${method.color} hover:underline font-medium`}>

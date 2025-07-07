@@ -94,13 +94,13 @@ const BlogPost = () => {
         <title>{post.title} - The Daily Note</title>
         <meta name="description" content={post.excerpt || post.title} />
         <link rel="canonical" href={`https://thedailynote.net/blog/${post.slug}`} />
-        
+
         {/* Open Graph */}
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt || post.title} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://thedailynote.net/blog/${post.slug}`} />
-        
+
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
@@ -153,7 +153,7 @@ const BlogPost = () => {
                   <span>Listen</span>
                 </a>
               )}
-              
+
               <button
                 onClick={sharePost}
                 className="inline-flex items-center space-x-2 bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-lg font-medium transition-colors"

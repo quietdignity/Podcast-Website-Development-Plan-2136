@@ -1,9 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import SafeIcon from '../common/SafeIcon'
 import * as FiIcons from 'react-icons/fi'
 
-const { FiRss, FiMusic, FiInstagram } = FiIcons
+const {FiRss, FiMusic, FiInstagram} = FiIcons
 
 const Footer = () => {
   return (
@@ -19,7 +19,7 @@ const Footer = () => {
               src="https://jamesbrowntv.substack.com/embed"
               width="100%"
               height="200"
-              style={{ border: 'none', background: 'white' }}
+              style={{border: 'none', background: 'white'}}
               frameBorder="0"
               scrolling="no"
               title="Subscribe to The Daily Note Newsletter"
@@ -39,8 +39,7 @@ const Footer = () => {
               <h3 className="text-lg font-bold">The Daily Note</h3>
             </div>
             <p className="text-cream-200 text-sm">
-              Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day,
-              on-air and online from sea to shining sea.
+              Finding the extraordinary in the ordinary. 5 days a week, 90 seconds a day, on-air and online from sea to shining sea.
             </p>
           </div>
 
@@ -158,7 +157,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-primary-700 mt-8 pt-8 text-center text-sm text-cream-300">
-          <p>&copy; 2024 The Daily Note with James Brown. All rights reserved.</p>
+          <p>&copy;2024 The Daily Note with James Brown. All rights reserved.</p>
         </div>
       </div>
     </footer>
